@@ -12,14 +12,16 @@ on:
       - "master"
   workflow_dispatch:
 
+# Allow the default GITHUB_TOKEN to create tags/releases and push the version bump.
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.FIG_BOT_TOKEN }}
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
@@ -59,11 +61,6 @@ jobs:
       - name: "Automated Version Bump"
         uses: "phips28/gh-action-bump-version@master"
         env:
-          GITHUB_TOKEN: ${{ secrets.FIG_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           skip-tag: "true"
-      - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v3
-        with:
-          access: public
-          token: ${{ secrets.NPM_PUBLISH_TOKEN }}
