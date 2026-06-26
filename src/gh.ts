@@ -3215,6 +3215,329 @@ For more information about output formatting flags, see 'gh help formatting'`,
         },
       ],
     },
+    {
+      name: "label",
+      description: "Manage labels",
+      subcommands: [
+        {
+          name: "clone",
+          description: "Clone labels from one repository to another",
+          args: { name: "source-repository" },
+          options: [ghOptions.all],
+        },
+        {
+          name: "create",
+          description: "Create a new label",
+          args: { name: "name" },
+          options: [
+            ghOptions.all,
+            {
+              name: ["-c", "--color"],
+              description: "Color of the label, e.g. E99695",
+              args: { name: "color" },
+            },
+            {
+              name: ["-d", "--description"],
+              description: "Description of the label",
+              args: { name: "description" },
+            },
+            {
+              name: ["-f", "--force"],
+              description:
+                "Update the label color and description if it already exists",
+            },
+          ],
+        },
+        {
+          name: "delete",
+          description: "Delete a label from a repository",
+          args: { name: "name" },
+          options: [ghOptions.all, ghOptions.confirm],
+        },
+        {
+          name: "edit",
+          description: "Edit a label",
+          args: { name: "name" },
+          options: [
+            ghOptions.all,
+            {
+              name: ["-c", "--color"],
+              description: "Color of the label, e.g. E99695",
+              args: { name: "color" },
+            },
+            {
+              name: ["-d", "--description"],
+              description: "Description of the label",
+              args: { name: "description" },
+            },
+            {
+              name: ["-n", "--name"],
+              description: "New name of the label",
+              args: { name: "name" },
+            },
+          ],
+        },
+        {
+          name: "list",
+          description: "List labels in a repository",
+          options: [
+            ghOptions.all,
+            {
+              name: ["-L", "--limit"],
+              description: "Maximum number of labels to fetch (default 30)",
+              args: { name: "int" },
+            },
+            {
+              name: ["-S", "--search"],
+              description: "Search label names and descriptions",
+              args: { name: "query" },
+            },
+            {
+              name: "--sort",
+              description: "Sort fetched labels: {created|name}",
+              args: { name: "field", suggestions: ["created", "name"] },
+            },
+            {
+              name: "--order",
+              description: "Order of labels returned: {asc|desc}",
+              args: { name: "order", suggestions: ["asc", "desc"] },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "variable",
+      description: "Manage GitHub Actions variables",
+      subcommands: [
+        {
+          name: "delete",
+          description: "Delete variables",
+          args: { name: "variable-name" },
+          options: [ghOptions.all, ghOptions.env, ghOptions.org],
+        },
+        {
+          name: "get",
+          description: "Get variables",
+          args: { name: "variable-name" },
+          options: [ghOptions.all, ghOptions.env, ghOptions.org],
+        },
+        {
+          name: "list",
+          description: "List variables",
+          options: [ghOptions.all, ghOptions.env, ghOptions.org],
+        },
+        {
+          name: "set",
+          description: "Create or update variables",
+          args: { name: "variable-name" },
+          options: [
+            ghOptions.all,
+            ghOptions.env,
+            ghOptions.org,
+            {
+              name: ["-b", "--body"],
+              description: "The value for the variable",
+              args: { name: "string" },
+            },
+            {
+              name: ["-f", "--env-file"],
+              description:
+                "Load variable names and values from a dotenv-formatted file",
+              args: { name: "file", template: "filepaths" },
+            },
+            {
+              name: ["-v", "--visibility"],
+              description:
+                "Set visibility for an organization variable: {all|private|selected}",
+              args: {
+                name: "string",
+                suggestions: ["all", "private", "selected"],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "cache",
+      description: "Manage GitHub Actions caches",
+      subcommands: [
+        {
+          name: "delete",
+          description: "Delete GitHub Actions caches",
+          args: { name: "cache-id | cache-key", isOptional: true },
+          options: [
+            ghOptions.all,
+            { name: ["-a", "--all"], description: "Delete all caches" },
+            {
+              name: "--succeed-on-no-caches",
+              description:
+                "Return exit code 0 if no caches found. Must be used in conjunction with --all",
+            },
+          ],
+        },
+        {
+          name: "list",
+          description: "List GitHub Actions caches",
+          options: [
+            ghOptions.all,
+            {
+              name: ["-L", "--limit"],
+              description: "Maximum number of caches to fetch (default 30)",
+              args: { name: "int" },
+            },
+            {
+              name: ["-k", "--key"],
+              description: "Filter by cache key prefix",
+              args: { name: "string" },
+            },
+            {
+              name: ["-r", "--ref"],
+              description:
+                "Filter by ref, formatted as refs/heads/<branch name> or refs/pull/<number>/merge",
+              args: { name: "string" },
+            },
+            {
+              name: ["-s", "--sort"],
+              description:
+                "Sort fetched caches: {created_at|last_accessed_at|size_in_bytes}",
+              args: {
+                name: "string",
+                suggestions: [
+                  "created_at",
+                  "last_accessed_at",
+                  "size_in_bytes",
+                ],
+              },
+            },
+            {
+              name: ["-O", "--order"],
+              description: "Order of caches returned: {asc|desc}",
+              args: { name: "string", suggestions: ["asc", "desc"] },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "extension",
+      description: "Manage gh extensions",
+      subcommands: [
+        {
+          name: "browse",
+          description:
+            "Enter a UI for browsing, adding, and removing extensions",
+        },
+        {
+          name: "create",
+          description: "Create a new extension",
+          args: { name: "name", isOptional: true },
+        },
+        {
+          name: "exec",
+          description: "Execute an installed extension",
+          args: { name: "extension-name" },
+        },
+        {
+          name: "install",
+          description: "Install a gh extension from a repository",
+          args: { name: "repository" },
+        },
+        { name: "list", description: "List installed extension commands" },
+        {
+          name: "remove",
+          description: "Remove an installed extension",
+          args: { name: "extension-name" },
+        },
+        {
+          name: "search",
+          description: "Search extensions to the GitHub CLI",
+          args: { name: "query", isOptional: true },
+        },
+        {
+          name: "upgrade",
+          description: "Upgrade installed extensions",
+          args: { name: "extension-name", isOptional: true },
+          options: [
+            { name: "--all", description: "Upgrade all extensions" },
+            { name: "--force", description: "Force upgrade extension" },
+          ],
+        },
+      ],
+    },
+    {
+      name: "ruleset",
+      description: "View info about repo rulesets",
+      subcommands: [
+        {
+          name: "check",
+          description: "View rules that would apply to a given branch",
+          args: { name: "branch", isOptional: true },
+          options: [ghOptions.all],
+        },
+        {
+          name: "list",
+          description: "List rulesets for a repository or organization",
+          options: [ghOptions.all, ghOptions.org],
+        },
+        {
+          name: "view",
+          description: "View information about a ruleset",
+          args: { name: "ruleset-id", isOptional: true },
+          options: [ghOptions.all, ghOptions.org],
+        },
+      ],
+    },
+    {
+      name: "org",
+      description: "Manage organizations",
+      subcommands: [
+        {
+          name: "list",
+          description: "List organizations for the authenticated user",
+          options: [
+            {
+              name: ["-L", "--limit"],
+              description:
+                "Maximum number of organizations to list (default 30)",
+              args: { name: "int" },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "search",
+      description: "Search for repositories, issues, and pull requests",
+      subcommands: [
+        {
+          name: "code",
+          description: "Search within code",
+          args: { name: "query" },
+        },
+        {
+          name: "commits",
+          description: "Search for commits",
+          args: { name: "query" },
+        },
+        {
+          name: "issues",
+          description: "Search for issues",
+          args: { name: "query", isOptional: true },
+        },
+        {
+          name: "prs",
+          description: "Search for pull requests",
+          args: { name: "query", isOptional: true },
+        },
+        {
+          name: "repos",
+          description: "Search for repositories",
+          args: { name: "query", isOptional: true },
+        },
+      ],
+    },
   ],
   options: [
     {

@@ -47,6 +47,123 @@ const completionSpec: Fig.Subcommand = {
       isRepeatable: true,
     },
     {
+      name: "--env-file-if-exists",
+      description:
+        "Set environment variables from supplied file, without erroring if the file does not exist",
+      args: { name: "path", template: "filepaths" },
+      isRepeatable: true,
+    },
+    {
+      name: "--run",
+      description: "Run a script specified in package.json",
+      requiresEquals: true,
+      args: { name: "command" },
+    },
+    {
+      name: "--import",
+      description: "ES module to preload (option can be repeated)",
+      requiresEquals: true,
+      args: { name: "module" },
+      isRepeatable: true,
+    },
+    {
+      name: ["--experimental-strip-types", "--no-strip-types"],
+      description: "Enable/disable type-stripping for TypeScript files",
+    },
+    {
+      name: "--experimental-transform-types",
+      description:
+        "Enable transformation of TypeScript-only syntax into JavaScript code",
+    },
+    {
+      name: "--experimental-sqlite",
+      description: "Enable the experimental node:sqlite module",
+    },
+    {
+      name: "--disable-warning",
+      description: "Silence specific process warnings",
+      requiresEquals: true,
+      args: { name: "code-or-type" },
+      isRepeatable: true,
+    },
+    {
+      name: "--permission",
+      description: "Enable the permission system",
+    },
+    {
+      name: "--allow-fs-read",
+      description: "Allow permissions to read the filesystem",
+      requiresEquals: true,
+      args: { name: "path", template: "filepaths" },
+      isRepeatable: true,
+    },
+    {
+      name: "--allow-fs-write",
+      description: "Allow permissions to write in the filesystem",
+      requiresEquals: true,
+      args: { name: "path", template: "filepaths" },
+      isRepeatable: true,
+    },
+    {
+      name: "--allow-child-process",
+      description: "Allow use of child process when any permissions are set",
+    },
+    {
+      name: "--allow-worker",
+      description: "Allow worker threads when any permissions are set",
+    },
+    {
+      name: "--test",
+      description: "Launch test runner on startup",
+    },
+    {
+      name: "--test-name-pattern",
+      description: "Run tests whose name matches this regular expression",
+      requiresEquals: true,
+      args: { name: "regex" },
+      isRepeatable: true,
+    },
+    {
+      name: "--test-skip-pattern",
+      description: "Run tests whose name do not match this regular expression",
+      requiresEquals: true,
+      args: { name: "regex" },
+    },
+    {
+      name: "--test-reporter",
+      description: "Report test output using the given reporter",
+      requiresEquals: true,
+      args: {
+        name: "reporter",
+        suggestions: ["tap", "spec", "dot", "junit", "lcov"],
+      },
+      isRepeatable: true,
+    },
+    {
+      name: "--test-concurrency",
+      description: "Specify test runner concurrency",
+      requiresEquals: true,
+      args: { name: "number" },
+    },
+    {
+      name: "--test-timeout",
+      description: "Specify test runner timeout",
+      requiresEquals: true,
+      args: { name: "ms" },
+    },
+    {
+      name: "--test-only",
+      description: "Run tests with 'only' option set",
+    },
+    {
+      name: "--test-force-exit",
+      description: "Force test runner to exit upon completion",
+    },
+    {
+      name: "--test-update-snapshots",
+      description: "Regenerate test snapshots",
+    },
+    {
       name: ["-p", "--print"],
       description: "Evaluate script and print result",
     },

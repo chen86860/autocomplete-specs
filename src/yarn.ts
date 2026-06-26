@@ -791,6 +791,28 @@ const completionSpec: Fig.Spec = {
       ],
     },
     {
+      name: "check",
+      description:
+        "Verify that versions of the package dependencies in the current project's package.json match those in yarn's lock file",
+      options: [
+        {
+          name: "--integrity",
+          description:
+            "Verify that versions and hashed values of the package dependencies match",
+        },
+        {
+          name: "--verify-tree",
+          description:
+            "Recursively verify that the dependencies in package.json are present in node_modules",
+        },
+        {
+          name: "--check-files",
+          description:
+            "Verify that the dependencies in node_modules match the expected file tree",
+        },
+      ],
+    },
+    {
       name: "config",
       description: "Configure yarn",
       options: [

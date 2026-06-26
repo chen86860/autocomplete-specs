@@ -1,7 +1,15 @@
 const sharedOptions: Fig.Option[] = [
   {
-    name: "--version",
+    name: ["--version", "-V"],
     description: "Output the jq version and exit with zero",
+  },
+  {
+    name: ["--help", "-h"],
+    description: "Show the help message and exit",
+  },
+  {
+    name: "--build-configuration",
+    description: "Show jq's build configuration",
   },
   {
     name: "--seq",
@@ -12,6 +20,11 @@ const sharedOptions: Fig.Option[] = [
     name: "--stream",
     description:
       "Parse the input in streaming fashion, outputting arrays of path and leaf values",
+  },
+  {
+    name: "--stream-errors",
+    description:
+      "Implies --stream, but instead of erroring out on parse errors, reports the parse error as an array",
   },
   {
     name: ["--slurp", "-s"],
@@ -74,6 +87,11 @@ const sharedOptions: Fig.Option[] = [
       "If the filter's result is a string then it will be written directly to standard output rather than being formatted as a JSON string with quotes",
   },
   {
+    name: "--raw-output0",
+    description:
+      "Implies -r and outputs a NUL byte after each output instead of a newline",
+  },
+  {
     name: ["--join-output", "-j"],
     description: "Like -r but jq won't print a newline after each output",
   },
@@ -86,7 +104,7 @@ const sharedOptions: Fig.Option[] = [
     },
   },
   {
-    name: "-L",
+    name: ["-L", "--library-path"],
     description: "Prepend directory to the search list for modules",
     args: {
       name: "directory",

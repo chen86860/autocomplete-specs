@@ -906,6 +906,175 @@ Please note that this is prohibited when a store server is running`,
     name: "doctor",
     description: "Checks for known common issues with pnpm configuration",
   },
+  {
+    name: "dlx",
+    description: "Run a package in a temporary environment",
+    args: { name: "command", isCommand: true },
+    options: [
+      {
+        name: "--package",
+        description: "The package to install before running the command",
+        isRepeatable: true,
+        args: { name: "package" },
+      },
+      {
+        name: ["-c", "--shell-mode"],
+        description: "Runs the script inside of a shell",
+      },
+      {
+        name: "--allow-build",
+        description:
+          "A list of package names that are allowed to run postinstall scripts during installation",
+        args: { name: "package" },
+      },
+    ],
+  },
+  {
+    name: "create",
+    description: "Create a project from a `create-*` starter kit",
+    args: { name: "name" },
+  },
+  {
+    name: "deploy",
+    description: "Experimental! Deploy a package from a workspace",
+    args: { name: "target directory", template: "folders" },
+    options: [
+      {
+        name: ["-D", "--dev"],
+        description:
+          "Only `devDependencies` are installed regardless of the `NODE_ENV`",
+      },
+      {
+        name: "--no-optional",
+        description: "`optionalDependencies` are not installed",
+      },
+      {
+        name: ["-P", "--prod"],
+        description: "Packages in `devDependencies` won't be installed",
+      },
+    ],
+  },
+  {
+    name: "licenses",
+    description: "Check the licenses of the installed packages",
+    subcommands: [
+      {
+        name: ["list", "ls"],
+        description: "Show information about the licenses of the dependencies",
+        options: [
+          {
+            name: ["-D", "--dev"],
+            description: 'Check only "devDependencies"',
+          },
+          { name: "--json", description: "Show information in JSON format" },
+          {
+            name: "--long",
+            description: "Show more details (such as a link to the repo)",
+          },
+          {
+            name: ["-P", "--prod"],
+            description: 'Check only "dependencies" and "optionalDependencies"',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "pack",
+    description: "Create a tarball from a package",
+    options: [
+      {
+        name: "--pack-destination",
+        description: "Directory in which `pnpm pack` will save tarballs",
+        args: { name: "dir", template: "folders" },
+      },
+    ],
+  },
+  {
+    name: "root",
+    description: "Print the effective `node_modules` directory",
+    options: [
+      {
+        name: ["-g", "--global"],
+        description: "Print the global `node_modules` directory",
+      },
+    ],
+  },
+  {
+    name: "env",
+    description: "Manage Node.js versions",
+    subcommands: [
+      {
+        name: "use",
+        description: "Install and use the specified version of Node.js",
+        args: { name: "version" },
+        options: [
+          {
+            name: "--global",
+            description: "Manages Node.js versions globally",
+          },
+        ],
+      },
+      {
+        name: ["list", "ls"],
+        description: "List Node.js versions available locally or remotely",
+        args: { name: "version", isOptional: true },
+        options: [
+          {
+            name: "--remote",
+            description: "List the remote versions of Node.js",
+          },
+        ],
+      },
+      {
+        name: ["remove", "rm", "uninstall"],
+        description: "Removes the specified version(s) of Node.js",
+        args: { name: "version" },
+        options: [
+          {
+            name: "--global",
+            description: "Manages Node.js versions globally",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "config",
+    description: "Manage the pnpm configuration files",
+    subcommands: [
+      {
+        name: "set",
+        description: "Set the config key to the value provided",
+        args: [{ name: "key" }, { name: "value" }],
+      },
+      {
+        name: "get",
+        description: "Print the config value for the provided key",
+        args: { name: "key" },
+      },
+      {
+        name: "delete",
+        description: "Remove the config key from the config file",
+        args: { name: "key" },
+      },
+      {
+        name: ["list", "ls"],
+        description: "Show all the config settings",
+        options: [
+          { name: "--json", description: "Show config in JSON format" },
+        ],
+      },
+    ],
+    options: [
+      { name: "--global", description: "Apply to the global config" },
+      {
+        name: "--location",
+        description: "Specify the config location",
+        args: { name: "location", suggestions: ["global", "project"] },
+      },
+    ],
+  },
 ];
 
 const subcommands = [

@@ -168,6 +168,24 @@ const completionSpec: Fig.Spec = {
           ],
         },
         {
+          name: "metadata",
+          description:
+            "Display the metadata (name, namespace, revision, status, chart, version, etc.) of a named release",
+          options: [
+            {
+              name: "--revision",
+              description: "Get the named release with revision",
+              args: { name: "revision", default: "0" },
+            },
+            {
+              name: ["--output", "-o"],
+              description:
+                "Prints the output in the specified format. Allowed values: table, json, yaml",
+              args: { name: "output", default: "table" },
+            },
+          ],
+        },
+        {
           name: "notes",
           description: "Download the notes for a named release",
           options: [

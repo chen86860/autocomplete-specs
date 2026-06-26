@@ -831,6 +831,92 @@ const completionSpec: Fig.Spec = {
       name: ["w", "-w", "--interactive", "--confirmation"],
       description: "Ask for confirmation for every action",
     },
+    {
+      name: "--mac-metadata",
+      description:
+        "(macOS, c/r/u/x modes) Archive or extract extended ACLs and extended file attributes using copyfile(3) in AppleDouble format",
+    },
+    {
+      name: "--no-mac-metadata",
+      description:
+        "(macOS, x mode) Do not archive or extract ACLs and extended file attributes using copyfile(3)",
+    },
+    {
+      name: "--null",
+      description:
+        "(use with -I or -T) Filenames or patterns are separated by null characters, not newlines (pairs with find -print0)",
+    },
+    {
+      name: "--options",
+      description:
+        "Select optional behaviors for particular modules as a comma-separated list of keywords and values",
+      args: { name: "options" },
+    },
+    {
+      name: "--passphrase",
+      description:
+        "The passphrase used to extract or create an encrypted archive (zip only)",
+      args: { name: "passphrase" },
+    },
+    {
+      name: "--include",
+      description:
+        "Process only files or directories that match the specified pattern",
+      isRepeatable: true,
+      args: { name: "pattern" },
+    },
+    {
+      name: "--fast-read",
+      description:
+        "(x and t modes) Extract or list only the first archive entry that matches each pathname on the command line",
+    },
+    {
+      name: "--chroot",
+      description:
+        "(x mode) chroot() to the current directory after processing any -C options and before extracting any files",
+    },
+    {
+      name: "--newer-than",
+      description:
+        "(c/r/u modes) Only include files and directories newer than the specified file (compares ctime)",
+      args: { name: "file", template: "filepaths" },
+    },
+    {
+      name: "--older-than",
+      description:
+        "(c/r/u modes) Only include files and directories older than the specified file (compares ctime)",
+      args: { name: "file", template: "filepaths" },
+    },
+    {
+      name: "--uid",
+      description:
+        "Use the provided user id number, ignoring the user name from the archive",
+      args: { name: "id" },
+    },
+    {
+      name: "--uname",
+      description: "Use the provided user name",
+      args: { name: "name" },
+    },
+    {
+      name: "--gid",
+      description:
+        "Use the provided group id number, overriding the group id in the archive on extract",
+      args: { name: "id" },
+    },
+    {
+      name: "--gname",
+      description: "Use the provided group name",
+      args: { name: "name" },
+    },
+    {
+      name: "--fflags",
+      description: "(c/r/u/x modes) Archive or extract file attribute flags",
+    },
+    {
+      name: "--no-fflags",
+      description: "Do not archive or extract file attribute flags",
+    },
   ],
   subcommands: [
     {

@@ -117,6 +117,11 @@ const completionSpec: Fig.Spec = {
         "Turn on hash randomization. This option only has an effect if the PYTHONHASHSEED environment variable is set to 0, since hash randomization is enabled by default",
     },
     {
+      name: "-P",
+      description:
+        "Don’t prepend a potentially unsafe path to sys.path: the script’s directory, the current directory, or an empty string (added in Python 3.11)",
+    },
+    {
       name: "-s",
       description: "Don’t add the user site-packages directory to sys.path",
     },
@@ -159,6 +164,25 @@ const completionSpec: Fig.Spec = {
           { name: "dev" },
           { name: "utf8" },
           { name: "pycache_prefix=PATH" },
+          {
+            name: "gil",
+            description:
+              "Enable (1) or disable (0) the GIL (free-threaded builds)",
+          },
+          {
+            name: "int_max_str_digits",
+            description: "Set the integer string conversion length limitation",
+          },
+          {
+            name: "frozen_modules",
+            description: "Whether frozen modules are used: 'on' or 'off'",
+          },
+          { name: "warn_default_encoding" },
+          { name: "no_debug_ranges" },
+          {
+            name: "perf",
+            description: "Enable support for the Linux perf profiler",
+          },
         ],
       },
     },

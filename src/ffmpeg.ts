@@ -806,6 +806,90 @@ const completionSpec: Fig.Spec = {
       args: { name: "bitrate" },
     },
     {
+      name: "-c:v",
+      description: "Force video codec for the output ('copy' to copy stream)",
+      args: {
+        name: "codec",
+        generators: {
+          script: ["ffmpeg", "-codecs"],
+          postProcess: (out) =>
+            out
+              .split("\n")
+              .filter(Boolean)
+              .map((k) => k.split(" ").filter(Boolean)[1])
+              .filter(Boolean)
+              .filter((k) => k !== "=")
+              .map((k) => ({ name: k })),
+        },
+      },
+    },
+    {
+      name: "-c:a",
+      description: "Force audio codec for the output ('copy' to copy stream)",
+      args: {
+        name: "codec",
+        generators: {
+          script: ["ffmpeg", "-codecs"],
+          postProcess: (out) =>
+            out
+              .split("\n")
+              .filter(Boolean)
+              .map((k) => k.split(" ").filter(Boolean)[1])
+              .filter(Boolean)
+              .filter((k) => k !== "=")
+              .map((k) => ({ name: k })),
+        },
+      },
+    },
+    {
+      name: "-b:v",
+      description: "Set the video bitrate (e.g. 2M, 800k)",
+      args: { name: "bitrate" },
+    },
+    {
+      name: "-b:a",
+      description: "Set the audio bitrate (e.g. 128k, 192k)",
+      args: { name: "bitrate" },
+    },
+    {
+      name: "-crf",
+      description:
+        "Constant Rate Factor for x264/x265/VP9 (quality; lower is better, e.g. 18-28)",
+      args: { name: "value" },
+    },
+    {
+      name: "-preset",
+      description:
+        "Encoding speed/compression preset for x264/x265 (slower presets give better compression)",
+      args: {
+        name: "preset",
+        suggestions: [
+          "ultrafast",
+          "superfast",
+          "veryfast",
+          "faster",
+          "fast",
+          "medium",
+          "slow",
+          "slower",
+          "veryslow",
+        ],
+      },
+    },
+    {
+      name: "-movflags",
+      description: "Set muxer flags for MP4/MOV output (e.g. +faststart)",
+      args: {
+        name: "flags",
+        suggestions: [
+          "+faststart",
+          "frag_keyframe",
+          "empty_moov",
+          "default_base_moof",
+        ],
+      },
+    },
+    {
       name: "-dn",
       description: "Disable data",
     },

@@ -148,6 +148,59 @@ const completionSpec: Fig.Spec = {
         "Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11 and TCP connections)",
     },
     {
+      name: "-B",
+      description:
+        "Bind to the address of bind_interface before attempting to connect to the destination host",
+      args: {
+        name: "bind interface",
+        description: "Interface to bind to before connecting",
+      },
+    },
+    {
+      name: "-E",
+      description: "Append debug logs to log_file instead of standard error",
+      args: {
+        name: "log file",
+        description: "File to append debug logs to",
+        template: "filepaths",
+      },
+    },
+    {
+      name: "-G",
+      description:
+        "Cause ssh to print its configuration after evaluating Host and Match blocks and exit",
+    },
+    {
+      name: "-J",
+      description:
+        "Connect to the target host by first making an ssh connection to the jump host(s)",
+      args: {
+        name: "[user@]host[:port]",
+        description: "ProxyJump destination",
+      },
+    },
+    {
+      name: "-Q",
+      description:
+        "Query ssh for the algorithms supported for the specified feature",
+      args: {
+        name: "query option",
+        suggestions: [
+          "cipher",
+          "cipher-auth",
+          "help",
+          "mac",
+          "kex",
+          "key",
+          "key-cert",
+          "key-plain",
+          "key-sig",
+          "protocol-version",
+          "sig",
+        ],
+      },
+    },
+    {
       name: "-c",
       description:
         "Selects the cipher specification for encrypting the session",

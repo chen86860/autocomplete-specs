@@ -908,6 +908,70 @@ const completionSpec: Fig.Spec = {
       name: "--xattr",
       description: "Store metadata in extended file attributes",
     },
+    {
+      name: "--aws-sigv4",
+      description: "Use AWS V4 signature authentication",
+      args: { name: "provider1[:prvdr2[:reg[:srv]]]" },
+    },
+    {
+      name: "--json",
+      description:
+        "Send the specified data as JSON in an HTTP POST, setting Content-Type and Accept to application/json",
+      args: { name: "data" },
+    },
+    {
+      name: "--url-query",
+      description: "Add a URL query part to the URL of the next transfer",
+      args: { name: "data" },
+    },
+    {
+      name: "--variable",
+      description:
+        "Set a variable that can be expanded later in the command line",
+      args: { name: "[%]name=text/@file" },
+    },
+    {
+      name: "--no-clobber",
+      description: "Do not overwrite files that already exist",
+    },
+    {
+      name: "--remove-on-error",
+      description: "Remove output file if an error occurs during the transfer",
+    },
+    {
+      name: "--retry-all-errors",
+      description:
+        "Retry on all errors, even non-transient ones (use with --retry)",
+    },
+    {
+      name: "--rate",
+      description:
+        "Specify the maximum transfer frequency for serial transfers (e.g. 2/s, 3/h)",
+      args: { name: "max request rate" },
+    },
+    {
+      name: "--ca-native",
+      description:
+        "Use the CA store from the native operating system to verify the peer",
+    },
+    {
+      name: "--trace-ids",
+      description: "Add transfer and connection identifiers to verbose output",
+    },
+    {
+      name: ["-Z", "--parallel"],
+      description: "Perform transfers in parallel",
+    },
+    {
+      name: "--parallel-immediate",
+      description:
+        "Do not wait for connection multiplexing when using --parallel",
+    },
+    {
+      name: "--parallel-max",
+      description: "Set the maximum concurrency for parallel transfers",
+      args: { name: "num" },
+    },
   ],
 };
 

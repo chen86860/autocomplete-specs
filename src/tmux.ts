@@ -2110,6 +2110,154 @@ const completionSpec: Fig.Spec = {
         },
       ],
     },
+    {
+      name: ["display-popup", "popup"],
+      description: "Display a popup running shell-command on the client",
+      args: {
+        name: "shell-command",
+        isOptional: true,
+        isVariadic: true,
+        isCommand: true,
+      },
+      options: [
+        { name: "-B", description: "Not surround the popup by a border" },
+        { name: "-C", description: "Close any popup on the client" },
+        {
+          name: "-E",
+          description:
+            "Close the popup automatically when shell-command exits (repeat -EE to only close on exit code 0)",
+        },
+        {
+          name: "-k",
+          description: "Not close the popup when a key is pressed",
+        },
+        {
+          name: "-b",
+          description: "Set the type of characters used for drawing borders",
+          args: { name: "border-lines" },
+        },
+        {
+          name: "-c",
+          description: "Target client",
+          args: { name: "target-client" },
+        },
+        {
+          name: "-d",
+          description: "Set the working directory for the popup",
+          args: { name: "start-directory", template: "folders" },
+        },
+        {
+          name: "-e",
+          description: "Set an environment variable for the popup",
+          args: { name: "environment" },
+        },
+        {
+          name: "-h",
+          description: "Height of the popup",
+          args: { name: "height" },
+        },
+        {
+          name: "-w",
+          description: "Width of the popup",
+          args: { name: "width" },
+        },
+        {
+          name: "-x",
+          description: "X position of the popup",
+          args: { name: "position" },
+        },
+        {
+          name: "-y",
+          description: "Y position of the popup",
+          args: { name: "position" },
+        },
+        {
+          name: "-s",
+          description: "Set the style for the popup",
+          args: { name: "style" },
+        },
+        {
+          name: "-S",
+          description: "Set the style for the popup border",
+          args: { name: "border-style" },
+        },
+        {
+          name: "-t",
+          description: "Target pane",
+          args: { name: "target-pane" },
+        },
+        {
+          name: "-T",
+          description: "Set the title for the popup",
+          args: { name: "title" },
+        },
+      ],
+    },
+    {
+      name: "customize-mode",
+      description: "Enter customize mode to view and change options",
+      options: [
+        { name: "-N", description: "Not show the option values" },
+        { name: "-Z", description: "Zoom the pane" },
+        {
+          name: "-F",
+          description: "Specify the format for each item",
+          args: { name: "format" },
+        },
+        {
+          name: "-f",
+          description: "Specify a filter",
+          args: { name: "filter" },
+        },
+        {
+          name: "-t",
+          description: "Target pane",
+          args: { name: "target-pane" },
+        },
+      ],
+    },
+    {
+      name: "server-access",
+      description: "Change the access permissions for users of the tmux server",
+      args: { name: "user", isOptional: true },
+      options: [
+        { name: "-a", description: "Add the user to the access list" },
+        { name: "-d", description: "Delete the user from the access list" },
+        { name: "-l", description: "List the access list" },
+        {
+          name: "-r",
+          description: "Revoke write access for the user (read-only)",
+        },
+        { name: "-w", description: "Grant write access for the user" },
+        {
+          name: "-t",
+          description: "Target pane",
+          args: { name: "target-pane" },
+        },
+      ],
+    },
+    {
+      name: ["clear-prompt-history", "clearphist"],
+      description: "Clear status line prompt history",
+      options: [
+        {
+          name: "-T",
+          description: "Clear history for the given prompt type",
+          args: { name: "prompt-type" },
+        },
+      ],
+    },
+    {
+      name: ["show-prompt-history", "showphist"],
+      description: "Display status line prompt history",
+      options: [
+        {
+          name: "-T",
+          description: "Show history for the given prompt type",
+          args: { name: "prompt-type" },
+        },
+      ],
+    },
   ],
   additionalSuggestions: [
     {

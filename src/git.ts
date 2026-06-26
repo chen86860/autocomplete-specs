@@ -9797,6 +9797,222 @@ const completionSpec: Fig.Spec = {
         },
       ],
     },
+    {
+      name: "sparse-checkout",
+      description: "Reduce your working tree to a subset of tracked files",
+      subcommands: [
+        {
+          name: "list",
+          description: "Describe the patterns in the sparse-checkout file",
+        },
+        {
+          name: "init",
+          description:
+            "(Deprecated, use `set` with `--no-cone`) Enable the necessary sparse-checkout config settings",
+          options: [
+            { name: "--cone", description: "Use cone-mode patterns" },
+            { name: "--no-cone", description: "Use full-pattern matching" },
+            {
+              name: "--sparse-index",
+              description: "Enable the use of a sparse index",
+            },
+          ],
+        },
+        {
+          name: "set",
+          description:
+            "Enable the sparse-checkout feature and set the patterns to the set of arguments",
+          args: { name: "patterns", isVariadic: true, template: "folders" },
+          options: [
+            { name: "--cone", description: "Initialize in cone mode" },
+            { name: "--no-cone", description: "Use full-pattern matching" },
+            {
+              name: "--sparse-index",
+              description: "Toggle the use of a sparse index",
+            },
+            {
+              name: "--skip-checks",
+              description:
+                "Skip some sanity checks on the given paths that might give false positives",
+            },
+            {
+              name: "--stdin",
+              description: "Read patterns from standard in",
+            },
+          ],
+        },
+        {
+          name: "add",
+          description:
+            "Update the sparse-checkout file to include additional patterns",
+          args: { name: "patterns", isVariadic: true, template: "folders" },
+          options: [
+            {
+              name: "--skip-checks",
+              description: "Skip some sanity checks on the given paths",
+            },
+            { name: "--stdin", description: "Read patterns from standard in" },
+          ],
+        },
+        {
+          name: "reapply",
+          description:
+            "Reapply the sparsity pattern rules to paths in the working tree",
+        },
+        {
+          name: "disable",
+          description:
+            "Disable the sparse-checkout feature and restore the working directory to include all files",
+        },
+        {
+          name: "check-rules",
+          description: "Check whether sparsity rules match one or more paths",
+        },
+      ],
+    },
+    {
+      name: "maintenance",
+      description: "Run tasks to optimize Git repository data",
+      subcommands: [
+        {
+          name: "run",
+          description: "Run one or more maintenance tasks",
+          options: [
+            {
+              name: "--auto",
+              description: "Run tasks based on the state of the repository",
+            },
+            {
+              name: "--detach",
+              description: "Perform maintenance in the background",
+            },
+            {
+              name: "--schedule",
+              description: "Run tasks based on frequency",
+              args: {
+                name: "frequency",
+                suggestions: ["hourly", "daily", "weekly"],
+              },
+            },
+            {
+              name: "--quiet",
+              description:
+                "Do not report progress or other information over stderr",
+            },
+            {
+              name: "--task",
+              requiresSeparator: true,
+              description: "Run a specific task",
+              args: {
+                name: "task",
+                suggestions: [
+                  "commit-graph",
+                  "gc",
+                  "incremental-repack",
+                  "loose-objects",
+                  "pack-refs",
+                  "prefetch",
+                ],
+              },
+            },
+          ],
+        },
+        {
+          name: "start",
+          description:
+            "Start running maintenance on the current repository via background scheduler",
+        },
+        {
+          name: "stop",
+          description: "Halt the background maintenance schedule",
+        },
+        {
+          name: "register",
+          description:
+            "Initialize Git config values so any scheduled maintenance starts running on this repository",
+        },
+        {
+          name: "unregister",
+          description:
+            "Remove the current repository from background maintenance",
+          options: [
+            {
+              name: "--force",
+              description:
+                "Return success even if the repository was not registered",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "bugreport",
+      description:
+        "Collect information about the user's machine, Git client, and repository state into a text file to help diagnose issues",
+      options: [
+        {
+          name: ["-o", "--output-directory"],
+          description: "Specify a destination for the bugreport file(s)",
+          args: { name: "path", template: "folders" },
+        },
+        {
+          name: ["-s", "--suffix"],
+          description: "Specify a strftime format suffix for the filename(s)",
+          args: { name: "format" },
+        },
+        {
+          name: "--diagnose",
+          requiresSeparator: true,
+          description:
+            "Create an additional zip archive of detailed diagnostics",
+          args: {
+            name: "mode",
+            isOptional: true,
+            suggestions: ["stats", "all"],
+          },
+        },
+      ],
+    },
+    {
+      name: "diagnose",
+      description:
+        "Generate a zip archive of diagnostic information about the current repository and the environment",
+      options: [
+        {
+          name: ["-o", "--output-directory"],
+          description: "Specify a destination for the diagnostics archive",
+          args: { name: "path", template: "folders" },
+        },
+        {
+          name: ["-s", "--suffix"],
+          description: "Specify a strftime format suffix for the filename",
+          args: { name: "format" },
+        },
+        {
+          name: "--mode",
+          requiresSeparator: true,
+          description: "Specify the content of the diagnostic archive",
+          args: { name: "mode", suggestions: ["stats", "all"] },
+        },
+      ],
+    },
+    {
+      name: "for-each-repo",
+      description:
+        "Run a Git command on a list of repositories stored in a config variable",
+      options: [
+        {
+          name: "--config",
+          requiresSeparator: true,
+          description: "Config key storing a list of repository paths",
+          args: { name: "config" },
+        },
+        {
+          name: "--keep-going",
+          description: "Keep going even if the command fails in a repository",
+        },
+      ],
+    },
   ],
   additionalSuggestions: [
     {

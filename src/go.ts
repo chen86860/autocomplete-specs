@@ -800,7 +800,53 @@ const completionSpec: Fig.Spec = {
             isVariadic: true,
           },
         },
+        {
+          name: "vendor",
+          description:
+            "Reset the workspace's vendor directory to include all packages needed to build and test all the workspace's modules",
+          options: [
+            {
+              name: "-e",
+              description:
+                "Attempt to proceed despite errors encountered while loading packages",
+            },
+            {
+              name: "-v",
+              description:
+                "Print the names of vendored modules and packages to standard error",
+            },
+            {
+              name: "-o",
+              description:
+                "Set the output directory, instead of the default vendor directory",
+              args: { name: "dir", template: "folders" },
+            },
+          ],
+        },
       ],
+    },
+    {
+      name: "telemetry",
+      description: "Manage Go telemetry data and settings",
+      args: {
+        name: "mode",
+        suggestions: [
+          {
+            name: "off",
+            description: "Local counter data is neither collected nor uploaded",
+          },
+          {
+            name: "local",
+            description:
+              "Counter data is written to the local file system but not uploaded",
+          },
+          {
+            name: "on",
+            description:
+              "Telemetry data is written locally and periodically uploaded",
+          },
+        ],
+      },
     },
     {
       name: "run",

@@ -3158,6 +3158,171 @@ const completion: Fig.Spec = {
         template: "help",
       },
     },
+    {
+      name: "add",
+      description: "Add dependencies to your configuration file",
+      args: { name: "packages", isVariadic: true },
+      options: [
+        {
+          name: ["-D", "--dev"],
+          description: "Add the dependency as a dev dependency",
+        },
+        { name: "--npm", description: "Add the dependency as an npm package" },
+        { name: "--jsr", description: "Add the dependency as a JSR package" },
+        {
+          name: "--allow-scripts",
+          description: "Allow running npm lifecycle scripts",
+          args: { name: "scope", isOptional: true },
+        },
+      ],
+    },
+    {
+      name: "remove",
+      description: "Remove dependencies from the configuration file",
+      args: { name: "packages", isVariadic: true },
+      options: [
+        {
+          name: ["-g", "--global"],
+          description: "Remove globally installed package or binary",
+        },
+      ],
+    },
+    {
+      name: "outdated",
+      description: "Find and update outdated dependencies",
+      options: [
+        {
+          name: "--compatible",
+          description: "Only output versions that satisfy semver requirements",
+        },
+        {
+          name: "--latest",
+          description:
+            "Consider the latest version, regardless of semver constraints",
+        },
+        {
+          name: ["-i", "--interactive"],
+          description: "Interactively update dependencies",
+        },
+        { name: ["-u", "--update"], description: "Update dependency versions" },
+        {
+          name: ["-r", "--recursive"],
+          description: "Include all workspace members",
+        },
+      ],
+    },
+    {
+      name: "clean",
+      description: "Remove the cache directory ($DENO_DIR)",
+      args: {
+        name: "except-paths",
+        isOptional: true,
+        isVariadic: true,
+        template: "filepaths",
+      },
+      options: [
+        {
+          name: "--dry-run",
+          description: "Show what would be removed without removing anything",
+        },
+        {
+          name: "--except",
+          description: "Exclude the provided modules and their dependencies",
+          args: { name: "paths" },
+        },
+      ],
+    },
+    {
+      name: "serve",
+      description: "Run a server defined in a main module",
+      args: { name: "script", isScript: true },
+      options: [
+        { name: ["-A", "--allow-all"], description: "Allow all permissions" },
+        {
+          name: "--port",
+          description: "The TCP port to serve on",
+          args: { name: "port" },
+        },
+        {
+          name: "--host",
+          description: "The interface to serve on",
+          args: { name: "host" },
+        },
+        {
+          name: "--parallel",
+          description: "Run multiple server workers in parallel",
+        },
+        {
+          name: "--watch",
+          description: "Watch for file changes and restart automatically",
+        },
+      ],
+    },
+    {
+      name: "publish",
+      description:
+        "Publish the current working directory's package or workspace to JSR",
+      options: [
+        {
+          name: "--dry-run",
+          description: "Prepare the package for publishing without uploading",
+        },
+        {
+          name: "--allow-slow-types",
+          description: "Allow publishing with slow types",
+        },
+        {
+          name: "--allow-dirty",
+          description:
+            "Allow publishing if the repository has uncommitted changes",
+        },
+        {
+          name: "--no-provenance",
+          description: "Disable provenance attestation",
+        },
+        {
+          name: "--set-version",
+          description: "Set the version for the package",
+          args: { name: "version" },
+        },
+      ],
+    },
+    {
+      name: "jupyter",
+      description: "Deno kernel for Jupyter notebooks",
+      options: [
+        {
+          name: "--install",
+          description: "Install the Deno kernel for Jupyter",
+        },
+        { name: "--kernel", description: "Start the kernel" },
+        {
+          name: "--conn",
+          description: "Path to JSON file describing connection parameters",
+          args: { name: "file", template: "filepaths" },
+        },
+        {
+          name: "--force",
+          description:
+            "Force installation of the kernel, overwriting the previous one",
+        },
+        {
+          name: "--name",
+          description: "Set a custom name for the kernel",
+          args: { name: "name" },
+        },
+        {
+          name: "--display",
+          description: "Set a custom display name for the kernel",
+          args: { name: "name" },
+        },
+      ],
+    },
+    {
+      name: "why",
+      description: "Show why a package is installed",
+      args: { name: "package" },
+    },
   ],
   options: [
     {

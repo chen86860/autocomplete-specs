@@ -2545,6 +2545,52 @@ const completionSpec: Fig.Spec = {
   subcommands: [
     sharedCommands.attach,
     sharedCommands.build,
+    {
+      name: "checkpoint",
+      description: "Manage checkpoints",
+      subcommands: [
+        {
+          name: "create",
+          description: "Create a checkpoint from a running container",
+          args: [containersArg, { name: "CHECKPOINT" }],
+          options: [
+            {
+              name: "--checkpoint-dir",
+              description: "Use a custom checkpoint storage directory",
+              args: { name: "string", template: "folders" },
+            },
+            {
+              name: "--leave-running",
+              description: "Leave the container running after checkpoint",
+            },
+          ],
+        },
+        {
+          name: "ls",
+          description: "List checkpoints for a container",
+          args: containersArg,
+          options: [
+            {
+              name: "--checkpoint-dir",
+              description: "Use a custom checkpoint storage directory",
+              args: { name: "string", template: "folders" },
+            },
+          ],
+        },
+        {
+          name: "rm",
+          description: "Remove a checkpoint",
+          args: [containersArg, { name: "CHECKPOINT" }],
+          options: [
+            {
+              name: "--checkpoint-dir",
+              description: "Use a custom checkpoint storage directory",
+              args: { name: "string", template: "folders" },
+            },
+          ],
+        },
+      ],
+    },
     sharedCommands.commit,
     sharedCommands.cp,
     sharedCommands.create,
@@ -2711,6 +2757,99 @@ const completionSpec: Fig.Spec = {
       },
     },
     sharedCommands.logs,
+    {
+      name: "manifest",
+      description: "Manage Docker image manifests and manifest lists",
+      subcommands: [
+        {
+          name: "annotate",
+          description: "Add additional information to a local image manifest",
+          args: [{ name: "MANIFEST_LIST" }, { name: "MANIFEST" }],
+          options: [
+            {
+              name: "--arch",
+              description: "Set architecture",
+              args: { name: "arch" },
+            },
+            {
+              name: "--os",
+              description: "Set operating system",
+              args: { name: "os" },
+            },
+            {
+              name: "--os-features",
+              description: "Set operating system feature",
+              args: { name: "os-features" },
+            },
+            {
+              name: "--os-version",
+              description: "Set operating system version",
+              args: { name: "os-version" },
+            },
+            {
+              name: "--variant",
+              description: "Set architecture variant",
+              args: { name: "variant" },
+            },
+          ],
+        },
+        {
+          name: "create",
+          description:
+            "Create a local manifest list for annotating and pushing to a registry",
+          args: [
+            { name: "MANIFEST_LIST" },
+            { name: "MANIFEST", isVariadic: true },
+          ],
+          options: [
+            {
+              name: ["-a", "--amend"],
+              description: "Amend an existing manifest list",
+            },
+            {
+              name: "--insecure",
+              description: "Allow communication with an insecure registry",
+            },
+          ],
+        },
+        {
+          name: "inspect",
+          description: "Display an image manifest, or manifest list",
+          args: { name: "MANIFEST_LIST" },
+          options: [
+            {
+              name: "--insecure",
+              description: "Allow communication with an insecure registry",
+            },
+            {
+              name: ["-v", "--verbose"],
+              description:
+                "Output additional info including layers and platform",
+            },
+          ],
+        },
+        {
+          name: "push",
+          description: "Push a manifest list to a repository",
+          args: { name: "MANIFEST_LIST" },
+          options: [
+            {
+              name: "--insecure",
+              description: "Allow push to an insecure registry",
+            },
+            {
+              name: ["-p", "--purge"],
+              description: "Remove the local manifest list after push",
+            },
+          ],
+        },
+        {
+          name: "rm",
+          description: "Delete one or more manifest lists from local storage",
+          args: { name: "MANIFEST_LIST", isVariadic: true },
+        },
+      ],
+    },
     sharedCommands.pause,
     sharedCommands.port,
     sharedCommands.ps,

@@ -5072,6 +5072,11 @@ const completionSpec: (toolchain?: boolean) => Fig.Spec = (
           },
         },
         {
+          name: ["-b", "--breaking"],
+          description:
+            "Update [SPEC] to latest SemVer-breaking version (unstable)",
+        },
+        {
           name: "--precise",
           description:
             "Update a single dependency to exactly PRECISE when used with -p",

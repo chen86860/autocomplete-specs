@@ -16813,6 +16813,73 @@ const completionSpec: Fig.Spec = {
       ],
     },
     {
+      name: "index",
+      description: "Inspect information available from package indexes",
+      subcommands: [
+        {
+          name: "versions",
+          description: "Show the versions available for the given package",
+          args: { name: "package" },
+        },
+      ],
+    },
+    {
+      name: "inspect",
+      description:
+        "Inspect the content of a Python environment and produce a report in JSON format",
+      options: [
+        {
+          name: "--local",
+          description:
+            "If in a virtualenv that has global access, do not list globally-installed packages",
+        },
+        {
+          name: "--user",
+          description: "Only output packages installed in user-site",
+        },
+        {
+          name: "--path",
+          description:
+            "Restrict to the specified installation path for listing packages",
+          args: { name: "path", template: "folders" },
+        },
+      ],
+    },
+    {
+      name: "lock",
+      description:
+        "Generate a lock file (pylock.toml) for the given requirements",
+      args: { name: "requirement", isOptional: true, isVariadic: true },
+      options: [
+        {
+          name: ["-r", "--requirement"],
+          description:
+            "Lock all the packages listed in the given requirements file",
+          args: { name: "file", template: "filepaths" },
+        },
+        {
+          name: ["-e", "--editable"],
+          description: "Lock a project in editable mode from a local path",
+          args: { name: "path", template: "folders" },
+        },
+        {
+          name: "--output",
+          description:
+            "The file to write the lock file to (default pylock.toml)",
+          args: { name: "file", template: "filepaths" },
+        },
+        {
+          name: "--no-deps",
+          description: "Don't lock package dependencies",
+        },
+        {
+          name: "--pre",
+          description:
+            "Include pre-release and development versions. By default, pip only finds stable versions",
+        },
+      ],
+    },
+    {
       name: "help",
       description: "Show help for commands",
     },

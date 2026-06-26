@@ -1657,6 +1657,283 @@ const completionSpec: Fig.Spec = {
         isOptional: true,
       },
     },
+    {
+      name: "bundle",
+      description:
+        "Bundler for non-Ruby dependencies from Homebrew, Homebrew Cask, Mac App Store, Whalebrew and Visual Studio Code",
+      subcommands: [
+        {
+          name: "install",
+          description:
+            "Install and upgrade (by default) all dependencies from the Brewfile",
+        },
+        {
+          name: "dump",
+          description:
+            "Write all installed casks/formulae/images/taps into a Brewfile",
+        },
+        {
+          name: "cleanup",
+          description: "Uninstall all dependencies not present in the Brewfile",
+        },
+        {
+          name: "check",
+          description:
+            "Check if all dependencies present in the Brewfile are installed",
+        },
+        {
+          name: "list",
+          description: "List all dependencies present in the Brewfile",
+        },
+        { name: "edit", description: "Edit the Brewfile in your editor" },
+        {
+          name: "exec",
+          description:
+            "Run an external command in an isolated build environment",
+          args: { name: "command", isCommand: true },
+        },
+        { name: "sh", description: "Run your shell in a build environment" },
+        {
+          name: "env",
+          description:
+            "Print the environment variables that would be set in a build environment",
+        },
+      ],
+      options: [
+        {
+          name: "--file",
+          description: "Read from or write to the Brewfile from this location",
+          args: { name: "file", template: "filepaths" },
+        },
+        {
+          name: ["-g", "--global"],
+          description: "Read from or write to the Brewfile from ~/.Brewfile",
+        },
+        {
+          name: "--force",
+          description: "Pass --force to install/cleanup actions",
+        },
+      ],
+    },
+    {
+      name: "deps",
+      description: "Show dependencies for formula",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        isOptional: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: ["-n", "--topological"],
+          description: "Sort dependencies in topological order",
+        },
+        { name: "--tree", description: "Show dependencies as a tree" },
+        {
+          name: "--graph",
+          description: "Show dependencies as a directed graph",
+        },
+        {
+          name: "--installed",
+          description:
+            "List dependencies for formulae that are currently installed",
+        },
+        {
+          name: "--all",
+          description: "List dependencies for all available formulae",
+        },
+        { name: "--include-build", description: "Include :build dependencies" },
+        { name: "--include-test", description: "Include :test dependencies" },
+        {
+          name: "--include-optional",
+          description: "Include :optional dependencies",
+        },
+        {
+          name: "--skip-recommended",
+          description: "Skip :recommended dependencies",
+        },
+        {
+          name: "--full-name",
+          description: "List dependencies by their full name",
+        },
+      ],
+    },
+    {
+      name: "desc",
+      description: "Display formula's name and one-line description",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: ["-s", "--search"],
+          description: "Search both names and descriptions",
+        },
+        {
+          name: ["-n", "--name"],
+          description: "Search just names for the given text",
+        },
+        {
+          name: ["-d", "--description"],
+          description: "Search just descriptions for the given text",
+        },
+        {
+          name: "--formula",
+          description: "Treat all named arguments as formulae",
+        },
+        { name: "--cask", description: "Treat all named arguments as casks" },
+      ],
+    },
+    {
+      name: "fetch",
+      description:
+        "Download a bottle (if available) or source packages for formulae and binaries for casks",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: ["-f", "--force"],
+          description: "Remove a previously cached version and re-fetch",
+        },
+        {
+          name: "--deps",
+          description: "Also download dependencies for any listed formula",
+        },
+        {
+          name: ["-s", "--build-from-source"],
+          description: "Download source packages rather than a bottle",
+        },
+        {
+          name: "--build-bottle",
+          description: "Download source packages and prepare them for bottling",
+        },
+        {
+          name: "--retry",
+          description:
+            "Retry if downloading fails or re-download if the checksum has changed",
+        },
+        {
+          name: "--all-platforms",
+          description: "Download bottles for all platforms",
+        },
+      ],
+    },
+    {
+      name: "uses",
+      description:
+        "Show formulae and casks that specify formula as a dependency",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: "--recursive",
+          description: "Resolve more than one level of dependencies",
+        },
+        {
+          name: "--installed",
+          description:
+            "Only list formulae and casks that are currently installed",
+        },
+        {
+          name: "--missing",
+          description:
+            "Only list formulae and casks that are not currently installed",
+        },
+        {
+          name: "--include-build",
+          description:
+            "Include all formulae that specify formula as :build type dependency",
+        },
+        {
+          name: "--include-test",
+          description:
+            "Include all formulae that specify formula as :test type dependency",
+        },
+        {
+          name: "--include-optional",
+          description:
+            "Include all formulae that specify formula as :optional type dependency",
+        },
+        { name: "--formula", description: "Include only formulae" },
+        { name: "--cask", description: "Include only casks" },
+      ],
+    },
+    {
+      name: "options",
+      description: "Show install options specific to formula",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        isOptional: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: "--compact",
+          description: "Show all options on a single line separated by spaces",
+        },
+        {
+          name: "--installed",
+          description: "Show options for formulae that are currently installed",
+        },
+        {
+          name: "--all",
+          description: "Show options for all available formulae",
+        },
+      ],
+    },
+    {
+      name: "missing",
+      description: "Check the given formula kegs for missing dependencies",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        isOptional: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: "--hide",
+          description: "Act as if none of the specified hidden are installed",
+          args: { name: "hidden" },
+        },
+      ],
+    },
+    {
+      name: "log",
+      description: "Show the git log for the given formulae or casks",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        isOptional: true,
+        generators: formulaeGenerator,
+      },
+    },
+    {
+      name: "migrate",
+      description: "Migrate renamed packages to new names",
+      args: {
+        name: "formula",
+        isVariadic: true,
+        generators: formulaeGenerator,
+      },
+      options: [
+        {
+          name: ["-f", "--force"],
+          description:
+            "Treat installed and provided formulae as if they are from the same taps and migrate them anyway",
+        },
+      ],
+    },
   ],
   options: [
     {

@@ -1604,6 +1604,136 @@ const completionSpec: Fig.Spec = {
       description: "Display npm username",
       options: [registryOption],
     },
+    {
+      name: "diff",
+      description: "The registry diff command",
+      args: {
+        name: "paths",
+        isOptional: true,
+        isVariadic: true,
+        template: "filepaths",
+      },
+      options: [
+        ...workSpaceOptions,
+        {
+          name: "--diff",
+          description: "Define arguments to compare in npm diff",
+          isRepeatable: true,
+          args: { name: "package-spec" },
+        },
+        {
+          name: "--diff-name-only",
+          description: "Prints only filenames when comparing",
+        },
+        {
+          name: "--diff-unified",
+          description:
+            "The number of lines of context to print in the unified diff",
+          args: { name: "number" },
+        },
+        {
+          name: "--diff-ignore-all-space",
+          description: "Ignore whitespace when comparing lines",
+        },
+        {
+          name: "--diff-no-prefix",
+          description: "Do not show any source or destination prefix",
+        },
+      ],
+    },
+    {
+      name: "exec",
+      description: "Run a command from a local or remote npm package",
+      args: { name: "command", isCommand: true },
+      options: [
+        ...workSpaceOptions,
+        {
+          name: ["-p", "--package"],
+          description: "The package or packages to install for npm exec",
+          isRepeatable: true,
+          args: { name: "package-spec" },
+        },
+        {
+          name: ["-c", "--call"],
+          description: "Run the specified command inside the project",
+          args: { name: "command" },
+        },
+      ],
+    },
+    {
+      name: "explain",
+      description: "Explain installed packages",
+      args: { name: "package-spec" },
+      options: [...workSpaceOptions, jsonOption],
+    },
+    {
+      name: "find-dupes",
+      description: "Find duplication in the package tree",
+      options: [
+        {
+          name: "--install-strategy",
+          description: "Set the install strategy",
+          args: {
+            name: "strategy",
+            suggestions: ["hoisted", "nested", "shallow", "linked"],
+          },
+        },
+        {
+          name: "--strict-peer-deps",
+          description: "Treat conflicting peerDependencies as failure",
+        },
+        { name: "--no-package-lock", description: "Ignore package-lock.json" },
+      ],
+    },
+    {
+      name: "query",
+      description:
+        "Retrieve a filtered list of packages using a CSS-like selector",
+      args: { name: "selector" },
+      options: [
+        ...workSpaceOptions,
+        { name: ["-g", "--global"], description: "Operate in global mode" },
+      ],
+    },
+    {
+      name: "sbom",
+      description: "Generate a Software Bill of Materials (SBOM)",
+      options: [
+        ...workSpaceOptions,
+        {
+          name: "--omit",
+          description: "Dependency types to omit from the SBOM",
+          isRepeatable: true,
+          args: { name: "type", suggestions: ["dev", "optional", "peer"] },
+        },
+        {
+          name: "--package-lock-only",
+          description: "Only use the package-lock.json, ignore node_modules",
+        },
+        {
+          name: "--sbom-format",
+          description: "SBOM format to use",
+          args: { name: "format", suggestions: ["cyclonedx", "spdx"] },
+        },
+      ],
+    },
+    {
+      name: "undeprecate",
+      description: "Undeprecate a version of a package",
+      args: { name: "package-spec" },
+      options: [
+        registryOption,
+        {
+          name: "--otp",
+          description: "A one-time password for two-factor authentication",
+          args: { name: "otp" },
+        },
+        {
+          name: "--dry-run",
+          description: "Do not make any changes to the registry",
+        },
+      ],
+    },
   ],
 };
 

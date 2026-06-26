@@ -974,6 +974,146 @@ const completionSpec: Fig.Spec = {
         },
       ],
     },
+    {
+      name: "watch",
+      description:
+        "Watch build context for service and rebuild/refresh containers when files are updated",
+      args: {
+        name: "services",
+        isVariadic: true,
+        isOptional: true,
+        generators: servicesGenerator,
+      },
+      options: [
+        {
+          name: "--no-up",
+          description: "Do not build & start services before watching",
+        },
+        {
+          name: "--prune",
+          description: "Prune dangling images on rebuild (default true)",
+        },
+        { name: "--quiet", description: "Hide build output" },
+      ],
+    },
+    {
+      name: "wait",
+      description: "Block until containers of all (or specified) services stop",
+      args: {
+        name: "services",
+        isVariadic: true,
+        isOptional: true,
+        generators: servicesGenerator,
+      },
+      options: [
+        {
+          name: "--down-project",
+          description: "Drops project when the first container stops",
+        },
+      ],
+    },
+    {
+      name: "stats",
+      description:
+        "Display a live stream of container(s) resource usage statistics",
+      args: {
+        name: "services",
+        isVariadic: true,
+        isOptional: true,
+        generators: servicesGenerator,
+      },
+      options: [
+        {
+          name: ["-a", "--all"],
+          description: "Show all containers (default shows just running)",
+        },
+        {
+          name: "--format",
+          description: "Format output using a custom template",
+          args: { name: "template" },
+        },
+        {
+          name: "--no-stream",
+          description: "Disable streaming stats and only pull the first result",
+        },
+        { name: "--no-trunc", description: "Do not truncate output" },
+      ],
+    },
+    {
+      name: "volumes",
+      description: "List volumes used by created containers",
+      args: {
+        name: "services",
+        isVariadic: true,
+        isOptional: true,
+        generators: servicesGenerator,
+      },
+      options: [
+        {
+          name: "--format",
+          description: "Format output using a custom template",
+          args: { name: "template" },
+        },
+        {
+          name: ["-q", "--quiet"],
+          description: "Only display volume names",
+        },
+      ],
+    },
+    {
+      name: "commit",
+      description: "Create a new image from a service container's changes",
+      args: [
+        { name: "service", generators: servicesGenerator },
+        { name: "[REPOSITORY[:TAG]]", isOptional: true },
+      ],
+      options: [
+        {
+          name: ["-a", "--author"],
+          description:
+            'Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")',
+          args: { name: "author" },
+        },
+        {
+          name: ["-c", "--change"],
+          description: "Apply Dockerfile instruction to the created image",
+          args: { name: "instruction" },
+        },
+        {
+          name: "--index",
+          description:
+            "Index of the container if service has multiple replicas",
+          args: { name: "index" },
+        },
+        {
+          name: ["-m", "--message"],
+          description: "Commit message",
+          args: { name: "message" },
+        },
+        {
+          name: ["-p", "--pause"],
+          description: "Pause container during commit (default true)",
+        },
+      ],
+    },
+    {
+      name: "export",
+      description: "Export a service container's filesystem as a tar archive",
+      args: { name: "service", generators: servicesGenerator },
+      options: [
+        {
+          name: "--index",
+          description:
+            "Index of the container if service has multiple replicas",
+          args: { name: "index" },
+        },
+        {
+          name: ["-o", "--output"],
+          description: "Write to a file, instead of STDOUT",
+          args: { name: "file", template: "filepaths" },
+        },
+      ],
+    },
   ],
   options: [
     {

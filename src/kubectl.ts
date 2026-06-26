@@ -2506,6 +2506,60 @@ const completionSpec: Fig.Spec = {
       ],
     },
     {
+      name: "events",
+      description:
+        "Display events. Prints a table of the most important information about events for a namespace, all namespaces, or a specific resource",
+      options: [
+        {
+          name: ["-A", "--all-namespaces"],
+          description:
+            "If present, list the requested object(s) across all namespaces",
+        },
+        sharedOpts.output,
+        sharedOpts.allowMissingTemplateKeys,
+        sharedOpts.template,
+        {
+          name: "--chunk-size",
+          requiresSeparator: true,
+          description:
+            "Return large lists in chunks rather than all at once. Pass 0 to disable. This flag is beta and may change in the future",
+          args: { name: "INT", default: "500" },
+        },
+        {
+          name: "--for",
+          requiresSeparator: true,
+          description:
+            "Filter events to only those pertaining to the specified resource",
+          args: { name: "TYPE/NAME" },
+        },
+        {
+          name: "--no-headers",
+          description:
+            "When using the default output format, don't print headers",
+        },
+        {
+          name: "--show-managed-fields",
+          description:
+            "If true, keep the managedFields when printing objects in JSON or YAML format",
+        },
+        {
+          name: "--types",
+          requiresSeparator: true,
+          description: "Output only events of given types",
+          args: {
+            name: "Event Types",
+            isVariadic: true,
+            suggestions: ["Normal", "Warning"],
+          },
+        },
+        {
+          name: ["-w", "--watch"],
+          description:
+            "After listing the requested events, watch for more events",
+        },
+      ],
+    },
+    {
       name: "exec",
       description: "Execute a command in a container",
       args: [

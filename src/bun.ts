@@ -916,6 +916,84 @@ const spec: Fig.Spec = {
         },
       ],
     },
+    {
+      name: "exec",
+      icon,
+      description: "Execute a shell script directly from Bun",
+      args: { name: "script", isCommand: true },
+    },
+    {
+      name: "info",
+      icon,
+      description: "Display package metadata from the registry",
+      args: { name: "package", isOptional: true },
+    },
+    {
+      name: "outdated",
+      icon,
+      description: "Display the latest versions of outdated dependencies",
+      args: { name: "filter", isOptional: true },
+      options: [
+        {
+          name: ["-F", "--filter"],
+          description: "Include only matching workspace packages",
+          args: { name: "pattern" },
+        },
+      ],
+    },
+    {
+      name: "why",
+      icon,
+      description: "Explain why a package is installed",
+      args: { name: "package" },
+    },
+    {
+      name: "audit",
+      icon,
+      description: "Check installed packages for vulnerabilities",
+    },
+    {
+      name: "patch",
+      icon,
+      description: "Prepare a package for patching",
+      args: {
+        name: "package",
+        description: "Package and version, e.g. is-even@1.0.0",
+      },
+      options: [
+        {
+          name: "--commit",
+          description: "Install a patch and commit it to the patches directory",
+        },
+      ],
+    },
+    {
+      name: "publish",
+      icon,
+      description: "Publish a package to the npm registry",
+      args: { name: "dist", isOptional: true, template: "folders" },
+      options: [
+        {
+          name: "--access",
+          description: "Set access level for scoped packages",
+          args: { name: "level", suggestions: ["public", "restricted"] },
+        },
+        {
+          name: "--tag",
+          description: "Tag the release with a custom tag",
+          args: { name: "tag" },
+        },
+        {
+          name: "--dry-run",
+          description: "Do everything except actually publish",
+        },
+        {
+          name: "--otp",
+          description: "Provide a one-time password for authentication",
+          args: { name: "otp" },
+        },
+      ],
+    },
   ],
 };
 
