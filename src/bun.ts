@@ -1,8 +1,4 @@
-import {
-  keyValueList,
-  filepaths,
-  valueList,
-} from "@fig/autocomplete-generators";
+import { keyValueList, filepaths } from "@fig/autocomplete-generators";
 import {
   npmScriptsGenerator,
   npmSearchGenerator,
@@ -45,7 +41,7 @@ const loaders = [
   "wasm",
   "napi",
 ];
-/** Format from https://github.com/oven-sh/bun/blob/dcbcf9803a19be989c0f48d22a50a43731fcfacd/src/cli.zig */
+/** Format from `bun --help` in Bun 1.3.14 */
 const sharedPublicParams: Fig.Option[] = [
   {
     name: ["-h", "--help"],
@@ -60,6 +56,7 @@ const sharedPublicParams: Fig.Option[] = [
     name: "--cwd",
     args: {
       name: "path",
+      template: "folders",
       description:
         "Absolute path to resolve files & entry points from. This just changes the process' cwd",
     },
@@ -78,7 +75,6 @@ const sharedPublicParams: Fig.Option[] = [
     name: "--extension-order",
     args: {
       name: "order",
-      isVariadic: true,
       description: "Defaults to: .tsx,.ts,.jsx,.js,.json",
     },
   },
@@ -110,23 +106,35 @@ const sharedPublicParams: Fig.Option[] = [
   {
     name: ["-r", "--preload"],
     args: {
-      name: "args",
-      isVariadic: true,
+      name: "module",
       description: "Import a module before other modules are loaded",
     },
   },
   {
+    name: "--require",
+    args: { name: "module" },
+    description: "Alias of --preload, for Node.js compatibility",
+  },
+  {
+    name: "--import",
+    args: { name: "module" },
+    description: "Alias of --preload, for Node.js compatibility",
+  },
+  {
     name: "--main-fields",
     args: {
-      name: "args",
-      isVariadic: true,
+      name: "fields",
       description:
         "Main fields to lookup in package.json. Defaults to --target dependent",
     },
   },
   {
-    name: "--no-summary",
-    description: "Don't print a summary (when generating .bun)",
+    name: "--preserve-symlinks",
+    description: "Preserve symlinks when resolving files",
+  },
+  {
+    name: "--preserve-symlinks-main",
+    description: "Preserve symlinks when resolving the main entry point",
   },
   {
     name: ["-v", "--version"],
@@ -139,27 +147,31 @@ const sharedPublicParams: Fig.Option[] = [
   {
     name: "--tsconfig-override",
     args: {
-      name: "overrides",
-      description: "Load tsconfig from path instead of cwd/tsconfig.json",
+      name: "path",
+      template: "filepaths",
+      description: "Specify custom tsconfig.json",
     },
   },
   {
     name: ["-d", "--define"],
     args: {
-      name: "k=v",
+      name: "key:value",
       isVariadic: true,
       description:
-        "Substitute key=value while parsing, e.g. --define process.env.NODE_ENV=development",
+        'Substitute K:V while parsing, e.g. --define process.env.NODE_ENV:"development"',
     },
   },
   {
-    name: ["-e", "--external"],
-    args: {
-      name: "args",
-      isVariadic: true,
-      description:
-        "Exclude module from transpilation (can use * wildcards). ex: -e react",
-    },
+    name: "--drop",
+    args: { name: "name" },
+    description:
+      "Remove function calls, e.g. --drop=console removes all console.* calls",
+  },
+  {
+    name: "--feature",
+    args: { name: "name" },
+    description:
+      "Enable a feature flag for dead-code elimination, e.g. --feature=SUPER_SECRET",
   },
   {
     name: ["-l", "--loader"],
@@ -175,17 +187,10 @@ const sharedPublicParams: Fig.Option[] = [
     },
   },
   {
-    name: ["-u", "--origin"],
+    name: "--port",
     args: {
-      name: "args",
-      description: 'Rewrite import URLs to start with --origin. Default: ""',
-    },
-  },
-  {
-    name: ["-p", "--port"],
-    args: {
-      name: "args",
-      description: 'Port to serve Bun\'s dev server on. Default: "3000"',
+      name: "port",
+      description: "Set the default port for Bun.serve",
     },
   },
   {
@@ -193,36 +198,9 @@ const sharedPublicParams: Fig.Option[] = [
     description: "Use less memory, but run garbage collection more often",
   },
   {
-    name: "--minify",
-    description: "Minify (experimental)",
-    priority: 50,
-  },
-  {
-    name: "--minify-syntax",
-    description: "Minify syntax and inline data (experimental)",
-  },
-  {
-    name: "--minify-whitespace",
-    description: "Minify whitespace (experimental)",
-  },
-  {
-    name: "--minify-identifiers",
-    description: "Minify identifiers",
-  },
-  {
     name: "--no-macros",
     description:
       "Disable macros from being executed in the bundler, transpiler and runtime",
-  },
-  {
-    name: "--target",
-    description: "Target environment",
-    priority: 50,
-    args: {
-      generators: valueList({
-        values: ["node", "browser", "bun"],
-      }),
-    },
   },
   {
     name: "--inspect",
@@ -248,15 +226,192 @@ const sharedPublicParams: Fig.Option[] = [
     name: "--if-present",
     description: "Exit if the entrypoint does not exist",
   },
+  {
+    name: "--no-orphans",
+    description:
+      "Exit when the parent process dies, and on exit SIGKILL every descendant. Linux/macOS only",
+  },
+  {
+    name: "--env-file",
+    args: { name: "path", template: "filepaths" },
+    description: "Load environment variables from the specified file(s)",
+  },
+  {
+    name: "--no-env-file",
+    description: "Disable automatic loading of .env files",
+  },
+  {
+    name: "--cpu-prof",
+    description: "Start CPU profiler and write profile to disk on exit",
+  },
+  {
+    name: "--cpu-prof-name",
+    args: { name: "name" },
+    description: "Specify the name of the CPU profile file",
+  },
+  {
+    name: "--cpu-prof-dir",
+    args: { name: "path", template: "folders" },
+    description: "Specify the directory where the CPU profile will be saved",
+  },
+  {
+    name: "--cpu-prof-md",
+    description:
+      "Output CPU profile in markdown format (grep-friendly, designed for LLM analysis)",
+  },
+  {
+    name: "--cpu-prof-interval",
+    args: { name: "microseconds" },
+    description:
+      "Specify the sampling interval in microseconds for CPU profiling",
+  },
+  {
+    name: "--heap-prof",
+    description: "Generate V8 heap snapshot on exit (.heapsnapshot)",
+  },
+  {
+    name: "--heap-prof-name",
+    args: { name: "name" },
+    description: "Specify the name of the heap profile file",
+  },
+  {
+    name: "--heap-prof-dir",
+    args: { name: "path", template: "folders" },
+    description: "Specify the directory where the heap profile will be saved",
+  },
+  {
+    name: "--heap-prof-md",
+    description: "Generate markdown heap profile on exit (for CLI analysis)",
+  },
+  {
+    name: ["-e", "--eval"],
+    args: { name: "script" },
+    description: "Evaluate argument as a script",
+  },
+  {
+    name: ["-p", "--print"],
+    args: { name: "script" },
+    description: "Evaluate argument as a script and print the result",
+  },
+  {
+    name: "--conditions",
+    args: { name: "condition" },
+    description: "Pass custom conditions to resolve",
+  },
+  {
+    name: "--fetch-preconnect",
+    args: { name: "url" },
+    description: "Preconnect to a URL while code is loading",
+  },
+  {
+    name: "--experimental-http2-fetch",
+    description: "Offer h2 in fetch() TLS ALPN",
+  },
+  {
+    name: "--experimental-http3-fetch",
+    description: "Honor Alt-Svc: h3 in fetch() and upgrade to HTTP/3",
+  },
+  {
+    name: "--max-http-header-size",
+    args: { name: "bytes" },
+    description: "Set the maximum size of HTTP headers in bytes",
+  },
+  {
+    name: "--dns-result-order",
+    args: {
+      name: "order",
+      suggestions: ["verbatim", "ipv4first", "ipv6first"],
+    },
+    description: "Set the default order of DNS lookup results",
+  },
+  {
+    name: "--expose-gc",
+    description: "Expose gc() on the global object",
+  },
+  {
+    name: "--no-deprecation",
+    description: "Suppress all reporting of the custom deprecation",
+  },
+  {
+    name: "--throw-deprecation",
+    description:
+      "Determine whether or not deprecation warnings result in errors",
+  },
+  {
+    name: "--title",
+    args: { name: "title" },
+    description: "Set the process title",
+  },
+  {
+    name: "--zero-fill-buffers",
+    description: "Force Buffer.allocUnsafe(size) to be zero-filled",
+  },
+  {
+    name: "--use-system-ca",
+    description: "Use the system's trusted certificate authorities",
+  },
+  {
+    name: "--use-openssl-ca",
+    description: "Use OpenSSL's default CA store",
+  },
+  {
+    name: "--use-bundled-ca",
+    description: "Use bundled CA store",
+  },
+  {
+    name: "--redis-preconnect",
+    description: "Preconnect to $REDIS_URL at startup",
+  },
+  {
+    name: "--sql-preconnect",
+    description: "Preconnect to PostgreSQL at startup",
+  },
+  {
+    name: "--no-addons",
+    description:
+      'Throw an error if process.dlopen is called, and disable export condition "node-addons"',
+  },
+  {
+    name: "--unhandled-rejections",
+    args: {
+      name: "mode",
+      suggestions: ["strict", "throw", "warn", "none", "warn-with-error-code"],
+    },
+    description: "Configure unhandled rejection behavior",
+  },
+  {
+    name: "--console-depth",
+    args: { name: "depth" },
+    description: "Set the default depth for console.log object inspection",
+  },
+  {
+    name: "--user-agent",
+    args: { name: "agent" },
+    description: "Set the default User-Agent header for HTTP requests",
+  },
+  {
+    name: "--cron-title",
+    args: { name: "title" },
+    description: "Title for cron execution mode",
+  },
+  {
+    name: "--cron-period",
+    args: { name: "period" },
+    description: "Cron period for cron execution mode",
+  },
 ];
 
-// note: we are keeping --port and --origin as it can be reused for bun build and elsewhere
 const notBunDevFlags: Fig.Option[] = [
   {
     name: "--hot",
     description:
       "Enable auto reload in the Bun runtime, test runner, or bundler",
     priority: 50,
+  },
+  {
+    name: "--no-clear-screen",
+    description:
+      "Disable clearing the terminal screen on reload when --hot or --watch is enabled",
   },
   {
     name: "--watch",
@@ -294,22 +449,144 @@ const notBunDevFlags: Fig.Option[] = [
     name: "--silent",
     description: "Don't repeat the command for bun run",
   },
+  {
+    name: "--elide-lines",
+    args: { name: "number" },
+    description:
+      "Number of lines of script output shown when using --filter. Set to 0 to show all lines",
+  },
+  {
+    name: ["-F", "--filter"],
+    args: { name: "pattern" },
+    description: "Run a script in all workspace packages matching the pattern",
+  },
+  {
+    name: "--shell",
+    args: { name: "shell", suggestions: ["bun", "system"] },
+    description: "Control the shell used for package.json scripts",
+  },
+  {
+    name: "--workspaces",
+    description: "Run a script in all workspace packages",
+  },
+  {
+    name: "--parallel",
+    description: "Run multiple scripts concurrently with Foreman-style output",
+  },
+  {
+    name: "--sequential",
+    description: "Run multiple scripts sequentially with Foreman-style output",
+  },
+  {
+    name: "--no-exit-on-error",
+    description: "Continue running other scripts when one fails",
+  },
 ];
 
 const buildOnlyParams: Fig.Option[] = [
   {
-    name: "compile",
+    name: "--production",
+    description: "Set NODE_ENV=production and enable minification",
+  },
+  {
+    name: "--compile",
     description:
       "Generate a standalone Bun executable containing your bundled code",
     priority: 50,
   },
   {
+    name: "--compile-exec-argv",
+    args: { name: "arg" },
+    description: "Prepend arguments to the standalone executable's execArgv",
+  },
+  {
+    name: "--compile-autoload-dotenv",
+    description: "Enable autoloading of .env files in standalone executable",
+  },
+  {
+    name: "--no-compile-autoload-dotenv",
+    description: "Disable autoloading of .env files in standalone executable",
+  },
+  {
+    name: "--compile-autoload-bunfig",
+    description: "Enable autoloading of bunfig.toml in standalone executable",
+  },
+  {
+    name: "--no-compile-autoload-bunfig",
+    description: "Disable autoloading of bunfig.toml in standalone executable",
+  },
+  {
+    name: "--compile-autoload-tsconfig",
+    description:
+      "Enable autoloading of tsconfig.json at runtime in standalone executable",
+  },
+  {
+    name: "--no-compile-autoload-tsconfig",
+    description:
+      "Disable autoloading of tsconfig.json at runtime in standalone executable",
+  },
+  {
+    name: "--compile-autoload-package-json",
+    description:
+      "Enable autoloading of package.json at runtime in standalone executable",
+  },
+  {
+    name: "--no-compile-autoload-package-json",
+    description:
+      "Disable autoloading of package.json at runtime in standalone executable",
+  },
+  {
+    name: "--compile-executable-path",
+    args: { name: "path", template: "filepaths" },
+    description:
+      "Path to a Bun executable to use for cross-compilation instead of downloading",
+  },
+  {
+    name: "--bytecode",
+    description: "Use a bytecode cache",
+  },
+  {
+    name: "--target",
+    description: "Target environment",
+    priority: 50,
+    args: {
+      name: "environment",
+      suggestions: ["browser", "bun", "node"],
+    },
+  },
+  {
+    name: ["-e", "--external"],
+    args: {
+      name: "package",
+      isVariadic: true,
+      description:
+        "Exclude module from transpilation (can use * wildcards). ex: -e react",
+    },
+  },
+  {
+    name: "--minify",
+    description: "Enable all minification flags",
+    priority: 50,
+  },
+  {
+    name: "--minify-syntax",
+    description: "Minify syntax and inline data",
+  },
+  {
+    name: "--minify-whitespace",
+    description: "Minify whitespace",
+  },
+  {
+    name: "--minify-identifiers",
+    description: "Minify identifiers",
+  },
+  {
     name: "--format",
     description:
-      "Specifies the module format to build to. Only esm is supported currently",
+      'Specifies the module format to build to. "esm", "cjs" and "iife" are supported',
     args: {
-      name: "args",
-      suggestions: ["esm"],
+      name: "format",
+      suggestions: ["esm", "cjs", "iife"],
     },
   },
   {
@@ -318,6 +595,7 @@ const buildOnlyParams: Fig.Option[] = [
     priority: 50,
     args: {
       name: "path",
+      template: "folders",
     },
   },
   {
@@ -326,6 +604,24 @@ const buildOnlyParams: Fig.Option[] = [
     priority: 50,
     args: {
       name: "path",
+      template: "filepaths",
+    },
+  },
+  {
+    name: "--metafile",
+    description: "Write a JSON file with metadata about the build",
+    args: {
+      name: "path",
+      template: "filepaths",
+    },
+  },
+  {
+    name: "--metafile-md",
+    description:
+      "Write a markdown file with a visualization of the module graph",
+    args: {
+      name: "path",
+      template: "filepaths",
     },
   },
   {
@@ -333,6 +629,7 @@ const buildOnlyParams: Fig.Option[] = [
     description: "Root directory used for multiple entry points",
     args: {
       name: "path",
+      template: "folders",
     },
   },
   {
@@ -349,14 +646,41 @@ const buildOnlyParams: Fig.Option[] = [
   },
   {
     name: "--sourcemap",
-    description: "Build with sourcemaps - 'inline', 'external', or 'none'",
+    description:
+      "Build with sourcemaps - 'linked', 'inline', 'external', or 'none'",
     requiresSeparator: "-",
     priority: 50,
     args: {
       name: "args",
       isOptional: true,
-      suggestions: ["inline", "external", "none"],
+      suggestions: ["linked", "inline", "external", "none"],
     },
+  },
+  {
+    name: "--banner",
+    args: { name: "text" },
+    description: 'Add a banner to the bundled output such as "use client"',
+  },
+  {
+    name: "--footer",
+    args: { name: "text" },
+    description: "Add a footer to the bundled output",
+  },
+  {
+    name: "--allow-unresolved",
+    args: { name: "pattern" },
+    description:
+      "Allow unresolved dynamic import()/require() specifiers matching these glob patterns",
+  },
+  {
+    name: "--reject-unresolved",
+    description:
+      "Fail the build on any dynamic import()/require() specifier that cannot be resolved at build time",
+  },
+  {
+    name: "--packages",
+    args: { name: "mode", suggestions: ["external", "bundle"] },
+    description: "Add dependencies to bundle or keep them external",
   },
   {
     name: "--entry-naming",
@@ -382,11 +706,79 @@ const buildOnlyParams: Fig.Option[] = [
   },
   {
     name: "--server-components",
-    description: "Enable React Server Components (experimental)",
+    description: "(EXPERIMENTAL) Enable server components",
   },
   {
     name: "--no-bundle",
     description: "Transpile file only, do not bundle",
+  },
+  {
+    name: "--react-fast-refresh",
+    description: "Enable React Fast Refresh transform",
+  },
+  {
+    name: "--emit-dce-annotations",
+    description: "Re-emit DCE annotations in bundles",
+  },
+  {
+    name: "--keep-names",
+    description: "Preserve original function and class names when minifying",
+  },
+  {
+    name: "--css-chunking",
+    description:
+      "Chunk CSS files together to reduce duplicated CSS loaded in a browser",
+  },
+  {
+    name: "--app",
+    description: "(EXPERIMENTAL) Build a web app for production using Bun Bake",
+  },
+  {
+    name: "--env",
+    args: { name: "mode" },
+    description:
+      "Inline environment variables into the bundle as process.env.${name}",
+  },
+  {
+    name: "--windows-hide-console",
+    description:
+      "When using --compile targeting Windows, prevent a Command prompt from opening alongside the executable",
+  },
+  {
+    name: "--windows-icon",
+    args: { name: "path", template: "filepaths" },
+    description:
+      "When using --compile targeting Windows, assign an executable icon",
+  },
+  {
+    name: "--windows-title",
+    args: { name: "title" },
+    description:
+      "When using --compile targeting Windows, set the executable product name",
+  },
+  {
+    name: "--windows-publisher",
+    args: { name: "publisher" },
+    description:
+      "When using --compile targeting Windows, set the executable company name",
+  },
+  {
+    name: "--windows-version",
+    args: { name: "version" },
+    description:
+      "When using --compile targeting Windows, set the executable version",
+  },
+  {
+    name: "--windows-description",
+    args: { name: "description" },
+    description:
+      "When using --compile targeting Windows, set the executable description",
+  },
+  {
+    name: "--windows-copyright",
+    args: { name: "copyright" },
+    description:
+      "When using --compile targeting Windows, set the executable copyright",
   },
 ];
 
@@ -399,7 +791,7 @@ const testOnlyParams: Fig.Option[] = [
     },
   },
   {
-    name: "--update-snapshots",
+    name: ["-u", "--update-snapshots"],
     description: "Update snapshot files",
   },
   {
@@ -411,16 +803,60 @@ const testOnlyParams: Fig.Option[] = [
     },
   },
   {
+    name: "--retry",
+    description:
+      "Default retry count for all tests, overridden by per-test { retry: N }",
+    args: {
+      name: "number",
+    },
+  },
+  {
     name: "--only",
-    description: 'Only run tests that are marked with "test.only()"',
+    description:
+      'Only run tests that are marked with "test.only()" or "describe.only()"',
   },
   {
     name: "--todo",
     description: 'Include tests that are marked with "test.todo()"',
   },
   {
+    name: "--pass-with-no-tests",
+    description: "Exit with code 0 when no tests are found",
+  },
+  {
+    name: "--concurrent",
+    description: "Treat all tests as `test.concurrent()` tests",
+  },
+  {
+    name: "--randomize",
+    description: "Run tests in random order",
+  },
+  {
+    name: "--seed",
+    description: "Set the random seed for test randomization",
+    args: {
+      name: "seed",
+    },
+  },
+  {
     name: "--coverage",
     description: "Generate a coverage profile",
+  },
+  {
+    name: "--coverage-reporter",
+    description: "Report coverage in 'text' and/or 'lcov'",
+    args: {
+      name: "reporter",
+      suggestions: ["text", "lcov"],
+    },
+  },
+  {
+    name: "--coverage-dir",
+    description: "Directory for coverage files",
+    args: {
+      name: "path",
+      template: "folders",
+    },
   },
   {
     name: "--bail",
@@ -436,6 +872,86 @@ const testOnlyParams: Fig.Option[] = [
     description: "Run only tests with a name that matches the given regex",
     args: {
       name: "pattern",
+    },
+  },
+  {
+    name: "--reporter",
+    description: "Test output reporter format",
+    args: {
+      name: "reporter",
+      suggestions: ["junit", "dots"],
+    },
+  },
+  {
+    name: "--reporter-outfile",
+    description: "Output file path for the reporter format",
+    args: {
+      name: "path",
+      template: "filepaths",
+    },
+  },
+  {
+    name: "--dots",
+    description: "Enable dots reporter. Shorthand for --reporter=dots",
+  },
+  {
+    name: "--only-failures",
+    description: "Only display test failures, hiding passing tests",
+  },
+  {
+    name: "--max-concurrency",
+    description: "Maximum number of concurrent tests to execute at once",
+    args: {
+      name: "number",
+    },
+  },
+  {
+    name: "--path-ignore-patterns",
+    description: "Glob patterns for test file paths to ignore",
+    args: {
+      name: "pattern",
+    },
+  },
+  {
+    name: "--changed",
+    description:
+      "Only run test files affected by changed files according to git",
+    args: {
+      name: "ref",
+      isOptional: true,
+    },
+  },
+  {
+    name: "--isolate",
+    description: "Run each test file in a fresh global object",
+  },
+  {
+    name: "--parallel",
+    description: "Run test files in parallel using N worker processes",
+    args: {
+      name: "number",
+      isOptional: true,
+    },
+  },
+  {
+    name: "--parallel-delay",
+    description:
+      "Milliseconds the first --parallel worker must be busy before spawning the rest",
+    args: {
+      name: "milliseconds",
+    },
+  },
+  {
+    name: "--test-worker",
+    description:
+      "(internal) Run as a --parallel worker, receiving files over IPC",
+  },
+  {
+    name: "--shard",
+    description:
+      "Run a subset of test files, e.g. '--shard=1/3' runs the first of three shards",
+    args: {
+      name: "index/count",
     },
   },
 ];
@@ -466,7 +982,7 @@ const dependencyOptions: Fig.Option[] = [
       template: "filepaths",
       isOptional: true,
     },
-    description: "Load config (bunfig.toml)",
+    description: "Specify path to config file (bunfig.toml)",
   },
   {
     name: ["-y", "--yarn"],
@@ -478,15 +994,25 @@ const dependencyOptions: Fig.Option[] = [
   },
   {
     name: "--no-save",
-    description: "Don't save a lockfile",
+    description: "Don't update package.json or save a lockfile",
   },
   {
     name: "--save",
-    description: "Save to package.json",
+    description: "Save to package.json (true by default)",
+  },
+  {
+    name: "--ca",
+    args: { name: "certificate" },
+    description: "Provide a Certificate Authority signing certificate",
+  },
+  {
+    name: "--cafile",
+    args: { name: "path", template: "filepaths" },
+    description: "The same as `--ca`, but is a file path to the certificate",
   },
   {
     name: "--dry-run",
-    description: "Don't install anything",
+    description: "Perform a dry run without making changes",
   },
   {
     name: "--frozen-lockfile",
@@ -511,6 +1037,10 @@ const dependencyOptions: Fig.Option[] = [
     description: "Don't log anything",
   },
   {
+    name: "--quiet",
+    description: "Only show tarball name when packing",
+  },
+  {
     name: "--verbose",
     description: "Excessively verbose logging",
   },
@@ -525,9 +1055,11 @@ const dependencyOptions: Fig.Option[] = [
   },
   {
     name: "--backend",
-    args: { name: "syscall", suggestions: ["clonefile", "copyfile"] },
-    description:
-      "Platform-specific optimizations for installing dependencies. For macOS, 'clonefile' (default), 'copyfile'",
+    args: {
+      name: "syscall",
+      suggestions: ["clonefile", "hardlink", "symlink", "copyfile"],
+    },
+    description: "Platform-specific optimizations for installing dependencies",
   },
   {
     name: "--link-native-bins",
@@ -560,18 +1092,108 @@ const dependencyOptions: Fig.Option[] = [
       "Skip lifecycle scripts in the project's package.json (dependency scripts are never run)",
   },
   {
+    name: "--trust",
+    description:
+      "Add to trustedDependencies in the project's package.json and install the package(s)",
+  },
+  {
     name: ["-d", "--dev", "-D", "--development"],
     description: "Install as devDependency",
     priority: 75,
     isRepeatable: false,
   },
   {
-    name: "--exact",
+    name: ["-E", "--exact"],
     description: "Install exact version",
   },
   {
     name: "--optional",
     description: "Install as optionalDependency",
+  },
+  {
+    name: "--peer",
+    description: "Install as peerDependency",
+  },
+  {
+    name: "--registry",
+    args: { name: "url" },
+    description:
+      "Use a specific registry by default, overriding .npmrc, bunfig.toml and environment variables",
+  },
+  {
+    name: "--concurrent-scripts",
+    args: { name: "number" },
+    description: "Maximum number of concurrent jobs for lifecycle scripts",
+  },
+  {
+    name: "--network-concurrency",
+    args: { name: "number" },
+    description: "Maximum number of concurrent network requests",
+  },
+  {
+    name: "--save-text-lockfile",
+    description: "Save a text-based lockfile",
+  },
+  {
+    name: "--omit",
+    args: {
+      name: "dependency-type",
+      suggestions: ["dev", "optional", "peer"],
+    },
+    description:
+      "Exclude 'dev', 'optional', or 'peer' dependencies from install",
+  },
+  {
+    name: "--lockfile-only",
+    description: "Generate a lockfile without installing dependencies",
+  },
+  {
+    name: "--linker",
+    args: { name: "strategy", suggestions: ["isolated", "hoisted"] },
+    description: "Linker strategy",
+  },
+  {
+    name: "--minimum-release-age",
+    args: { name: "seconds" },
+    description:
+      "Only install packages published at least N seconds ago (security feature)",
+  },
+  {
+    name: "--cpu",
+    args: { name: "architecture", suggestions: ["x64", "arm64", "*"] },
+    description: "Override CPU architecture for optional dependencies",
+  },
+  {
+    name: "--os",
+    args: { name: "operating-system", suggestions: ["linux", "darwin", "*"] },
+    description: "Override operating system for optional dependencies",
+  },
+  {
+    name: ["-a", "--analyze"],
+    description:
+      "Analyze and install all dependencies of files passed as arguments recursively",
+  },
+  {
+    name: "--only-missing",
+    description:
+      "Only add dependencies to package.json if they are not already present",
+  },
+  {
+    name: "--filter",
+    args: { name: "pattern" },
+    description: "Apply command to matching workspaces",
+  },
+  {
+    name: ["-r", "--recursive"],
+    description: "Run in all workspaces",
+  },
+  {
+    name: "--latest",
+    description: "Update packages to their latest versions",
+  },
+  {
+    name: ["-i", "--interactive"],
+    description: "Show an interactive list of outdated packages to select",
   },
 ];
 
@@ -616,13 +1238,7 @@ const spec: Fig.Spec = {
       name: "args",
     },
   ],
-  // These flags are used before the subcommand or file
-  options: publicParams.filter(
-    (param) =>
-      param.name.includes("--inspect") ||
-      param.name.includes("--hot") ||
-      param.name.includes("--watch")
-  ),
+  options: publicParams,
   subcommands: [
     {
       name: ["c", "create"],
@@ -713,11 +1329,20 @@ const spec: Fig.Spec = {
           npmScriptsGenerator,
         ],
       },
+      options: publicParams,
     },
     {
       name: ["i", "install"],
       icon: "📦",
       description: "Install dependencies for a package.json",
+      args: {
+        name: "package",
+        isOptional: true,
+        isVariadic: true,
+        debounce: true,
+        generators: npmSearchGenerator,
+        filterStrategy: "fuzzy",
+      },
       options: dependencyOptions,
     },
     {
@@ -734,7 +1359,7 @@ const spec: Fig.Spec = {
       },
     },
     {
-      name: ["rm", "remove"],
+      name: ["r", "rm", "remove"],
       icon: "📦",
       description: "Remove a dependency from package.json",
       options: dependencyOptions,
@@ -786,6 +1411,7 @@ const spec: Fig.Spec = {
         description: "Install a package from the global package registry",
       },
       options: [
+        ...dependencyOptions,
         {
           name: "--save",
           description: "Save to package.json",
@@ -797,6 +1423,7 @@ const spec: Fig.Spec = {
       name: "unlink",
       icon: "📦",
       description: "Unlink this package from the global package registry",
+      options: dependencyOptions,
       // Unliking a package by name is not yet implemented. Use bunLinksGenerator once it is implemented.
     },
     {
@@ -850,14 +1477,133 @@ const spec: Fig.Spec = {
       name: "pm",
       icon,
       description: "Set of utilities for working with Bun's package manager",
-      options: [
+      subcommands: [
+        {
+          name: "scan",
+          description:
+            "Scan all packages in lockfile for security vulnerabilities",
+        },
+        {
+          name: "pack",
+          description: "Create a tarball of the current workspace",
+          options: [
+            {
+              name: "--dry-run",
+              description:
+                "Do everything except for writing the tarball to disk",
+            },
+            {
+              name: "--destination",
+              description: "The directory the tarball will be saved in",
+              args: { name: "path", template: "folders" },
+            },
+            {
+              name: "--filename",
+              description: "The name of the tarball",
+              args: { name: "filename" },
+            },
+            {
+              name: "--ignore-scripts",
+              description: "Don't run pre/postpack and prepare scripts",
+            },
+            {
+              name: "--gzip-level",
+              description: "Specify a custom compression level for gzip",
+              args: { name: "level", suggestions: ["0", "1", "9"] },
+            },
+            {
+              name: "--quiet",
+              description: "Only output the tarball filename",
+            },
+          ],
+        },
         {
           name: "bin",
           description: "Print the path to bin folder",
+          options: [
+            {
+              name: "-g",
+              description: "Print the global path to bin folder",
+            },
+          ],
         },
         {
           name: "cache",
           description: "Print the path to the cache folder",
+          subcommands: [
+            {
+              name: "rm",
+              description: "Clear the cache",
+            },
+          ],
+        },
+        {
+          name: "why",
+          description:
+            "Show dependency tree explaining why a package is installed",
+          args: {
+            name: "package",
+            generators: dependenciesGenerator,
+            filterStrategy: "fuzzy",
+          },
+        },
+        {
+          name: "whoami",
+          description: "Print the current npm username",
+        },
+        {
+          name: "view",
+          description:
+            "View package metadata from the registry (use `bun info` instead)",
+          args: {
+            name: "package",
+            isOptional: true,
+            generators: npmSearchGenerator,
+            filterStrategy: "fuzzy",
+          },
+        },
+        {
+          name: "version",
+          description: "Bump the version in package.json and create a git tag",
+          args: {
+            name: "increment",
+            isOptional: true,
+            suggestions: [
+              "patch",
+              "minor",
+              "major",
+              "prepatch",
+              "preminor",
+              "premajor",
+              "prerelease",
+              "from-git",
+            ],
+          },
+        },
+        {
+          name: "pkg",
+          description: "Manage data in package.json",
+          subcommands: [
+            {
+              name: "get",
+              description: "Get values from package.json",
+              args: { name: "key", isOptional: true, isVariadic: true },
+            },
+            {
+              name: "set",
+              description: "Set values in package.json",
+              args: { name: "key=value", isVariadic: true },
+            },
+            {
+              name: "delete",
+              description: "Delete values from package.json",
+              args: { name: "key", isVariadic: true },
+            },
+            {
+              name: "fix",
+              description: "Auto-correct common package.json errors",
+            },
+          ],
         },
         {
           name: "hash",
@@ -875,6 +1621,53 @@ const spec: Fig.Spec = {
           name: "ls",
           description:
             "List the dependency tree according to the current lockfile",
+          options: [
+            {
+              name: "--all",
+              description: "List the entire dependency tree",
+            },
+          ],
+        },
+        {
+          name: "migrate",
+          description:
+            "Migrate another package manager's lockfile without installing anything",
+        },
+        {
+          name: "untrusted",
+          description: "Print current untrusted dependencies with scripts",
+        },
+        {
+          name: "trust",
+          description:
+            "Run scripts for untrusted dependencies and add to trustedDependencies",
+          args: {
+            name: "package",
+            isVariadic: true,
+            generators: dependenciesGenerator,
+            filterStrategy: "fuzzy",
+          },
+          options: [
+            {
+              name: "--all",
+              description: "Trust all untrusted dependencies",
+            },
+          ],
+        },
+        {
+          name: "default-trusted",
+          description: "Print the default trusted dependencies list",
+        },
+      ],
+    },
+    {
+      name: "list",
+      icon: "📦",
+      description: "List the dependency tree according to the current lockfile",
+      options: [
+        {
+          name: "--all",
+          description: "List the entire dependency tree",
         },
       ],
     },
@@ -909,10 +1702,24 @@ const spec: Fig.Spec = {
       name: "init",
       icon,
       description: "Initialize a new bun project",
+      args: { name: "folder", isOptional: true, template: "folders" },
       options: [
         {
           name: ["-y", "--yes"],
           description: "Answer yes to all prompts",
+        },
+        {
+          name: ["-m", "--minimal"],
+          description: "Only initialize type definitions",
+        },
+        {
+          name: ["-r", "--react"],
+          description: "Initialize a React project",
+          args: {
+            name: "variant",
+            isOptional: true,
+            suggestions: ["tailwind", "shadcn"],
+          },
         },
       ],
     },
@@ -926,7 +1733,26 @@ const spec: Fig.Spec = {
       name: "info",
       icon,
       description: "Display package metadata from the registry",
-      args: { name: "package", isOptional: true },
+      args: [
+        {
+          name: "package",
+          isOptional: true,
+          generators: npmSearchGenerator,
+          filterStrategy: "fuzzy",
+        },
+        {
+          name: "property path",
+          isOptional: true,
+          isVariadic: true,
+        },
+      ],
+      options: [
+        ...dependencyOptions,
+        {
+          name: "--json",
+          description: "Output in JSON format",
+        },
+      ],
     },
     {
       name: "outdated",
@@ -934,10 +1760,15 @@ const spec: Fig.Spec = {
       description: "Display the latest versions of outdated dependencies",
       args: { name: "filter", isOptional: true },
       options: [
+        ...dependencyOptions,
         {
           name: ["-F", "--filter"],
           description: "Include only matching workspace packages",
           args: { name: "pattern" },
+        },
+        {
+          name: ["-r", "--recursive"],
+          description: "Check outdated packages in all workspaces",
         },
       ],
     },
@@ -945,12 +1776,44 @@ const spec: Fig.Spec = {
       name: "why",
       icon,
       description: "Explain why a package is installed",
-      args: { name: "package" },
+      args: { name: "package", generators: dependenciesGenerator },
+      options: [
+        {
+          name: "--top",
+          description:
+            "Show only the top dependency tree instead of nested ones",
+        },
+        {
+          name: "--depth",
+          description: "Maximum depth of the dependency tree to display",
+          args: { name: "number" },
+        },
+      ],
     },
     {
       name: "audit",
       icon,
       description: "Check installed packages for vulnerabilities",
+      options: [
+        {
+          name: "--json",
+          description: "Output in JSON format",
+        },
+        {
+          name: "--audit-level",
+          description:
+            "Only print advisories with severity greater than or equal to level",
+          args: {
+            name: "level",
+            suggestions: ["low", "moderate", "high", "critical"],
+          },
+        },
+        {
+          name: "--ignore",
+          description: "Ignore specific CVE IDs from audit",
+          args: { name: "cve" },
+        },
+      ],
     },
     {
       name: "patch",
@@ -961,9 +1824,16 @@ const spec: Fig.Spec = {
         description: "Package and version, e.g. is-even@1.0.0",
       },
       options: [
+        ...dependencyOptions,
         {
           name: "--commit",
           description: "Install a patch and commit it to the patches directory",
+        },
+        {
+          name: "--patches-dir",
+          description:
+            "The directory to put the patch file in (only if --commit is used)",
+          args: { name: "path", template: "folders" },
         },
       ],
     },
@@ -971,8 +1841,9 @@ const spec: Fig.Spec = {
       name: "publish",
       icon,
       description: "Publish a package to the npm registry",
-      args: { name: "dist", isOptional: true, template: "folders" },
+      args: { name: "dist", isOptional: true, template: "filepaths" },
       options: [
+        ...dependencyOptions,
         {
           name: "--access",
           description: "Set access level for scoped packages",
@@ -980,17 +1851,49 @@ const spec: Fig.Spec = {
         },
         {
           name: "--tag",
-          description: "Tag the release with a custom tag",
+          description: 'Tag the release. Default is "latest"',
           args: { name: "tag" },
-        },
-        {
-          name: "--dry-run",
-          description: "Do everything except actually publish",
         },
         {
           name: "--otp",
           description: "Provide a one-time password for authentication",
           args: { name: "otp" },
+        },
+        {
+          name: "--auth-type",
+          description: "Specify the type of one-time password authentication",
+          args: { name: "type", suggestions: ["web", "legacy"] },
+        },
+        {
+          name: "--gzip-level",
+          description: "Specify a custom compression level for gzip",
+          args: { name: "level", suggestions: ["0", "1", "9"] },
+        },
+        {
+          name: "--tolerate-republish",
+          description:
+            "Don't exit with code 1 when republishing over an existing version number",
+        },
+      ],
+    },
+    {
+      name: "feedback",
+      icon,
+      description: "Provide feedback to the Bun team",
+      args: {
+        name: "feedback text or files",
+        isOptional: true,
+        isVariadic: true,
+      },
+      options: [
+        {
+          name: ["-e", "--email"],
+          description: "Set the email address used for this submission",
+          args: { name: "email" },
+        },
+        {
+          name: ["-h", "--help"],
+          description: "Show this help message and exit",
         },
       ],
     },
