@@ -1,4 +1,4 @@
-# autocomplete-specs
+# @chen86860/autocomplete-specs
 
 Completion specs used by
 [easy-complete](https://github.com/chen86860/easy-complete).
@@ -11,10 +11,10 @@ the maintained specs for Easy Complete.
 ## Package
 
 The package is published to npm as
-[`autocomplete-specs`](https://www.npmjs.com/package/autocomplete-specs).
+[`@chen86860/autocomplete-specs`](https://www.npmjs.com/package/@chen86860/autocomplete-specs).
 
 ```bash
-npm install autocomplete-specs
+npm install @chen86860/autocomplete-specs
 ```
 
 ## What are completion specs?
@@ -47,8 +47,8 @@ pnpm lint:fix
 
 When specs are released, the GitHub Actions workflow builds the specs archive,
 creates a `spec-build-number-*` GitHub release, publishes the current
-`autocomplete-specs` package to npm, and then bumps the package version for the
-next release.
+`@chen86860/autocomplete-specs` package to npm, and then bumps the package
+version for the next release.
 
 npm publishing uses Trusted Publishing with provenance. Configure the
 `chen86860/autocomplete-specs` repository and this workflow as a trusted
