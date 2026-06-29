@@ -21,13 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
         with:
           node-version-file: package.json
         # Install all dependencies
       - name: Install pnpm
-        uses: pnpm/action-setup@v4.0.0
+        uses: pnpm/action-setup@v6.0.9
       - name: install
         run: pnpm install --frozen-lockfile
         # Transpile all specs from ts to js
@@ -44,23 +46,58 @@ jobs:
         # Bump the version and create a git tag with the new version
       - name: Bump version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          tag_prefix: spec-build-number-
-          # Bump versions in full numbers (1.0.0 -> 2.0.0)
-          default_bump: minor
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git fetch --force --tags
+          latest_tag="$(git tag --list 'spec-build-number-[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n 1)"
+
+          if [[ -z "$latest_tag" ]]; then
+            previous_version="0.0.0"
+          else
+            previous_version="${latest_tag#spec-build-number-}"
+          fi
+
+          IFS=. read -r major minor _patch <<< "$previous_version"
+          new_version="${major}.$((minor + 1)).0"
+          new_tag="spec-build-number-${new_version}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag "$new_tag"
+          git push origin "refs/tags/$new_tag"
+
+          echo "new_tag=$new_tag" >> "$GITHUB_OUTPUT"
         # Create a new github release with the newly created specs.zip file
       - name: Release
-        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda
+        uses: softprops/action-gh-release@v3.0.1
         with:
           files: specs.zip
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          skip-tag: "true"
+        run: |
+          set -euo pipefail
+
+          commit_message="$(git log -1 --pretty=%B)"
+          bump_type="patch"
+
+          if grep -Eiq 'BREAKING CHANGE|(^|[^[:alnum:]])major([^[:alnum:]]|$)|^[^:!]+!:' <<< "$commit_message"; then
+            bump_type="major"
+          elif grep -Eiq '^(feat|feature)(\(.+\))?:|(^|[^[:alnum:]])minor([^[:alnum:]]|$)' <<< "$commit_message"; then
+            bump_type="minor"
+          fi
+
+          npm version "$bump_type" --no-git-tag-version
+          new_package_version="$(node -p "require('./package.json').version")"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "ci: version bump to ${new_package_version}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
