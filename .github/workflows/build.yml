@@ -32,7 +32,10 @@ jobs:
           registry-url: "https://registry.npmjs.org"
         # Install all dependencies
       - name: Install pnpm
-        uses: pnpm/action-setup@v6.0.9
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.1.0
+          run_install: false
       - name: install
         run: pnpm install --frozen-lockfile
         # Transpile all specs from ts to js
