@@ -1,7 +1,7 @@
 {
-  "name": "@withfig/autocomplete",
-  "version": "2.695.0",
-  "description": "Fig Autocomplete Specs",
+  "name": "autocomplete-specs",
+  "version": "3.0.0",
+  "description": "Completion specs for Easy Complete",
   "schemaVersion": "v7",
   "main": "./build/index",
   "types": "./build/index.d.ts",
@@ -73,10 +73,13 @@
     "icons/*.png",
     "icons/*.svg"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "",
   "license": "ISC",
-  "bugs": "https://github.com/withfig/autocomplete/issues",
-  "repository": "https://github.com/withfig/autocomplete",
+  "bugs": "https://github.com/chen86860/autocomplete-specs/issues",
+  "repository": "github:chen86860/autocomplete-specs",
   "devDependencies": {
     "@fig/eslint-config-autocomplete": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",

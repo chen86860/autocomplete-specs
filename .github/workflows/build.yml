@@ -13,8 +13,10 @@ on:
   workflow_dispatch:
 
 # Allow the default GITHUB_TOKEN to create tags/releases and push the version bump.
+# id-token is required for npm Trusted Publishing with provenance.
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   build:
@@ -27,6 +29,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version-file: package.json
+          registry-url: "https://registry.npmjs.org"
         # Install all dependencies
       - name: Install pnpm
         uses: pnpm/action-setup@v6.0.9
@@ -77,6 +80,19 @@ jobs:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to npm
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          package_name="$(node -p "require('./package.json').name")"
+          package_version="$(node -p "require('./package.json').version")"
+
+          if npm view "${package_name}@${package_version}" version >/dev/null 2>&1; then
+            echo "${package_name}@${package_version} is already published; skipping npm publish."
+          else
+            npm publish --provenance --access public
+          fi
       - name: "Automated Version Bump"
         shell: bash
         env:
