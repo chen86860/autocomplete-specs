@@ -3,7 +3,7 @@ name: Build and release specs
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
   workflow_dispatch:
 
 # Allow the default GITHUB_TOKEN to create tags/releases and push the version bump.
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          registry-url: "https://registry.npmjs.org"
+          registry-url: 'https://registry.npmjs.org'
         # Install all dependencies
       - name: Install pnpm
         run: |
@@ -90,27 +90,3 @@ jobs:
           else
             npm publish --provenance --access public
           fi
-      - name: "Automated Version Bump"
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-
-          commit_message="$(git log -1 --pretty=%B)"
-          bump_type="patch"
-
-          if grep -Eiq 'BREAKING CHANGE|(^|[^[:alnum:]])major([^[:alnum:]]|$)|^[^:!]+!:' <<< "$commit_message"; then
-            bump_type="major"
-          elif grep -Eiq '^(feat|feature)(\(.+\))?:|(^|[^[:alnum:]])minor([^[:alnum:]]|$)' <<< "$commit_message"; then
-            bump_type="minor"
-          fi
-
-          npm version "$bump_type" --no-git-tag-version
-          new_package_version="$(node -p "require('./package.json').version")"
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json
-          git commit -m "ci: version bump to ${new_package_version}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
