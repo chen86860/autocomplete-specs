@@ -124,8 +124,30 @@ const commonOptions: Fig.Option[] = [
     description: "Make bypass-permissions mode available",
   },
   {
+    name: "--ax-screen-reader",
+    description: "Render screen-reader friendly output",
+  },
+  {
+    name: "--betas",
+    description: "Beta headers to include in API requests",
+    args: { name: "beta", isVariadic: true },
+  },
+  {
+    name: "--brief",
+    description: "Enable SendUserMessage tool for agent-to-user communication",
+  },
+  {
     name: ["-c", "--continue"],
     description: "Continue the most recent conversation",
+  },
+  {
+    name: "--disable-slash-commands",
+    description: "Disable all skills",
+  },
+  {
+    name: "--exclude-dynamic-system-prompt-sections",
+    description:
+      "Move per-machine sections from the system prompt into the first user message",
   },
   {
     name: ["-r", "--resume"],
@@ -183,6 +205,10 @@ const commonOptions: Fig.Option[] = [
     args: { name: "amount" },
   },
   {
+    name: "--no-session-persistence",
+    description: "Disable saving sessions to disk",
+  },
+  {
     name: "--file",
     description: "File resources to download at startup",
     args: { name: "file_id:relative_path", isVariadic: true },
@@ -215,6 +241,15 @@ const commonOptions: Fig.Option[] = [
     name: "--remote-control-session-name-prefix",
     description: "Prefix for auto-generated Remote Control session names",
     args: { name: "prefix" },
+  },
+  {
+    name: "--prompt-suggestions",
+    description: "Enable prompt suggestions",
+    args: {
+      name: "value",
+      isOptional: true,
+      suggestions: ["true", "false", "1", "0", "yes", "no", "on", "off"],
+    },
   },
   {
     name: "--ide",
@@ -285,7 +320,17 @@ const spec: Fig.Spec = {
         { name: "--json", description: "Print active sessions as JSON" },
       ],
     },
-    { name: "auth", description: "Manage authentication", icon },
+    {
+      name: "auth",
+      description: "Manage authentication",
+      icon,
+      subcommands: [
+        { name: "login", description: "Sign in to your Anthropic account" },
+        { name: "logout", description: "Log out from your Anthropic account" },
+        { name: "status", description: "Show authentication status" },
+        { name: "help", description: "Display help for a subcommand" },
+      ],
+    },
     {
       name: "auto-mode",
       description: "Inspect auto mode classifier configuration",
@@ -311,16 +356,129 @@ const spec: Fig.Spec = {
       name: "mcp",
       description: "Configure and manage MCP servers",
       icon,
+      subcommands: [
+        {
+          name: "add",
+          description: "Add an MCP server to Claude Code",
+          args: [
+            { name: "name" },
+            { name: "commandOrUrl" },
+            { name: "args", isOptional: true, isVariadic: true },
+          ],
+        },
+        {
+          name: "add-from-claude-desktop",
+          description: "Import MCP servers from Claude Desktop",
+        },
+        {
+          name: "add-json",
+          description: "Add an MCP server with a JSON string",
+          args: [{ name: "name" }, { name: "json" }],
+        },
+        {
+          name: "get",
+          description: "Get details about an MCP server",
+          args: { name: "name" },
+        },
+        { name: "list", description: "List configured MCP servers" },
+        {
+          name: "login",
+          description: "Authenticate with an MCP server",
+          args: { name: "name" },
+        },
+        {
+          name: "logout",
+          description: "Clear stored OAuth credentials for an MCP server",
+          args: { name: "name" },
+        },
+        {
+          name: "remove",
+          description: "Remove an MCP server",
+          args: { name: "name" },
+        },
+        {
+          name: "reset-project-choices",
+          description:
+            "Reset approved and rejected project-scoped MCP server choices",
+        },
+        { name: "serve", description: "Start the Claude Code MCP server" },
+        { name: "help", description: "Display help for a subcommand" },
+      ],
     },
     {
       name: ["plugin", "plugins"],
       description: "Manage Claude Code plugins",
       icon,
+      subcommands: [
+        {
+          name: "details",
+          description: "Show a plugin's component inventory and token cost",
+          args: { name: "name" },
+        },
+        {
+          name: "disable",
+          description: "Disable an enabled plugin",
+          args: { name: "plugin", isOptional: true },
+        },
+        {
+          name: "enable",
+          description: "Enable a disabled plugin",
+          args: { name: "plugin" },
+        },
+        {
+          name: ["init", "new"],
+          description: "Scaffold a new plugin",
+          args: { name: "name" },
+        },
+        {
+          name: ["install", "i"],
+          description: "Install a plugin from available marketplaces",
+          args: { name: "plugin" },
+        },
+        { name: "list", description: "List installed plugins" },
+        {
+          name: "marketplace",
+          description: "Manage Claude Code marketplaces",
+        },
+        {
+          name: ["prune", "autoremove"],
+          description: "Remove unused auto-installed dependencies",
+        },
+        {
+          name: "tag",
+          description: "Create a release tag for a plugin",
+          args: { name: "path", isOptional: true, template: "filepaths" },
+        },
+        {
+          name: ["uninstall", "remove"],
+          description: "Uninstall an installed plugin",
+          args: { name: "plugin" },
+        },
+        {
+          name: "update",
+          description: "Update a plugin to the latest version",
+          args: { name: "plugin" },
+        },
+        {
+          name: "validate",
+          description: "Validate a plugin or marketplace manifest",
+          args: { name: "path", template: "filepaths" },
+        },
+        { name: "help", description: "Display help for a subcommand" },
+      ],
     },
     {
       name: "project",
       description: "Manage Claude Code project state",
       icon,
+      subcommands: [
+        {
+          name: "purge",
+          description: "Delete all Claude Code state for a project",
+          args: { name: "path", isOptional: true, template: "folders" },
+        },
+        { name: "help", description: "Display help for a subcommand" },
+      ],
     },
     {
       name: "setup-token",

@@ -139,12 +139,164 @@ const agentOptions: Fig.Option[] = [
   },
 ];
 
-const managementSubcommands: Fig.Subcommand[] = [
-  { name: "list", description: "List entries" },
-  { name: "add", description: "Add an entry" },
-  { name: "remove", description: "Remove an entry" },
-  { name: "update", description: "Update an entry" },
-  { name: "help", description: "Show help" },
+const debugOption: Fig.Option = {
+  name: ["-d", "--debug"],
+  description: "Run in debug mode",
+};
+
+const scopeOption: Fig.Option = {
+  name: "--scope",
+  description: "Configuration scope",
+  args: { name: "scope" },
+};
+
+const mcpSubcommands: Fig.Subcommand[] = [
+  {
+    name: "add",
+    description: "Add a server",
+    args: [
+      { name: "name" },
+      { name: "commandOrUrl" },
+      { name: "args", isOptional: true, isVariadic: true },
+    ],
+  },
+  {
+    name: "remove",
+    description: "Remove a server",
+    args: { name: "name" },
+  },
+  { name: "list", description: "List all configured MCP servers" },
+  {
+    name: "enable",
+    description: "Enable an MCP server",
+    args: { name: "name" },
+  },
+  {
+    name: "disable",
+    description: "Disable an MCP server",
+    args: { name: "name" },
+  },
+];
+
+const extensionSubcommands: Fig.Subcommand[] = [
+  {
+    name: "install",
+    description: "Install an extension from a git repository URL or local path",
+    args: { name: "source", template: "filepaths" },
+    options: [
+      { name: "--auto-update", description: "Automatically update extension" },
+      { name: "--pre-release", description: "Install a pre-release version" },
+    ],
+  },
+  {
+    name: "uninstall",
+    description: "Uninstall one or more extensions",
+    args: { name: "name", isOptional: true, isVariadic: true },
+  },
+  { name: "list", description: "List installed extensions" },
+  {
+    name: "update",
+    description: "Update all extensions or a named extension",
+    args: { name: "name", isOptional: true },
+    options: [{ name: "--all", description: "Update all extensions" }],
+  },
+  {
+    name: "disable",
+    description: "Disable an extension",
+    args: { name: "name" },
+    options: [scopeOption],
+  },
+  {
+    name: "enable",
+    description: "Enable an extension",
+    args: { name: "name" },
+    options: [scopeOption],
+  },
+  {
+    name: "link",
+    description: "Link an extension from a local path",
+    args: { name: "path", template: "folders" },
+  },
+  {
+    name: "new",
+    description: "Create a new extension from a boilerplate example",
+    args: [
+      { name: "path", template: "folders" },
+      { name: "template", isOptional: true },
+    ],
+  },
+  {
+    name: "validate",
+    description: "Validate an extension from a local path",
+    args: { name: "path", template: "filepaths" },
+  },
+  {
+    name: "config",
+    description: "Configure extension settings",
+    args: [
+      { name: "name", isOptional: true },
+      { name: "setting", isOptional: true },
+    ],
+  },
+];
+
+const skillSubcommands: Fig.Subcommand[] = [
+  {
+    name: "list",
+    description: "List discovered agent skills",
+    options: [{ name: "--all", description: "Show all skills" }],
+  },
+  {
+    name: "enable",
+    description: "Enable an agent skill",
+    args: { name: "name" },
+  },
+  {
+    name: "disable",
+    description: "Disable an agent skill",
+    args: { name: "name" },
+    options: [scopeOption],
+  },
+  {
+    name: "install",
+    description:
+      "Install an agent skill from a git repository URL or local path",
+    args: { name: "source", template: "filepaths" },
+    options: [
+      scopeOption,
+      {
+        name: "--path",
+        description: "Install path",
+        args: { name: "path", template: "folders" },
+      },
+    ],
+  },
+  {
+    name: "link",
+    description: "Link an agent skill from a local path",
+    args: { name: "path", template: "folders" },
+  },
+  {
+    name: "uninstall",
+    description: "Uninstall an agent skill",
+    args: { name: "name" },
+    options: [scopeOption],
+  },
+];
+
+const hookSubcommands: Fig.Subcommand[] = [
+  {
+    name: "migrate",
+    description: "Migrate hooks from Claude Code to Gemini CLI",
+  },
+];
+
+const gemmaSubcommands: Fig.Subcommand[] = [
+  { name: "setup", description: "Download and configure Gemma local routing" },
+  { name: "start", description: "Start the LiteRT-LM server" },
+  { name: "stop", description: "Stop the LiteRT-LM server" },
+  { name: "status", description: "Check Gemma local routing status" },
+  { name: "logs", description: "View LiteRT-LM server logs" },
 ];
 
 const spec: Fig.Spec = {
@@ -162,31 +314,36 @@ const spec: Fig.Spec = {
       name: "mcp",
       description: "Manage MCP servers",
       icon,
-      subcommands: managementSubcommands,
+      options: [debugOption],
+      subcommands: mcpSubcommands,
     },
     {
       name: ["extensions", "extension"],
       description: "Manage Gemini CLI extensions",
       icon,
-      subcommands: managementSubcommands,
+      options: [debugOption],
+      subcommands: extensionSubcommands,
     },
     {
       name: ["skills", "skill"],
       description: "Manage agent skills",
       icon,
-      subcommands: managementSubcommands,
+      options: [debugOption],
+      subcommands: skillSubcommands,
     },
     {
       name: ["hooks", "hook"],
       description: "Manage Gemini CLI hooks",
       icon,
-      subcommands: managementSubcommands,
+      options: [debugOption],
+      subcommands: hookSubcommands,
     },
     {
       name: "gemma",
       description: "Manage local Gemma model routing",
       icon,
-      subcommands: managementSubcommands,
+      options: [debugOption],
+      subcommands: gemmaSubcommands,
     },
   ],
 };

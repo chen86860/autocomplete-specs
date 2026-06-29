@@ -764,6 +764,27 @@ When running this command recursively (pnpm -r publish), pnpm will publish all t
     ],
   },
   {
+    name: "cat-file",
+    description:
+      "Prints the contents of a file based on the hash value stored in the index file",
+    args: { name: "hash" },
+  },
+  {
+    name: "cat-index",
+    description: "Prints the index file of a specific package from the store",
+    args: {
+      name: "package",
+      description: "Package name and version, e.g. react@18.2.0",
+      generators: dependenciesGenerator,
+    },
+  },
+  {
+    name: "find-hash",
+    description:
+      "Experimental: lists the packages that include the file with the specified hash",
+    args: { name: "hash" },
+  },
+  {
     name: ["recursive", "m", "multi", "-r"],
     description: `Runs a pnpm command recursively on all subdirectories in the package or every available workspace`,
     options: [
