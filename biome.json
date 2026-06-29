@@ -1,0 +1,48 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "maxSize": 8000000,
+    "includes": [
+      "src/**/*.ts",
+      "dangerfile.ts",
+      "dangerfile-greeting.ts",
+      "package.json",
+      "biome.json",
+      ".github/workflows/*.yml",
+      "README.md",
+      "!build",
+      "!dist",
+      "!specs"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "es5"
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none"
+    }
+  },
+  "assist": {
+    "enabled": false
+  },
+  "linter": {
+    "enabled": false
+  }
+}

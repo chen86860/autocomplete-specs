@@ -749,7 +749,9 @@ const generators: Record<string, Fig.Generator> = {
       try {
         const list = JSON.parse(out)["FileSystems"];
         return list.map((elm) => {
-          const name = ("FileSystemArn" ? elm["FileSystemArn"] : elm) as string;
+          const name = (
+            elm["FileSystemArn"] ? elm["FileSystemArn"] : elm
+          ) as string;
           return {
             name: `Arn=${name},LocalMountPath=/mnt/`,
             icon: "fig://icon?type=aws",

@@ -1,20 +1,17 @@
 {
   "name": "@chen86860/autocomplete-specs",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Completion specs for Easy Complete",
   "schemaVersion": "v7",
   "main": "./build/index",
   "types": "./build/index.d.ts",
+  "author": "@chen86860",
+  "license": "ISC",
   "exports": {
     ".": "./build/index.js",
     "./dynamic": "./build/dynamic/index.js"
   },
   "type": "module",
-  "packageManager": "pnpm@9.1.0+sha256.22e36fba7f4880ecf749a5ca128b8435da085ecd49575e7fb9e64d6bf4fad394",
-  "engines": {
-    "node": ">=20",
-    "pnpm": ">=9"
-  },
   "browserslist": [
     "safari >= 15",
     "last 2 chrome versions",
@@ -26,10 +23,27 @@
     "dev": "npx @withfig/autocomplete-tools dev",
     "create-spec": "npx @withfig/autocomplete-tools create-spec",
     "build": "npx @withfig/autocomplete-tools compile",
-    "lint": "eslint '**/*.ts' && npx prettier --check '**/*.ts' --parser typescript",
-    "lint:fix": "eslint '**/*.ts' --fix && npx prettier --write '**/*.ts' --parser typescript",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
     "test": "tsc --noEmit && echo 'All specs passed validation. You are ready to push!'",
-    "prepare": "husky install"
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@fig/autocomplete-generators": "^2.4.0",
+    "@fig/autocomplete-helpers": "^1.0.7",
+    "semver": "^7.8.5",
+    "strip-json-comments": "^5.0.3",
+    "yaml": "^2.9.0"
+  },
+  "repository": "github:chen86860/autocomplete-specs",
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.1",
+    "@withfig/autocomplete-tools": "^2.11.0",
+    "@withfig/autocomplete-types": "^1.31.0",
+    "danger": "^11.3.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "typescript": "~6.0.3"
   },
   "fig": {
     "dev": {
@@ -56,13 +70,9 @@
       "description": "Install husky"
     }
   },
-  "prettier": {
-    "trailingComma": "es5",
-    "printWidth": 80
-  },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix"
+    "*.{ts,js,json,jsonc,md,yml,yaml}": [
+      "biome check --write --no-errors-on-unmatched"
     ]
   },
   "files": [
@@ -76,29 +86,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": "https://github.com/chen86860/autocomplete-specs/issues",
-  "repository": "github:chen86860/autocomplete-specs",
-  "devDependencies": {
-    "@fig/eslint-config-autocomplete": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "@withfig/autocomplete-tools": "^2.11.0",
-    "@withfig/autocomplete-types": "^1.31.0",
-    "danger": "^11.3.1",
-    "eslint": "^8.57.1",
-    "eslint-plugin-compat": "4.2.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.3.0",
-    "prettier": "^3.4.2",
-    "typescript": "~5.5.4"
-  },
-  "dependencies": {
-    "@fig/autocomplete-generators": "^2.4.0",
-    "@fig/autocomplete-helpers": "^1.0.7",
-    "semver": "^7.6.3",
-    "strip-json-comments": "^5.0.1",
-    "yaml": "^2.7.0"
+  "packageManager": "pnpm@9.1.0+sha256.22e36fba7f4880ecf749a5ca128b8435da085ecd49575e7fb9e64d6bf4fad394",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
   }
 }
