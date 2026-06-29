@@ -2,14 +2,8 @@ name: Build and release specs
 
 on:
   push:
-    paths:
-      - "src/**/*.ts"
-      - "!package.json"
-    branches:
-      # We only want to create a new release when
-      # - a pr is merged to master
-      # - we push into master
-      - "master"
+    tags:
+      - "v*"
   workflow_dispatch:
 
 # Allow the default GITHUB_TOKEN to create tags/releases and push the version bump.
@@ -23,19 +17,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version-file: package.json
+          node-version: 24
           registry-url: "https://registry.npmjs.org"
         # Install all dependencies
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.1.0
-          run_install: false
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.1.0 --activate
+          pnpm --version
       - name: install
         run: pnpm install --frozen-lockfile
         # Transpile all specs from ts to js

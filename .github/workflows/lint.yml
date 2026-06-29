@@ -7,14 +7,14 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version-file: package.json
+          node-version: 24
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.1.0
-          run_install: false
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.1.0 --activate
+          pnpm --version
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
