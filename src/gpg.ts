@@ -4,7 +4,7 @@ const getCipherAlgorithms: Fig.Generator = {
     // Get the substring 2of cyphers, remove whitespace and split by commas
     let cyphers = out.substring(
       out.indexOf("Cypher: ") + 8,
-      out.indexOf("Hash: ")
+      out.indexOf("Hash: "),
     );
     cyphers = cyphers.replace(/\s+/g, "");
 
@@ -20,7 +20,7 @@ const getDigestAlgorithms: Fig.Generator = {
     // Get the substring of digests, remove whitespace and split by commas
     let digests = out.substring(
       out.indexOf("Hash: ") + 8,
-      out.indexOf("Compression: ")
+      out.indexOf("Compression: "),
     );
     digests = digests.replace(/\s+/g, "");
 

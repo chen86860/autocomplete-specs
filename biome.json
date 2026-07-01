@@ -25,17 +25,28 @@
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 80
+    "lineWidth": 80,
+    "lineEnding": "lf",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "trailingNewline": true,
+    "useEditorconfig": true
   },
   "javascript": {
     "formatter": {
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
       "quoteStyle": "double",
       "semicolons": "always",
-      "trailingCommas": "es5"
+      "trailingCommas": "all"
     }
   },
   "json": {
     "formatter": {
+      "bracketSpacing": true,
       "trailingCommas": "none"
     }
   },

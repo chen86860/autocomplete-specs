@@ -36,7 +36,7 @@ export const generateBundleIds = (unquotedPath: string): Fig.Generator => ({
       out.split("\n").map((line) => {
         const sep = line.indexOf(" ");
         return [line.slice(0, sep), line.slice(sep + 1)] as const;
-      })
+      }),
     );
     ids.delete("(null)");
     const suggestions: Fig.Suggestion[] = [];

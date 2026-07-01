@@ -75,7 +75,7 @@ const generatorInstalledPackages: Fig.Generator = {
         (item) =>
           !!item &&
           !item.toLowerCase().includes("dependencies") &&
-          !item.includes("link:")
+          !item.includes("link:"),
       )
       .map((item) => item.replace(/\s/, "@")); // typescript 4.7.4 -> typescript@4.7.4
 
@@ -1124,7 +1124,7 @@ const recursiveSubcommandsNames = [
 const recursiveSubcommands = subcommands.filter((subcommand) => {
   if (Array.isArray(subcommand.name)) {
     return subcommand.name.some((name) =>
-      recursiveSubcommandsNames.includes(name)
+      recursiveSubcommandsNames.includes(name),
     );
   }
   return recursiveSubcommandsNames.includes(subcommand.name);
@@ -1192,7 +1192,7 @@ const completionSpec: Fig.Spec = {
           args: script.slice(1),
         })
       ).stdout,
-      tokens
+      tokens,
     )
       ?.filter((e) => e !== null)
       .map(({ name }) => name as string);

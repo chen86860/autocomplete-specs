@@ -50,6 +50,15 @@ const commonOptions: Fig.Option[] = [
     },
   },
   {
+    name: "--remove",
+    description: "Remove folder(s) from the last active window",
+    args: {
+      name: "folder",
+      template: "folders",
+      isVariadic: true,
+    },
+  },
+  {
     name: ["-g", "--goto"],
     description:
       "Open a file at the path on the specified line and character position",
@@ -70,6 +79,10 @@ const commonOptions: Fig.Option[] = [
   {
     name: ["-w", "--wait"],
     description: "Wait for the files to be closed before returning",
+  },
+  {
+    name: "--agents",
+    description: "Open the agents window",
   },
   {
     name: "--locale",
@@ -179,6 +192,10 @@ const extensionManagementOptions: Fig.Option[] = [
       "Installs the pre-release version of the extension, when using --install-extension",
   },
   {
+    name: "--force",
+    description: "Update an extension to latest version",
+  },
+  {
     name: "--uninstall-extension",
     description: "Uninstalls an extension",
     args: {
@@ -190,6 +207,13 @@ const extensionManagementOptions: Fig.Option[] = [
     name: "--enable-proposed-api",
     description:
       "Enables proposed API features for extensions. Can receive one or more extension IDs to enable individually",
+    args: { name: "extension-id", isOptional: true, isVariadic: true },
+  },
+  {
+    name: "--add-mcp",
+    description:
+      "Add a Model Context Protocol server definition to the user profile",
+    args: { name: "json" },
   },
 ];
 

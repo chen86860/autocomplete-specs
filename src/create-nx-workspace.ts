@@ -24,7 +24,7 @@ enum ICONS {
 
 const boolArg: (name: string, isOptional: boolean) => Fig.Arg = (
   name,
-  isOptional
+  isOptional,
 ) => ({
   name,
   isOptional,

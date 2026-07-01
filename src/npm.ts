@@ -19,7 +19,7 @@ export const createNpmSearchHandler =
   async (
     context: string[],
     executeShellCommand: Fig.ExecuteCommandFunction,
-    shellContext: Fig.ShellContext
+    shellContext: Fig.ShellContext,
   ): Promise<Fig.Suggestion[]> => {
     const searchTerm = context[context.length - 1];
     if (searchTerm === "") {
@@ -69,13 +69,13 @@ export const createNpmSearchHandler =
           ([key, value]) => ({
             name: key,
             description: value,
-          })
+          }),
         ) as Fig.Suggestion[];
         // create versions
         versions.push(
           ...Object.keys(data.versions)
             .map((version) => ({ name: version }) as Fig.Suggestion)
-            .reverse()
+            .reverse(),
         );
         return versions;
       }
@@ -85,7 +85,7 @@ export const createNpmSearchHandler =
         (item: { package: { name: string; description: string } }) => ({
           name: item.package.name,
           description: item.package.description,
-        })
+        }),
       ) as Fig.Suggestion[];
     } catch (error) {
       console.error({ error });

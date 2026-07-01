@@ -43,7 +43,7 @@ const completionSpec: Fig.Spec = {
       ],
       options: [
         pathOption(
-          "The path to the light module that contains the page template"
+          "The path to the light module that contains the page template",
         ),
         {
           name: "-g",
@@ -61,7 +61,7 @@ const completionSpec: Fig.Spec = {
       },
       options: [
         pathOption(
-          "The path to the light module where you want to create the app"
+          "The path to the light module where you want to create the app",
         ),
         prototypeOption("The name of the prototype variant to create the app"),
       ],
@@ -77,7 +77,7 @@ const completionSpec: Fig.Spec = {
       options: [
         pathOption("The path to the light module to add the new block to"),
         prototypeOption(
-          "The name of the prototype variant to create the block"
+          "The name of the prototype variant to create the block",
         ),
       ],
     },
@@ -91,7 +91,7 @@ const completionSpec: Fig.Spec = {
       },
       options: [
         pathOption(
-          "The path to the light module you want to add the component template to"
+          "The path to the light module you want to add the component template to",
         ),
         {
           name: ["-a", "--available"],
@@ -109,7 +109,7 @@ const completionSpec: Fig.Spec = {
           },
         },
         prototypeOption(
-          "The name of the prototype variant to create the component"
+          "The name of the prototype variant to create the component",
         ),
       ],
     },
@@ -128,10 +128,10 @@ const completionSpec: Fig.Spec = {
             "Creates also a new app that references the content type. With the -a option, the command is functionally equivalent to the create-app command",
         },
         pathOption(
-          "The path to the light module where you want to create the content type"
+          "The path to the light module where you want to create the content type",
         ),
         prototypeOption(
-          "The name of the prototype variant to create the content type"
+          "The name of the prototype variant to create the content type",
         ),
       ],
     },
@@ -147,7 +147,7 @@ const completionSpec: Fig.Spec = {
       options: [
         pathOption("The path of the parent directory for the new light module"),
         prototypeOption(
-          "The name of the prototype variant to create the light module"
+          "The name of the prototype variant to create the light module",
         ),
       ],
     },
@@ -191,7 +191,7 @@ const completionSpec: Fig.Spec = {
           },
         },
         prototypeOption(
-          "The name of the prototype variant to create the mapping"
+          "The name of the prototype variant to create the mapping",
         ),
       ],
     },
@@ -200,7 +200,7 @@ const completionSpec: Fig.Spec = {
       description: "Run this command to create a local configuration",
       options: [
         pathOption(
-          "The path into which the mgnl-cli-prototypes folder and mgnl-cli.json file are installed"
+          "The path into which the mgnl-cli-prototypes folder and mgnl-cli.json file are installed",
         ),
       ],
     },
@@ -224,7 +224,7 @@ const completionSpec: Fig.Spec = {
         "This command downloads, unpacks and pre-configures a Magnolia Tomcat server together with a specific webapp",
       options: [
         pathOption(
-          "The path to the light modules root folder which is observed for changes"
+          "The path to the light modules root folder which is observed for changes",
         ),
         {
           name: ["-m", "--magnolia-version"],

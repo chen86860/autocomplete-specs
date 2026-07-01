@@ -117,14 +117,14 @@ const completionSpec: Fig.Spec = {
                 descriptionParts.push(
                   `depends on ${value.dependsOn
                     .map((item) => `'${item}'`)
-                    .join(", ")}`
+                    .join(", ")}`,
                 );
               }
               if ("outputs" in value) {
                 descriptionParts.push(
                   `outputs ${value.outputs
                     .map((item) => `'${item}'`)
-                    .join(", ")}`
+                    .join(", ")}`,
                 );
               }
               return {

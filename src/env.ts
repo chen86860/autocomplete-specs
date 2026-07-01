@@ -5,7 +5,7 @@ const enviromentVariables: Fig.Generator = {
         name: envVar,
         description: "Environment variable",
         icon: "🌎",
-      })
+      }),
     );
   },
 };

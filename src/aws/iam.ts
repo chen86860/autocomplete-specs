@@ -251,7 +251,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -269,7 +269,7 @@ const listCustomGenerator = async (
   command: string,
   option: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     const idx = tokens.indexOf(option);
@@ -291,7 +291,7 @@ const listCustomGenerator = async (
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -304,7 +304,7 @@ const postPrecessGenerator = (
 const MultiSuggestionsGenerator = async (
   tokens: string[],
   executeShellCommand: Fig.ExecuteCommandFunction,
-  enabled: Identity[]
+  enabled: Identity[],
 ) => {
   try {
     const list: Fig.Suggestion[][] = [];
@@ -320,7 +320,7 @@ const MultiSuggestionsGenerator = async (
       list[i] = postPrecessGenerator(
         result[i],
         enabled[i]["parentKey"],
-        enabled[i]["childKey"]
+        enabled[i]["childKey"],
       );
     }
     return list.flat();
@@ -361,7 +361,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "get-open-id-connect-provider",
         "--open-id-connect-provider-arn",
-        "ClientIDList"
+        "ClientIDList",
       );
     },
     cache: {
@@ -375,7 +375,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "get-open-id-connect-provider",
         "--open-id-connect-provider-arn",
-        "ThumbprintList"
+        "ThumbprintList",
       );
     },
     cache: {
@@ -388,7 +388,7 @@ const generators: Record<string, Fig.Generator> = {
       return postPrecessGenerator(
         out,
         "InstanceProfiles",
-        "InstanceProfileName"
+        "InstanceProfileName",
       );
     },
     cache: {
@@ -452,7 +452,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "list-user-policies",
         "--user-name",
-        "PolicyNames"
+        "PolicyNames",
       );
     },
     cache: {
@@ -476,7 +476,7 @@ const generators: Record<string, Fig.Generator> = {
         "get-group",
         "--group-name",
         "Users",
-        "UserName"
+        "UserName",
       );
     },
     cache: {
@@ -508,7 +508,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-policy-versions",
         "--policy-arn",
         "Versions",
-        "VersionId"
+        "VersionId",
       );
     },
     cache: {
@@ -522,7 +522,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "list-group-policies",
         "--group-name",
-        "PolicyNames"
+        "PolicyNames",
       );
     },
     cache: {
@@ -537,7 +537,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-attached-group-policies",
         "--group-name",
         "AttachedPolicies",
-        "PolicyArn"
+        "PolicyArn",
       );
     },
     cache: {
@@ -552,7 +552,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-attached-group-policies",
         "--group-name",
         "AttachedPolicies",
-        "PolicyName"
+        "PolicyName",
       );
     },
     cache: {
@@ -567,7 +567,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-attached-role-policies",
         "--role-name",
         "AttachedPolicies",
-        "PolicyArn"
+        "PolicyArn",
       );
     },
     cache: {
@@ -582,7 +582,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-attached-user-policies",
         "--user-name",
         "AttachedPolicies",
-        "PolicyArn"
+        "PolicyArn",
       );
     },
     cache: {
@@ -605,7 +605,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "list-role-policies",
         "--role-name",
-        "PolicyNames"
+        "PolicyNames",
       );
     },
     cache: {
@@ -691,7 +691,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-ssh-public-keys",
         "--user-name",
         "SSHPublicKeys",
-        "SSHPublicKeyId"
+        "SSHPublicKeyId",
       );
     },
     cache: {
@@ -704,7 +704,7 @@ const generators: Record<string, Fig.Generator> = {
       return postPrecessGenerator(
         out,
         "ServerCertificateMetadataList",
-        "ServerCertificateName"
+        "ServerCertificateName",
       );
     },
     cache: {
@@ -719,7 +719,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-service-specific-credentials",
         "--user-name",
         "ServiceSpecificCredentials",
-        "ServiceSpecificCredentialId"
+        "ServiceSpecificCredentialId",
       );
     },
     cache: {
@@ -734,7 +734,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-signing-certificates",
         "--user-name",
         "Certificates",
-        "CertificateId"
+        "CertificateId",
       );
     },
     cache: {
@@ -761,7 +761,7 @@ const generators: Record<string, Fig.Generator> = {
       return MultiSuggestionsGenerator(
         tokens,
         executeShellCommand,
-        identityStruct
+        identityStruct,
       );
     },
     cache: {
@@ -776,7 +776,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-instance-profile-tags",
         "--instance-profile-name",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -791,7 +791,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-mfa-device-tags",
         "--serial-number",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -806,7 +806,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-open-id-connect-provider-tags",
         "--open-id-connect-provider-arn",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -821,7 +821,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-policy-tags",
         "--policy-arn",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -836,7 +836,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-role-tags",
         "--role-name",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -851,7 +851,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-saml-provider-tags",
         "--saml-provider-arn",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -866,7 +866,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-server-certificate-tags",
         "--server-certificate-name",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -881,7 +881,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-user-tags",
         "--user-name",
         "Tags",
-        "Key"
+        "Key",
       );
     },
     cache: {
@@ -1624,7 +1624,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "integer",
             suggestions: Array.from({ length: 13 - 1 }, (v, k) =>
-              String(k + 1)
+              String(k + 1),
             ),
           },
         },
@@ -4130,7 +4130,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "string",
             suggestions: awsPrincipals.map((elm) =>
-              elm.slice(0, elm.indexOf("."))
+              elm.slice(0, elm.indexOf(".")),
             ),
           },
         },
@@ -5485,7 +5485,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "list",
             suggestions: awsPrincipals.map((elm) =>
-              elm.slice(0, elm.indexOf("."))
+              elm.slice(0, elm.indexOf(".")),
             ),
           },
         },
@@ -8408,7 +8408,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "integer",
             suggestions: Array.from({ length: 13 - 1 }, (v, k) =>
-              String(k + 1)
+              String(k + 1),
             ),
           },
         },

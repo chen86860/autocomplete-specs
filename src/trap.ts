@@ -9,7 +9,7 @@ const re = /(\d+\)\s)?([\w-+]+)/g;
  */
 
 const availableSignalsGenerator = (
-  suggestOptions?: Partial<Fig.Suggestion>
+  suggestOptions?: Partial<Fig.Suggestion>,
 ): Fig.Generator => ({
   script: ["command", "kill", "-l"],
   postProcess: (output) =>

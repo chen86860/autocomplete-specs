@@ -139,7 +139,7 @@ const sharedArgs: Record<string, Fig.Arg> = {
         const lastInput = context[context.length - 1];
         if (lastInput.includes("/")) {
           return scripts.typeWithoutName(
-            lastInput.substring(0, lastInput.indexOf("/"))
+            lastInput.substring(0, lastInput.indexOf("/")),
           );
         }
         return scripts.types;
@@ -184,7 +184,7 @@ const sharedArgs: Record<string, Fig.Arg> = {
             i === "pods" ||
             i.includes("pods/") ||
             i === "pod" ||
-            i.includes("pod/")
+            i.includes("pod/"),
         );
         const podName = context[podIndex].includes("/")
           ? context[podIndex]

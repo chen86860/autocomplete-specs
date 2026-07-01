@@ -12,7 +12,7 @@ const generatePackages: Fig.Generator = {
         const pathArr = path.split("/");
         const subPath = pathArr.slice(
           pathArr.findIndex((val) => val === "packages") + 1,
-          pathArr.length - 2
+          pathArr.length - 2,
         );
         const version = pathArr[pathArr.length - 2];
         return `${subPath.join("/")}@${version}`;

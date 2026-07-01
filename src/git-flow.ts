@@ -23,7 +23,7 @@ const postProcessBranches: Fig.Generator["postProcess"] = (out, tokens) => {
 
 async function getGitFlowPrefix(
   type: string,
-  executeShellCommand: Fig.ExecuteCommandFunction
+  executeShellCommand: Fig.ExecuteCommandFunction,
 ): Promise<string> {
   const { stdout } = await executeShellCommand({
     command: "git",

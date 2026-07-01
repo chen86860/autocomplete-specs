@@ -3,7 +3,7 @@ const knownHostRegex = /(?:[a-zA-Z0-9-]+\.)+[a-zA-Z0-9]+/; // will match numeric
 const resolveAbsolutePath = (
   path: string,
   basePath: string,
-  home: string
+  home: string,
 ): string => {
   if (path.startsWith("/") || path.startsWith("~/") || path === "~") {
     return path.replace("~", home);
@@ -26,7 +26,7 @@ const getConfigLines = async (
   file: string,
   executeShellCommand: Fig.ExecuteCommandFunction,
   home: string,
-  basePath: string
+  basePath: string,
 ) => {
   const absolutePath = resolveAbsolutePath(file, basePath, home);
 
@@ -45,8 +45,8 @@ const getConfigLines = async (
   // Get the lines of every include file
   const includeLines: string[][] = await Promise.all(
     includes.map((file) =>
-      getConfigLines(file, executeShellCommand, home, basePath)
-    )
+      getConfigLines(file, executeShellCommand, home, basePath),
+    ),
   );
 
   // Combine config lines with includes config lines
@@ -84,13 +84,13 @@ export const configHosts: Fig.Generator = {
       "config",
       executeShellCommand,
       context.environmentVariables["HOME"],
-      "~/.ssh"
+      "~/.ssh",
     );
 
     return configLines
       .filter(
         (line) =>
-          line.trim().toLowerCase().startsWith("host ") && !line.includes("*")
+          line.trim().toLowerCase().startsWith("host ") && !line.includes("*"),
       )
       .map((host) => ({
         name: host.split(" ")[1],

@@ -27,7 +27,7 @@ const listTargets: Fig.Generator = {
     });
 
     const matches = makefile.matchAll(
-      /((?:^#.*\n)*)(?:^\.[A-Z_]+:.*\n)*(^\S*?):.*?(?:\s#+[ \t]*(.+))?$/gm
+      /((?:^#.*\n)*)(?:^\.[A-Z_]+:.*\n)*(^\S*?):.*?(?:\s#+[ \t]*(.+))?$/gm,
     );
     const specialTargets = new Set([
       ".PHONY",

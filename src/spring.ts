@@ -29,7 +29,7 @@ type Dependency = Option & {
 const memoizedFetchData = () => {
   let data: Data | undefined;
   return async (
-    executeShellCommand: Fig.ExecuteCommandFunction
+    executeShellCommand: Fig.ExecuteCommandFunction,
   ): Promise<Data | undefined> => {
     if (data) {
       return data;

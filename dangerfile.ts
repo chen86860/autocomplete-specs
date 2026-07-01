@@ -112,7 +112,7 @@ schedule(async () => {
   });
 
   const reviewCommentRef = comments.find((comment) =>
-    comment.body.includes("id: review-bot")
+    comment.body.includes("id: review-bot"),
   );
 
   // Get all changed and added files
@@ -134,7 +134,7 @@ schedule(async () => {
       });
       if (!res || !(res.data as any)?.content) return;
       const content = Buffer.from((res.data as any).content, "base64").toString(
-        "utf-8"
+        "utf-8",
       );
 
       const sourceFile = createSourceFile("temp", content, ScriptTarget.Latest);
@@ -151,7 +151,7 @@ ${fileContent.pairs
 \`\`\`typescript
 ${value}
 \`\`\`
-`
+`,
   )
   .join("\n")}
 ${
@@ -170,7 +170,7 @@ ${fileContent.functions
 \`\`\`typescript
 ${value}
 \`\`\`
-`
+`,
   )
   .join("\n")}`
     : ""

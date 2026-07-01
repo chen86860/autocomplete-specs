@@ -1,6 +1,6 @@
 const prioritySuggestions: (string | Fig.Suggestion)[] = Array.from(
   { length: 100 },
-  (_, i) => i + 1
+  (_, i) => i + 1,
 ).map((item) => item.toString());
 
 const timeSuggestions: (string | Fig.Suggestion)[] = [

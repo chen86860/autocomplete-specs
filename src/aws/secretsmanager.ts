@@ -61,7 +61,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -526,7 +526,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "long",
             suggestions: Array.from({ length: 31 - 7 }, (v, k) =>
-              String(k + 7)
+              String(k + 7),
             ),
           },
         },

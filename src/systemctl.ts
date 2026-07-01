@@ -58,7 +58,7 @@ const unitGenerator: Fig.Generator = {
       };
     });
     suggustions.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { usage: "sort" })
+      a.name.localeCompare(b.name, undefined, { usage: "sort" }),
     );
     return suggustions;
   },
@@ -105,7 +105,7 @@ const unitFileGenerator: Fig.Generator = {
       };
     });
     suggustions.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { usage: "sort" })
+      a.name.localeCompare(b.name, undefined, { usage: "sort" }),
     );
     return suggustions;
   },

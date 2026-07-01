@@ -209,7 +209,7 @@ const ttl = 300000;
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -239,7 +239,7 @@ const listCustomGenerator = async (
   command: string,
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["lambda", command];
@@ -281,7 +281,7 @@ const listCustomSIDGenerator = async (
   tokens: string[],
   executeShellCommand: Fig.ExecuteCommandFunction,
   command: string,
-  options: string[]
+  options: string[],
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["lambda", command];
@@ -318,7 +318,7 @@ const MultiSuggestionsGenerator = async (
     command: string[];
     parentKey: string;
     childKey: string;
-  }[]
+  }[],
 ) => {
   try {
     const list: Fig.Suggestion[][] = [];
@@ -334,7 +334,7 @@ const MultiSuggestionsGenerator = async (
       list[i] = postPrecessGenerator(
         result[i],
         enabled[i].parentKey,
-        enabled[i].childKey
+        enabled[i].childKey,
       );
     }
     return list.flat();
@@ -407,7 +407,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -468,7 +468,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-layer-versions",
         ["--layer-name"],
         "LayerVersions",
-        "Version"
+        "Version",
       );
     },
     cache: {
@@ -497,7 +497,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "get-layer-version-policy",
         ["--layer-name", "--version-number"],
-        "RevisionId"
+        "RevisionId",
       );
     },
     cache: {
@@ -511,7 +511,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "get-policy",
         ["--function-name"],
-        "RevisionId"
+        "RevisionId",
       );
     },
     cache: {
@@ -526,7 +526,7 @@ const generators: Record<string, Fig.Generator> = {
         "get-function",
         ["--function-name"],
         "Configuration",
-        "RevisionId"
+        "RevisionId",
       );
     },
     cache: {
@@ -555,7 +555,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-aliases",
         ["--function-name"],
         "Aliases",
-        "Name"
+        "Name",
       );
     },
     cache: {
@@ -613,7 +613,7 @@ const generators: Record<string, Fig.Generator> = {
         tokens,
         executeShellCommand,
         "get-layer-version-policy",
-        ["--layer-name", "--version-number"]
+        ["--layer-name", "--version-number"],
       );
     },
     cache: {
@@ -778,7 +778,7 @@ const generators: Record<string, Fig.Generator> = {
       return postPrecessGenerator(
         out,
         "CodeSigningConfigs",
-        "CodeSigningConfigArn"
+        "CodeSigningConfigArn",
       );
     },
     cache: {

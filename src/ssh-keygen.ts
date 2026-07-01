@@ -51,7 +51,7 @@ const completionSpec: Fig.Spec = {
       description:
         "For each of the key types (rsa, dsa, ecdsa and ed25519) for which host keys do not exist, generate the host keys with the default key file path, an empty passphrase, default bits for the key type, and default comment",
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-a" && option !== "-f"
+        (option) => option !== "-a" && option !== "-f",
       ),
     },
     {
@@ -99,7 +99,7 @@ const completionSpec: Fig.Spec = {
           option !== "-a" &&
           option !== "-C" &&
           option !== "-f" &&
-          option !== "-P"
+          option !== "-P",
       ),
     },
     {
@@ -125,7 +125,7 @@ const completionSpec: Fig.Spec = {
       name: "-e",
       description: "Read a OpenSSH key file and print to stdout",
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-f" && option !== "-m"
+        (option) => option !== "-f" && option !== "-m",
       ),
     },
     {
@@ -137,7 +137,7 @@ const completionSpec: Fig.Spec = {
         description: "Hostname with optional port number",
       },
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-l" && option !== "-v" && option !== "-f"
+        (option) => option !== "-l" && option !== "-v" && option !== "-f",
       ),
     },
     {
@@ -177,21 +177,21 @@ const completionSpec: Fig.Spec = {
           option !== "-s" &&
           option !== "-h" &&
           option !== "-U" &&
-          option !== "-D"
+          option !== "-D",
       ),
     },
     {
       name: "-i",
       description: "Read an unencrypted private (or public) key file",
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-f" && option !== "-m"
+        (option) => option !== "-f" && option !== "-m",
       ),
     },
     {
       name: "-K",
       description: "Download resident keys from a FIDO	authenticator",
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-a" && option !== "-w"
+        (option) => option !== "-a" && option !== "-w",
       ),
     },
     {
@@ -203,7 +203,7 @@ const completionSpec: Fig.Spec = {
           option !== "-f" &&
           option !== "-u" &&
           option !== "-s" &&
-          option !== "-z"
+          option !== "-z",
       ),
     },
     {
@@ -215,7 +215,7 @@ const completionSpec: Fig.Spec = {
       name: "-l",
       description: "Show fingerprint of specified public key file",
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-v" && option !== "-E" && option !== "-f"
+        (option) => option !== "-v" && option !== "-E" && option !== "-f",
       ),
     },
     {
@@ -227,7 +227,7 @@ const completionSpec: Fig.Spec = {
         suggestions: [{ name: "generate" }, { name: "screen" }],
       },
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-f" && option !== "-O"
+        (option) => option !== "-f" && option !== "-O",
       ),
     },
     {
@@ -283,14 +283,14 @@ const completionSpec: Fig.Spec = {
           option !== "-a" &&
           option !== "-f" &&
           option !== "-m" &&
-          option !== "-N"
+          option !== "-N",
       ),
     },
     {
       name: "-Q",
       description: "Test whether keys have been revoked in a KRL",
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-l" && option !== "-f"
+        (option) => option !== "-l" && option !== "-f",
       ),
     },
     {
@@ -315,7 +315,7 @@ const completionSpec: Fig.Spec = {
         description: "Hostname for the specified public key file",
       },
       exclusiveOn: allOptions.filter(
-        (option) => option !== "-g" && option !== "-f"
+        (option) => option !== "-g" && option !== "-f",
       ),
     },
     {
@@ -408,7 +408,7 @@ const completionSpec: Fig.Spec = {
           option !== "-s" &&
           option !== "-f" &&
           option !== "-n" &&
-          option !== "-r"
+          option !== "-r",
       ),
     },
     {

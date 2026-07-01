@@ -18,7 +18,7 @@ var customArgument: Fig.Arg = {
 
       if (
         whatHasUserTyped.startsWith(
-          _prefix_string_for_file_and_folder_suggestions
+          _prefix_string_for_file_and_folder_suggestions,
         )
       ) {
         whatHasUserTyped = whatHasUserTyped.slice(7);

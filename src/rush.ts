@@ -22,7 +22,7 @@ const projectGenerator: Fig.Generator = {
       }
 
       const rushConfigurationJson: IRushConfigurationJson = JSON.parse(
-        stripJsonComments(out.trim())
+        stripJsonComments(out.trim()),
       );
 
       for (const project of rushConfigurationJson.projects) {

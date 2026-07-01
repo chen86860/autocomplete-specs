@@ -1,7 +1,7 @@
 const generateRange = (start: number, end: number): Array<string> => {
   return Array.from(
     { length: end - start + 1 },
-    (element, index) => `${index + start}`
+    (element, index) => `${index + start}`,
   );
 };
 

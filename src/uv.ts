@@ -1627,7 +1627,7 @@ const subcommands: Fig.Subcommand[] = [
       ...cacheOptions,
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
     ],
   },
@@ -1639,11 +1639,11 @@ const subcommands: Fig.Subcommand[] = [
       ...pythonOptions.filter(
         (option) =>
           option.name === "--no-python-downloads" ||
-          option.name === "--python-preference"
+          option.name === "--python-preference",
       ),
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
     ],
   },
@@ -1654,12 +1654,12 @@ const subcommands: Fig.Subcommand[] = [
     options: [
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
       ...pythonOptions.filter(
         (option) =>
           option.name === "--python-preference" ||
-          option.name === "--no-python-downloads"
+          option.name === "--no-python-downloads",
       ),
     ],
   },
@@ -1670,12 +1670,12 @@ const subcommands: Fig.Subcommand[] = [
     options: [
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
       ...pythonOptions.filter(
         (option) =>
           option.name === "--python-preference" ||
-          option.name === "--no-python-downloads"
+          option.name === "--no-python-downloads",
       ),
     ],
   },
@@ -1688,11 +1688,11 @@ const subcommands: Fig.Subcommand[] = [
       ...indexOptions.filter(
         (option) =>
           option.name !== "--index-strategy" &&
-          option.name !== "--keyring-provider"
+          option.name !== "--keyring-provider",
       ),
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
     ],
   },
@@ -1726,12 +1726,12 @@ const subcommands: Fig.Subcommand[] = [
       ...publishOptions,
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
       ...pythonOptions.filter(
         (option) =>
           option.name === "--python-preference" ||
-          option.name === "--no-python-downloads"
+          option.name === "--no-python-downloads",
       ),
     ],
   },
@@ -1742,12 +1742,12 @@ const subcommands: Fig.Subcommand[] = [
     options: [
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
       ...pythonOptions.filter(
         (option) =>
           option.name === "--python-preference" ||
-          option.name === "--no-python-downloads"
+          option.name === "--no-python-downloads",
       ),
     ],
   },
@@ -1758,12 +1758,12 @@ const subcommands: Fig.Subcommand[] = [
     options: [
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
       ...pythonOptions.filter(
         (option) =>
           option.name === "--python-preference" ||
-          option.name === "--no-python-downloads"
+          option.name === "--no-python-downloads",
       ),
     ],
   },
@@ -1781,12 +1781,12 @@ const subcommands: Fig.Subcommand[] = [
       },
       ...cacheOptions.filter(
         (option) =>
-          option.name === "--cache-dir" || option.name === "--no-cache"
+          option.name === "--cache-dir" || option.name === "--no-cache",
       ),
       ...pythonOptions.filter(
         (option) =>
           option.name === "--python-preference" ||
-          option.name === "--no-python-downloads"
+          option.name === "--no-python-downloads",
       ),
     ],
   },

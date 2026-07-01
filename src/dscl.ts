@@ -54,7 +54,7 @@ const dsclOptions: Fig.Option[] = [
 const dsclOptionsWithArgs = new Set<string>(
   dsclOptions
     .filter((option) => option.args !== undefined)
-    .flatMap((option) => option.name)
+    .flatMap((option) => option.name),
 );
 
 const generateDsclPath: Fig.Generator = {
@@ -144,7 +144,7 @@ const dsclArgs = satisfies<Record<string, Fig.Arg>>()({
 
 const arg = (
   name: keyof typeof dsclArgs,
-  merge: Partial<Fig.Arg>
+  merge: Partial<Fig.Arg>,
 ): Fig.Arg => ({
   ...dsclArgs[name],
   ...merge,

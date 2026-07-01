@@ -4,7 +4,7 @@ type ToolchainLocalGeneratorOptions = {
 
 // A generator of local toolchains including the short names
 const toolchainLocalGenertor: (
-  args?: ToolchainLocalGeneratorOptions
+  args?: ToolchainLocalGeneratorOptions,
 ) => Fig.Generator = ({ excludeShort } = {}) => ({
   script: ["rustup", "toolchain", "list"],
   postProcess: (out) => {
@@ -17,7 +17,7 @@ const toolchainLocalGenertor: (
       shortToolchains = toolchains.map((toolchain) => toolchain.split("-")[0]);
       // dedupe
       shortToolchains = shortToolchains.filter(
-        (toolchain, index) => shortToolchains.indexOf(toolchain) === index
+        (toolchain, index) => shortToolchains.indexOf(toolchain) === index,
       );
     }
 
@@ -64,7 +64,7 @@ const toolchainAllGenerator: Fig.Generator = {
       ...releases.map((release) => ({
         name: release.tag_name,
         description: `${release.name} - ${new Date(
-          release.published_at
+          release.published_at,
         ).toLocaleDateString()}`,
       })),
     ];

@@ -3,7 +3,7 @@ function toTitleCase(str: string): string {
     .trim()
     .replace(
       /\w\S*/g,
-      (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+      (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
     );
 }
 
@@ -42,7 +42,7 @@ const yeomanGeneratorList: Fig.Generator = {
                   description: `Help of "${toTitleCase(item)}" generator`,
                 },
               ],
-            }) as Fig.Suggestion
+            }) as Fig.Suggestion,
         ) as Fig.Suggestion[];
     } catch (e) {
       console.error(e);

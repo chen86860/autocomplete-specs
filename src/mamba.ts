@@ -104,7 +104,7 @@ const condaSearchGenerator: Fig.Generator = {
               value[value.length - 1].subdir
             }`,
           };
-        }
+        },
       );
       return searchResults;
     } catch (e) {

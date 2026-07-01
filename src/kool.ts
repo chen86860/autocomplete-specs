@@ -3,7 +3,7 @@ const getScripts: Fig.Generator = {
   postProcess: (output) => {
     const lines = output.split("\n");
     const scriptsIndex = lines.findIndex(
-      (line) => line.trim() === "Available Scripts:"
+      (line) => line.trim() === "Available Scripts:",
     );
 
     return lines.slice(scriptsIndex + 1).map((line) => ({

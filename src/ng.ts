@@ -12,7 +12,7 @@ const projectsGenerator = {
         ([projectName, details]: [string, ProjectDetails]) => ({
           name: projectName,
           description: details.projectType,
-        })
+        }),
       );
     } catch (e) {}
     return [];

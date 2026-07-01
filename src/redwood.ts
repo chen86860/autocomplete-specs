@@ -16,7 +16,7 @@ const scripts: Fig.Generator = {
       .split("\n")
       .filter(
         (fileOrFolder) =>
-          fileOrFolder.endsWith(".js") || fileOrFolder.endsWith(".ts")
+          fileOrFolder.endsWith(".js") || fileOrFolder.endsWith(".ts"),
       )
       .map((script) => {
         return {

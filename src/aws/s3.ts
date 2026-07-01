@@ -31,7 +31,7 @@ const ttl = 30000;
 
 const appendFolderPath = (
   whatHasUserTyped: string,
-  baseLSCommand: string[]
+  baseLSCommand: string[],
 ): string[] => {
   let folderPath = "";
   const lastSlashIndex = whatHasUserTyped.lastIndexOf("/");
@@ -113,7 +113,7 @@ const sortSuggestions = (arr: string[], isS3?: boolean): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;

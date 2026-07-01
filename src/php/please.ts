@@ -41,7 +41,7 @@ const completionSpec: Fig.Spec = {
                 description: argument.description,
                 isOptional: !argument.is_required,
               };
-            }
+            },
           ),
           options: Object.values(command.definition.options).map(
             (option: Option) => {
@@ -55,7 +55,7 @@ const completionSpec: Fig.Spec = {
                 name: names,
                 description: option.description,
               };
-            }
+            },
           ),
         });
       });

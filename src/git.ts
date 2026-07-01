@@ -8,7 +8,7 @@ const filterMessages = (out: string): string => {
 
 const postProcessTrackedFiles: Fig.Generator["postProcess"] = (
   out,
-  context
+  context,
 ) => {
   const output = filterMessages(out);
 
@@ -272,7 +272,7 @@ export const gitGenerators: Record<string, Fig.Generator> = {
               ],
             })
           ).stdout,
-          tokens
+          tokens,
         );
       } else {
         return pp?.(
@@ -287,7 +287,7 @@ export const gitGenerators: Record<string, Fig.Generator> = {
               ],
             })
           ).stdout,
-          tokens
+          tokens,
         );
       }
     },
@@ -4935,7 +4935,7 @@ const completionSpec: Fig.Spec = {
                     line.startsWith("alias.") ||
                     line.startsWith("branch.") ||
                     line.startsWith("remote.") ||
-                    !configSuggestions.find(({ name }) => line === name)
+                    !configSuggestions.find(({ name }) => line === name),
                 )
                 .map((name) => ({ name, icon: "⚙️" })),
           },

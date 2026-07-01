@@ -34,7 +34,7 @@ function processSccLanguages(out: string): SccLanguages {
 
 const generateLanguages: KeyValueSuggestions = async (
   _,
-  executeShellCommand
+  executeShellCommand,
 ) => {
   const { stdout } = await executeShellCommand({
     command: "scc",

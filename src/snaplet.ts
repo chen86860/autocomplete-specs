@@ -87,7 +87,7 @@ const snapshotsSuccessCloudGenerator: Fig.Generator = {
   postProcess: (output) => {
     const result: Fig.Suggestion[] = [];
     const snapshotList = parseSnapshotList(output).filter(
-      (s) => s.src === "CLOUD" && s.status === "SUCCESS"
+      (s) => s.src === "CLOUD" && s.status === "SUCCESS",
     );
     for (const snapshot of snapshotList) {
       const statusEmoji = `✅`;

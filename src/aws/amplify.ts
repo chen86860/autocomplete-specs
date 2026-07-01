@@ -8,7 +8,7 @@ const branchStages = [
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -38,7 +38,7 @@ const customGenerator = async (
   command: string,
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["amplify", command];
@@ -137,7 +137,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -217,7 +217,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-backend-environments",
         ["--app-id"],
         "backendEnvironments",
-        "environmentName"
+        "environmentName",
       );
     },
   },
@@ -229,7 +229,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-backend-environments",
         ["--app-id"],
         "backendEnvironments",
-        "backendEnvironmentArn"
+        "backendEnvironmentArn",
       );
     },
   },
@@ -241,7 +241,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-branches",
         ["--app-id"],
         "branches",
-        "branchName"
+        "branchName",
       );
     },
   },
@@ -253,7 +253,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-branches",
         ["--app-id"],
         "branches",
-        "framework"
+        "framework",
       );
     },
   },
@@ -265,7 +265,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-branches",
         ["--app-id"],
         "branches",
-        "buildSpec"
+        "buildSpec",
       );
     },
   },
@@ -283,7 +283,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-domain-associations",
         ["--app-id"],
         "domainAssociations",
-        "domainName"
+        "domainName",
       );
     },
   },
@@ -295,7 +295,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-jobs",
         ["--app-id", "--branch-name"],
         "jobSummaries",
-        "jobId"
+        "jobId",
       );
     },
   },

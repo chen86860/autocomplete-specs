@@ -105,7 +105,7 @@ const buildTagSuggestions = (tasks) => {
       tasks
         .filter((task) => task.hasOwnProperty("tags"))
         .map((task) => task.tags)
-        .flat()
+        .flat(),
     ),
   ];
 
@@ -125,7 +125,7 @@ const buildUnTagSuggestions = (tasks) => {
       tasks
         .filter((task) => task.hasOwnProperty("tags"))
         .map((task) => task.tags)
-        .flat()
+        .flat(),
     ),
   ];
 

@@ -1259,7 +1259,7 @@ const spec: Fig.Spec = {
               .filter((bin) =>
                 typeof bin.name === "string"
                   ? bin.name.startsWith("create-")
-                  : bin.name.some((name) => name.startsWith("create-"))
+                  : bin.name.some((name) => name.startsWith("create-")),
               )
               .map((bin) => {
                 let name = bin.name;
@@ -1429,7 +1429,7 @@ const spec: Fig.Spec = {
     {
       name: "upgrade",
       icon,
-      description: "Get the latest version of bun",
+      description: "Upgrade to latest version of Bun",
       options: [
         {
           name: "--canary",
@@ -1689,14 +1689,13 @@ const spec: Fig.Spec = {
     {
       name: "x",
       icon,
-      description: "Run an npx command",
+      description: "Execute a package binary, installing if needed",
       loadSpec: "bunx",
     },
     {
       name: "repl",
       icon,
-      description:
-        "Run a REPL (read eval print loop) with the Bun runtime.(experimental)",
+      description: "Start a REPL session with Bun",
     },
     {
       name: "init",

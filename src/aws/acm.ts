@@ -1,7 +1,7 @@
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -88,7 +88,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -135,7 +135,7 @@ const generators: Record<string, Fig.Generator> = {
       return postPrecessGenerator(
         out,
         "CertificateSummaryList",
-        "CertificateArn"
+        "CertificateArn",
       );
     },
   },

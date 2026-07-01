@@ -70,7 +70,7 @@ export const pkgutilGenerators: Record<string, Fig.Generator> = {
             args: ["--files", pkgId],
           })
         ).stdout,
-        tokens
+        tokens,
       );
     },
     trigger: "/",

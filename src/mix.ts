@@ -194,7 +194,7 @@ function makeTaskSuggestions(out: string) {
       };
     }) // filter out commands which do not make sense here
     .filter(
-      (x) => !["mix", "help", "new", "run", "iex -S mix"].includes(x.name)
+      (x) => !["mix", "help", "new", "run", "iex -S mix"].includes(x.name),
     );
 }
 

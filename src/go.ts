@@ -228,6 +228,28 @@ const packagesArg: Fig.Arg = {
   template: ["filepaths"],
 };
 
+const helpTopics = [
+  "buildconstraint",
+  "buildjson",
+  "buildmode",
+  "c",
+  "cache",
+  "environment",
+  "filetype",
+  "goauth",
+  "go.mod",
+  "gopath",
+  "goproxy",
+  "importpath",
+  "modules",
+  "module-auth",
+  "packages",
+  "private",
+  "testflag",
+  "testfunc",
+  "vcs",
+];
+
 const completionSpec: Fig.Spec = {
   name: "go",
   description: "Go is a tool for managing Go source code",
@@ -435,6 +457,35 @@ const completionSpec: Fig.Spec = {
       args: {
         name: "url",
         isOptional: true,
+      },
+    },
+    {
+      name: "help",
+      description: "Show help for a command or topic",
+      args: {
+        name: "command-or-topic",
+        suggestions: [
+          "bug",
+          "build",
+          "clean",
+          "doc",
+          "env",
+          "fix",
+          "fmt",
+          "generate",
+          "get",
+          "install",
+          "list",
+          "mod",
+          "work",
+          "run",
+          "telemetry",
+          "test",
+          "tool",
+          "version",
+          "vet",
+          ...helpTopics,
+        ],
       },
     },
     {

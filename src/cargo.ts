@@ -119,7 +119,7 @@ const rootPackageOrLocal = (manifest: Metadata) => {
   const rootManifestPath = `${manifest.workspace_root}/Cargo.toml`;
   console.log(rootManifestPath);
   const rootPackage = manifest.packages.find(
-    (pkg) => pkg.source === rootManifestPath
+    (pkg) => pkg.source === rootManifestPath,
   );
   return rootPackage
     ? [rootPackage]
@@ -283,7 +283,7 @@ export const searchGenerator: Fig.Generator = {
         name: `${crate}@${version.num}`,
         insertValue: `${version.num}`,
         description: `${numberFormatter.format(
-          version.downloads
+          version.downloads,
         )} downloads - ${new Date(version.created_at).toLocaleDateString()}`,
         hidden: version.yanked,
       }));
@@ -502,7 +502,7 @@ const configGenerator: Fig.Generator = keyValue({
 });
 
 const completionSpec: (toolchain?: boolean) => Fig.Spec = (
-  toolchain = true
+  toolchain = true,
 ) => ({
   name: "cargo",
   icon: "📦",

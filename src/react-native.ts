@@ -67,9 +67,9 @@ const iosGetDevicesSimulatorGenerator = {
       .reduce<Array<IosRecordType>>(
         (
           a: Array<IosRecordType>,
-          b: Array<IosRecordType>
+          b: Array<IosRecordType>,
         ): Array<IosRecordType> => [...a, ...b],
-        []
+        [],
       )
       .map(({ name }: IosRecordType) => ({ name, icon: APPLE_ICON }));
   },
@@ -98,7 +98,7 @@ const iosGetDevicesUdidGenerator = {
       .filter(Boolean)
       .map((item) => item.split(" "))
       .map((items) =>
-        items[items.length - 1].trim().replace("(", "").replace(")", "")
+        items[items.length - 1].trim().replace("(", "").replace(")", ""),
       )
       .map((name) => ({ name }));
 

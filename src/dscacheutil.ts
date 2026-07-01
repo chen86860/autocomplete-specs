@@ -58,7 +58,7 @@ const dscacheutilGenerators: Record<string, Fig.Generator> = {
             args: ["-q", category],
           })
         ).stdout,
-        tokens
+        tokens,
       );
     },
   },

@@ -7,7 +7,7 @@ const PRIORITY_BOTTOM_THRESHOLD = 49;
  *  Generators
  */
 const envrcFilepathsGenerator = (
-  suggestOptions?: Partial<Fig.Suggestion>
+  suggestOptions?: Partial<Fig.Suggestion>,
 ): Fig.Generator => ({
   template: "filepaths",
   filterTemplateSuggestions: (paths) => {

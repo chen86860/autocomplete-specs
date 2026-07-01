@@ -27,7 +27,7 @@ const taskDefinitionFamilyStatus = ["ACTIVE", "INACTIVE", "ALL"];
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -57,7 +57,7 @@ const customGenerator = async (
   command: string,
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["ecs", command];
@@ -101,7 +101,7 @@ const MultiSuggestionsGenerator = async (
     command: string[];
     parentKey: string;
     childKey: string;
-  }[]
+  }[],
 ) => {
   try {
     const list: Fig.Suggestion[][] = [];
@@ -117,7 +117,7 @@ const MultiSuggestionsGenerator = async (
       list[i] = postPrecessGenerator(
         result[i],
         enabled[i].parentKey,
-        enabled[i].childKey
+        enabled[i].childKey,
       );
     }
     return list.flat();
@@ -159,7 +159,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -248,7 +248,7 @@ const generators = {
         "describe-task-sets",
         ["--cluster", "--service"],
         "taskSets",
-        "taskSetArn"
+        "taskSetArn",
       ),
   },
   listRoles: {
@@ -289,7 +289,7 @@ const generators = {
         "list-attributes --target-type container-instance",
         ["--attribute-name"],
         "attributes",
-        "value"
+        "value",
       ),
   },
   listTaskDefinitionFamilies: {
@@ -316,7 +316,7 @@ const generators = {
       }
       const param = tokens[idx + 1];
       const out = await executeShellCommand(
-        `aws ecs list-tasks --cluster ${param}`
+        `aws ecs list-tasks --cluster ${param}`,
       );
       const list = JSON.parse(out)["taskArns"];
       const tasks = list.map((arn) => ({
@@ -335,7 +335,7 @@ const generators = {
         "list-tags-for-resource",
         ["--resource-arn"],
         "tags",
-        "key"
+        "key",
       ),
   },
   listCodedeployApplications: {
@@ -351,7 +351,7 @@ const generators = {
         }
         const param = tokens[idx + 1];
         const out = await executeShellCommand(
-          `aws deploy list-deployment-groups --application-name ${param}`
+          `aws deploy list-deployment-groups --application-name ${param}`,
         );
         const list = JSON.parse(out)["deploymentGroups"];
         return list.map((group) => {
@@ -3295,7 +3295,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "integer",
             suggestions: Array.from({ length: 10 }, (_, i) => i + 1).map(
-              (number) => number.toString()
+              (number) => number.toString(),
             ),
           },
         },

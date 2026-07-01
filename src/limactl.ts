@@ -14,7 +14,7 @@ const generateGlobalFlags = (subcommandName: string): Fig.Option[] => [
 ];
 
 const instanceNameGenerator = (
-  suggestOptions?: Partial<Fig.Suggestion>
+  suggestOptions?: Partial<Fig.Suggestion>,
 ): Fig.Generator => ({
   script: ["limactl", "list", "--quiet"],
   postProcess: (output) =>
@@ -49,7 +49,7 @@ const completionSpec: Fig.Spec = {
               description: "Disable completion descriptions",
             },
           ],
-        })
+        }),
       ),
       options: [...generateGlobalFlags("completion")],
     },
@@ -266,7 +266,7 @@ completionSpec.subcommands.push({
           name: subcommand.name,
           description: subcommand.description,
           type: "subcommand",
-        })
+        }),
       ),
       {
         name: "help",

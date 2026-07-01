@@ -51,7 +51,7 @@ const styleOptionGenerator = (element: string) =>
       name: (style.name as string).replace("--", `--${element}.`),
       description: `${style.description} for ${element}`,
       priority: 45,
-    })
+    }),
   );
 
 const completionSpec: Fig.Spec = {

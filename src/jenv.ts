@@ -34,7 +34,7 @@ const generateAllCommands: Fig.Generator = {
     return out
       .split("\n")
       .filter(
-        (line) => line && line.trim() !== "" && line.trim() !== "--version"
+        (line) => line && line.trim() !== "" && line.trim() !== "--version",
       )
       .map((command) => ({
         name: command,

@@ -615,7 +615,7 @@ const completionSpec: Fig.Spec = {
       subcommands: hasBinKamal
         ? rootCommands
         : rootCommands.map((cmd) =>
-            cmd.name === "init" ? { ...cmd, priority: 100 } : cmd
+            cmd.name === "init" ? { ...cmd, priority: 100 } : cmd,
           ),
     };
   },

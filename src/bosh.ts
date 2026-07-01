@@ -589,7 +589,7 @@ const completionSpec: Fig.Spec = {
         name: "amount",
         // Generate whole numbers from 1 to 20
         suggestions: Array.from({ length: 20 }, (_, i) => i + 1).map((number) =>
-          number.toString()
+          number.toString(),
         ),
       },
     },

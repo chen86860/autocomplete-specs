@@ -6,7 +6,7 @@ interface ZSuggestion {
 }
 
 async function getZHistory(
-  execute: Fig.ExecuteCommandFunction
+  execute: Fig.ExecuteCommandFunction,
 ): Promise<ZSuggestion[]> {
   const { stdout } = await execute({
     command: "zsh",
@@ -30,7 +30,7 @@ async function getZHistory(
 
 async function getCurrentDirectoryFolders(
   currentWorkingDirectory: string,
-  execute: Fig.ExecuteCommandFunction
+  execute: Fig.ExecuteCommandFunction,
 ): Promise<ZSuggestion[]> {
   const { stdout } = await execute({
     command: "bash",
@@ -47,13 +47,13 @@ async function getCurrentDirectoryFolders(
 
 function filterHistoryBySearchTerms(
   insertedTerms: string[],
-  history: ZSuggestion[]
+  history: ZSuggestion[],
 ): ZSuggestion[] {
   const insertedTermsMap = new Set(insertedTerms);
   return history.filter(
     ({ name, path }) =>
       !insertedTermsMap.has(name) &&
-      insertedTerms.every((item) => path.includes(item))
+      insertedTerms.every((item) => path.includes(item)),
   );
 }
 
@@ -86,7 +86,7 @@ const zShCompletionSpec: Fig.Spec = {
         // additional filter. filtered will filter directories by all args.
         const filteredSuggestions = filterHistoryBySearchTerms(
           tokens.filter((arg) => arg && arg !== "z" && !arg.startsWith("-")),
-          suggestions
+          suggestions,
         );
         return filteredSuggestions.map((point) => ({
           name: point.name,
@@ -129,7 +129,7 @@ const zoxideCompletionSpec: Fig.Spec = {
       custom: async (
         tokens,
         executeShellCommand,
-        { currentWorkingDirectory }
+        { currentWorkingDirectory },
       ) => {
         let args;
         if (tokens.length < 2 || tokens[1] === "") {
@@ -174,7 +174,7 @@ const zoxideCompletionSpec: Fig.Spec = {
         const cwdFolders = (
           await getCurrentDirectoryFolders(
             currentWorkingDirectory,
-            executeShellCommand
+            executeShellCommand,
           )
         ).map(({ name, path }) => ({
           name,
@@ -192,7 +192,7 @@ const zoxideCompletionSpec: Fig.Spec = {
             }
             return acc;
           },
-          []
+          [],
         );
         return uniqueFolders;
       },

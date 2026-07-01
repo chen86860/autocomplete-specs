@@ -3490,6 +3490,71 @@ For more information about output formatting flags, see 'gh help formatting'`,
       ],
     },
     {
+      name: "agent-task",
+      description: "Work with agent tasks",
+      subcommands: [
+        { name: "create", description: "Create an agent task" },
+        { name: "list", description: "List agent tasks" },
+        {
+          name: "view",
+          description: "View an agent task",
+          args: { name: "task" },
+        },
+      ],
+    },
+    {
+      name: "attestation",
+      description: "Work with artifact attestations",
+      subcommands: [
+        {
+          name: "download",
+          description: "Download artifact attestations",
+          args: { name: "artifact" },
+          options: [ghOptions.all],
+        },
+        {
+          name: "trusted-root",
+          description: "Output trusted_root.jsonl contents",
+        },
+        {
+          name: "verify",
+          description: "Verify an artifact's attestations",
+          args: { name: "artifact", template: "filepaths" },
+          options: [ghOptions.all],
+        },
+      ],
+    },
+    {
+      name: "copilot",
+      description: "Run the GitHub Copilot CLI",
+    },
+    {
+      name: "preview",
+      description: "Execute previews for gh features",
+    },
+    {
+      name: "skill",
+      description: "Install and manage agent skills",
+      subcommands: [
+        {
+          name: "install",
+          description: "Install an agent skill",
+          args: { name: "source" },
+        },
+        { name: "list", description: "List installed agent skills" },
+        {
+          name: "remove",
+          description: "Remove an installed agent skill",
+          args: { name: "name" },
+        },
+        {
+          name: "update",
+          description: "Update installed agent skills",
+          args: { name: "name", isOptional: true },
+        },
+      ],
+    },
+    {
       name: "org",
       description: "Manage organizations",
       subcommands: [

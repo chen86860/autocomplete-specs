@@ -7,7 +7,7 @@ const operationStatus = ["PENDING", "IN_PROGRESS", "SUCCESS", "FAILED"];
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -37,7 +37,7 @@ const customGenerator = async (
   command: string,
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["cloudformation", command];
@@ -81,7 +81,7 @@ const customGeneratorWithFilter = async (
   options: string[],
   parentKey: string,
   childKey = "",
-  filter: string
+  filter: string,
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["cloudformation", command];
@@ -145,7 +145,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -311,7 +311,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-stack-resources",
         ["--stack-name"],
         "StackResourceSummaries",
-        "LogicalResourceId"
+        "LogicalResourceId",
       );
     },
   },
@@ -323,7 +323,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-stack-resources",
         ["--stack-name"],
         "StackResourceSummaries",
-        "PhysicalResourceId"
+        "PhysicalResourceId",
       );
     },
   },
@@ -336,7 +336,7 @@ const generators: Record<string, Fig.Generator> = {
         ["--stack-name"],
         "StackResourceSummaries",
         "LogicalResourceId",
-        "UPDATE_FAILED"
+        "UPDATE_FAILED",
       );
     },
   },
@@ -349,7 +349,7 @@ const generators: Record<string, Fig.Generator> = {
         ["--stack-name"],
         "StackResourceSummaries",
         "LogicalResourceId",
-        "DELETE_FAILED"
+        "DELETE_FAILED",
       );
     },
   },
@@ -409,7 +409,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-type-versions",
         ["--type-name"],
         "TypeVersionSummaries",
-        "VersionId"
+        "VersionId",
       );
     },
   },
@@ -421,7 +421,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-type-versions",
         ["--arn"],
         "TypeVersionSummaries",
-        "VersionId"
+        "VersionId",
       );
     },
   },

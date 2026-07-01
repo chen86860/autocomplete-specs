@@ -16,7 +16,7 @@ const bunx: Fig.Spec = {
       postProcess: function (out) {
         const cli = [...npxSuggestions].reduce(
           (acc, { name }) => [...acc, name],
-          []
+          [],
         );
         return out
           .split("\n")

@@ -108,7 +108,7 @@ function getJustfileDumpCommand(justfilePath: string | null): string[] {
  */
 function getRecipeSuggestions(
   justfile: Justfile,
-  { showRecipeParameters = false } = {}
+  { showRecipeParameters = false } = {},
 ): Fig.Suggestion[] {
   const suggestions: Fig.Suggestion[] = [];
 

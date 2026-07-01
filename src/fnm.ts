@@ -59,7 +59,7 @@ const remoteVersionGenerator: Fig.Generator = {
 
     // The last even major release, that's to say the last LTS.
     const lastLtsMajor = parsed.find(
-      (version) => version.major % 2 === 0
+      (version) => version.major % 2 === 0,
     ).major;
     const latests = new Map<number, NodejsVersion>();
 
@@ -90,7 +90,7 @@ const remoteVersionGenerator: Fig.Generator = {
     // Uniquify the list, and put them in a Suggestion object.
     return uniqBy(
       [...nodeVersion, ...parsed],
-      (a, b) => a.original === b.original
+      (a, b) => a.original === b.original,
     ).map((version) =>
       version.ltsName &&
       latests.get(version.major).original === version.original
@@ -102,7 +102,7 @@ const remoteVersionGenerator: Fig.Generator = {
         : {
             name: version.original.split(" ").shift(),
             description: `Node.js ${version.original}`,
-          }
+          },
     );
   },
   cache: {
@@ -203,6 +203,18 @@ const versionFileStrategy: Fig.Option = {
   },
 };
 
+const corepackEnabled: Fig.Option = {
+  name: "--corepack-enabled",
+  description: "Enable Corepack support for each new installation",
+};
+
+const resolveEngines: Fig.Option = {
+  name: "--resolve-engines",
+  description:
+    "Resolve engines.node from package.json when no .node-version or .nvmrc is present",
+  args: { name: "enabled", isOptional: true, suggestions: ["true", "false"] },
+};
+
 // Theses options are available in every single sub-command
 const baseOptions = [
   help,
@@ -212,6 +224,8 @@ const baseOptions = [
   logLevel,
   nodeDistMirror,
   versionFileStrategy,
+  corepackEnabled,
+  resolveEngines,
 ];
 
 const completionSpec: Fig.Spec = {

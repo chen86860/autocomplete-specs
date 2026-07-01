@@ -75,7 +75,7 @@ const getGlobalPackagesGenerator: Fig.Generator = {
       ];
 
       const filteredDependencies = dependencies.filter(
-        (dependency) => !tokens.includes(dependency)
+        (dependency) => !tokens.includes(dependency),
       );
 
       return filteredDependencies.map((dependencyName) => ({
@@ -371,7 +371,7 @@ export const createCLIsGenerator: Fig.Generator = {
           ({
             name: item.package.name.substring(7),
             description: item.package.description,
-          }) as Fig.Suggestion
+          }) as Fig.Suggestion,
       ) as Fig.Suggestion[];
     } catch (e) {
       return [];
@@ -1550,7 +1550,7 @@ const completionSpec: Fig.Spec = {
             JSON.parse(stdout.slice(startJson, endJson + 1)) as Record<
               string,
               { location: string }
-            >
+            >,
           ).map(([name, { location }]) => ({
             name,
             location,
@@ -1605,7 +1605,7 @@ const completionSpec: Fig.Spec = {
                   },
                 },
               },
-            })
+            }),
           );
 
           return {

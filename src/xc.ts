@@ -42,7 +42,7 @@ const completionSpec: Fig.Spec = {
         line
           .trim()
           .split(/^([^ ]* )/)
-          .map((s) => s.trim())
+          .map((s) => s.trim()),
       )
       .map(([_, task, desc]) => ({
         name: task,

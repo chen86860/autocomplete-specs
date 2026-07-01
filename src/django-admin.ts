@@ -1267,7 +1267,7 @@ const completionSpec: Fig.Spec = {
       args: {
         name: "subcommand",
         suggestions: DJANGO_NATIVE_COMMANDS.filter(
-          (command) => command.name != "help"
+          (command) => command.name != "help",
         ).map((command) => ({
           name: command.name,
           description: command.description,

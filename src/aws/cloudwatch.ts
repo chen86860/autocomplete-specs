@@ -145,7 +145,7 @@ const namespaces = [
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -177,7 +177,7 @@ const listCustomGenerator = async (
   command: string,
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["cloudwatch", command];
@@ -221,7 +221,7 @@ const listDimensionTypes = async (
   command: string,
   option: string,
   parentKey: string,
-  childKey: string
+  childKey: string,
 ): Promise<Fig.Suggestion[]> => {
   try {
     const idx = tokens.indexOf(option);
@@ -259,7 +259,7 @@ const MultiSuggestionsGenerator = async (
     command: string[];
     parentKey: string;
     childKey: string;
-  }[]
+  }[],
 ) => {
   try {
     const list: Fig.Suggestion[][] = [];
@@ -275,7 +275,7 @@ const MultiSuggestionsGenerator = async (
       list[i] = postPrecessGenerator(
         result[i],
         enabled[i].parentKey,
-        enabled[i].childKey
+        enabled[i].childKey,
       );
     }
     return list.flat();
@@ -288,7 +288,7 @@ const getResultList = async (
   tokens: string[],
   executeShellCommand: Fig.ExecuteCommandFunction,
   args: string[],
-  key: string
+  key: string,
 ): Promise<Fig.Suggestion[]> => {
   const { stdout } = await executeShellCommand({
     command: "aws",
@@ -360,7 +360,7 @@ const uniqueNames = (value, index, self) =>
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -419,7 +419,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-metrics",
         ["--namespace"],
         "Metrics",
-        "MetricName"
+        "MetricName",
       );
     },
   },
@@ -431,7 +431,7 @@ const generators: Record<string, Fig.Generator> = {
         "list-metrics",
         "--namespace",
         "Metrics",
-        "Dimensions"
+        "Dimensions",
       );
     },
   },
@@ -443,7 +443,7 @@ const generators: Record<string, Fig.Generator> = {
         "describe-anomaly-detectors",
         "--namespace",
         "AnomalyDetectors",
-        "Dimensions"
+        "Dimensions",
       );
     },
   },
@@ -455,7 +455,7 @@ const generators: Record<string, Fig.Generator> = {
         "describe-anomaly-detectors",
         ["--namespace", "--metric-name"],
         "AnomalyDetectors",
-        "Stat"
+        "Stat",
       );
     },
   },
@@ -499,7 +499,7 @@ const generators: Record<string, Fig.Generator> = {
         tokens,
         executeShellCommand,
         ["firehose", "list-delivery-streams"],
-        "DeliveryStreamNames"
+        "DeliveryStreamNames",
       );
       // construct "query"
       const objects = result.flat().map((stream) => {
@@ -1421,7 +1421,7 @@ const completionSpec: Fig.Spec = {
           args: {
             name: "integer",
             suggestions: Array.from({ length: 101 - 1 }, (v, k) =>
-              String(k + 1)
+              String(k + 1),
             ),
           },
         },

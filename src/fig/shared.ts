@@ -63,10 +63,10 @@ const disableForCommandsGenerator: Fig.Generator = {
           name: `Enable ${disabledCommand}`,
           icon: "fig://icon?type=box",
           insertValue: JSON.stringify(
-            existing.filter((cmd) => cmd != disabledCommand)
+            existing.filter((cmd) => cmd != disabledCommand),
           ),
         };
-      })
+      }),
     );
   },
 };
@@ -98,7 +98,7 @@ export const themesGenerator: Fig.Generator = {
           ({
             name: theme.replace(".json", ""),
             icon: "🎨",
-          }) as Fig.Suggestion
+          }) as Fig.Suggestion,
       )
       .concat(builtinThemes);
   },
@@ -133,7 +133,7 @@ export const subsystemsGenerator: Fig.Generator = {
 
 export const settingsSpecGenerator: Fig.Subcommand["generateSpec"] = async (
   _,
-  executeShellCommand
+  executeShellCommand,
 ) => {
   const { stdout } = await executeShellCommand({
     command: "fig",
@@ -188,7 +188,7 @@ export const settingsSpecGenerator: Fig.Subcommand["generateSpec"] = async (
             generators,
           },
         };
-      }
+      },
     ),
   };
 };
@@ -244,7 +244,7 @@ export const tokensGenerators: Fig.Generator = {
   },
   custom: async (tokens, executeShellCommand) => {
     const teamOptionIndex = tokens.findIndex((value) =>
-      value.startsWith("--team")
+      value.startsWith("--team"),
     );
     if (teamOptionIndex === -1) return [];
     let teamName: string;
@@ -267,7 +267,7 @@ export const tokensGenerators: Fig.Generator = {
             "json",
           ],
         })
-      ).stdout
+      ).stdout,
     ) as {
       createdAt: string;
       description?: string;
@@ -313,7 +313,7 @@ export const membersGenerators: Fig.Generator = {
           command: "fig",
           args: ["team", "--format", "json", teamName, "members"],
         })
-      ).stdout
+      ).stdout,
     ) as { email: string; role: string }[];
     return out.map((member) => {
       return {
@@ -338,7 +338,7 @@ export const invitationsGenerators: Fig.Generator = {
           command: "fig",
           args: ["team", "--format", "json", teamName, "invitations"],
         })
-      ).stdout
+      ).stdout,
     ) as { email: string; role: string }[];
     return out.map((invitation) => {
       return {
@@ -508,7 +508,7 @@ const scriptOptions = (script: ScriptFields) => {
 
 export const scriptsSpecGenerator: Fig.Subcommand["generateSpec"] = async (
   _,
-  exec
+  exec,
 ) => {
   type Scripts = {
     currentUser: {
@@ -561,7 +561,7 @@ export const scriptsSpecGenerator: Fig.Subcommand["generateSpec"] = async (
       team.team.namespace.scripts.map((script) => ({
         ...script,
         namespace: team.team.namespace.username,
-      }))
+      })),
     ),
   ];
 
@@ -691,13 +691,13 @@ export const commandLineToolSpecGenerator: Fig.Subcommand["generateSpec"] =
         (commandlineTools) => ({
           ...commandlineTools,
           namespace: data.currentUser.namespace.username,
-        })
+        }),
       ),
       ...data.currentUser.teamMemberships.flatMap((team) =>
         team.team.namespace.commandlineTools.map((commandlineTools) => ({
           ...commandlineTools,
           namespace: team.team.namespace.username,
-        }))
+        })),
       ),
     ];
 
@@ -710,7 +710,7 @@ export const commandLineToolSpecGenerator: Fig.Subcommand["generateSpec"] =
 
       const createTree = (
         root: CLICommandFields,
-        depth: number
+        depth: number,
       ): Fig.Subcommand => {
         if ("subcommands" in root) {
           const subcommands: Fig.Subcommand[] = [];
@@ -793,7 +793,7 @@ export const sshIdentityGenerator: Fig.Generator = {
           command: "fig",
           args: ["ssh", host, "--get-identities"],
         })
-      ).stdout
+      ).stdout,
     ) as { displayName: string; username: string }[];
 
     return hosts.map((host) => ({

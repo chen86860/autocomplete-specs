@@ -106,7 +106,7 @@ const fillProjectCaches = (projectJson: NxProject) => {
 
       nxProjectTargetWithConfigurationsCache.set(
         `${projectJson.name}:${target}`,
-        projectTargetConfigurations
+        projectTargetConfigurations,
       );
     }
 
@@ -121,7 +121,7 @@ const fillProjectCaches = (projectJson: NxProject) => {
 };
 
 const preProcessProjects = async (
-  executeShellCommand: Fig.ExecuteCommandFunction
+  executeShellCommand: Fig.ExecuteCommandFunction,
 ) => {
   if (!nxProjectPathCache.length) {
     // get project json paths
@@ -136,7 +136,7 @@ const preProcessProjects = async (
               // eslint-disable-next-line @withfig/fig-linter/no-useless-arrays
               args: ["nx.json"],
             })
-          ).stdout
+          ).stdout,
         ).workspaceLayout,
       };
       const searchFolders =
@@ -167,7 +167,7 @@ const preProcessProjects = async (
               // eslint-disable-next-line @withfig/fig-linter/no-useless-arrays
               args: [projectJsonPath],
             })
-          ).stdout
+          ).stdout,
         );
 
         nxProjectPathWithJsonCache.set(projectJsonPath, projectJson);
@@ -191,7 +191,7 @@ const preProcessProjects = async (
             // eslint-disable-next-line @withfig/fig-linter/no-useless-arrays
             args: ["workspace.json"],
           })
-        ).stdout
+        ).stdout,
       );
 
       // fill project caches
@@ -216,7 +216,7 @@ const listMapKeysGenerator = (map: Map<string, unknown>): Fig.Generator => {
     custom: async (
       tokens: string[],
       executeShellCommand: Fig.ExecuteCommandFunction,
-      generatorContext: Fig.GeneratorContext
+      generatorContext: Fig.GeneratorContext,
     ) => {
       const suggestions: Fig.Suggestion[] = [];
       const selected = tokens[tokens.length - 1].split(",");
@@ -238,7 +238,7 @@ const nxGenerators: NxGenerators = {
     cache: oneDayCache,
     custom: async (
       tokens: string[],
-      executeShellCommand: Fig.ExecuteCommandFunction
+      executeShellCommand: Fig.ExecuteCommandFunction,
     ) => {
       const suggestions: Fig.Suggestion[] = [];
 
@@ -257,7 +257,7 @@ const nxGenerators: NxGenerators = {
 
       // push all configuration names to the suggestions
       for (const name of nxProjectTargetWithConfigurationsCache.get(
-        `${project}:${target}`
+        `${project}:${target}`,
       )) {
         suggestions.push({ name });
       }
@@ -319,7 +319,7 @@ const nxGenerators: NxGenerators = {
     // the custom generator
     custom: async (
       _: string[],
-      executeShellCommand: Fig.ExecuteCommandFunction
+      executeShellCommand: Fig.ExecuteCommandFunction,
     ) => {
       // suggestions to be returned
       const suggestions: Fig.Suggestion[] = [];
@@ -348,7 +348,7 @@ const nxGenerators: NxGenerators = {
     custom: async (
       tokens: string[],
       executeShellCommand: Fig.ExecuteCommandFunction,
-      generatorContext: Fig.GeneratorContext
+      generatorContext: Fig.GeneratorContext,
     ) => {
       // suggestions to be returned
       const suggestions: Fig.Suggestion[] = [];
@@ -383,7 +383,7 @@ const nxGenerators: NxGenerators = {
       } else {
         // push all configuration names to the suggestions
         for (const name of nxProjectTargetWithConfigurationsCache.get(
-          `${project}:${target}`
+          `${project}:${target}`,
         )) {
           suggestions.push({ name });
         }
@@ -689,7 +689,7 @@ const RUN_DERIVED_BASE_TARGETS_WITH_CONFIGURATION = ["build", "serve"];
  */
 const runDerivedSubcommands = async (
   _: string[],
-  executeShellCommand: Fig.ExecuteCommandFunction
+  executeShellCommand: Fig.ExecuteCommandFunction,
 ): Promise<Fig.Spec> => {
   const subcommands: Fig.Subcommand[] = [];
 

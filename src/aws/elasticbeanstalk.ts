@@ -9,7 +9,7 @@ const attributes: string[] = [
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -39,7 +39,7 @@ const customGenerator = async (
   command: string[],
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["elasticbeanstalk", ...command];
@@ -83,7 +83,7 @@ const filterManagedAction = async (
   options: string[],
   parentKey: string,
   childKey = "",
-  filter: string
+  filter: string,
 ): Promise<Fig.Suggestion[]> => {
   return customGenerator(
     tokens,
@@ -91,7 +91,7 @@ const filterManagedAction = async (
     [command, "--status", filter],
     options,
     parentKey,
-    childKey
+    childKey,
   );
 };
 const _prefixFile = "file://";
@@ -156,7 +156,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -204,7 +204,7 @@ const generators: Record<string, Fig.Generator> = {
         ["--environment-name", "--environment-id"],
         "ManagedActions",
         "ActionId",
-        "Scheduled"
+        "Scheduled",
       );
     },
   },
@@ -247,7 +247,7 @@ const generators: Record<string, Fig.Generator> = {
         ["describe-application-versions"],
         ["--application-name"],
         "ApplicationVersions",
-        "VersionLabel"
+        "VersionLabel",
       );
     },
   },

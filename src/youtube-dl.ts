@@ -28,7 +28,7 @@ const youtubeDlGenerators: Record<string, Fig.Generator> = {
     script: ["pbpaste"],
     postProcess: function (out) {
       const regex = new RegExp(
-        "^(https?://)?(www.)?(youtube.com|youtu.?be)/.+$"
+        "^(https?://)?(www.)?(youtube.com|youtu.?be)/.+$",
       );
       try {
         if (regex.test(out))

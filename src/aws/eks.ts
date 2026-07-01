@@ -2,7 +2,7 @@ const kubernetesVersions = ["1.22.6", "1.21.5", "1.20.7", "1.19.15", "1.18.16"];
 const postPrecessGenerator = (
   out: string,
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Fig.Suggestion[] => {
   try {
     const list = JSON.parse(out)[parentKey];
@@ -32,7 +32,7 @@ const listCustomGenerator = async (
   command: string,
   options: string[],
   parentKey: string,
-  childKey = ""
+  childKey = "",
 ): Promise<Fig.Suggestion[]> => {
   try {
     let args = ["eks", command];
@@ -72,7 +72,7 @@ const listCustomGenerator = async (
 };
 const listRolesForPrincipal = (
   out: string,
-  principal: string
+  principal: string,
 ): Fig.Suggestion[] => {
   try {
     const roles = JSON.parse(out)["Roles"];
@@ -159,7 +159,7 @@ const postProcessFiles = (out: string, prefix: string): Fig.Suggestion[] => {
 const triggerPrefix = (
   newToken: string,
   oldToken: string,
-  prefix: string
+  prefix: string,
 ): boolean => {
   if (!newToken.startsWith(prefix)) {
     if (!oldToken) return false;
@@ -217,7 +217,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "list-addons",
         ["--cluster-name"],
-        "addons"
+        "addons",
       );
     },
   },
@@ -296,7 +296,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "list-fargate-profiles",
         ["--cluster-name"],
-        "fargateProfileNames"
+        "fargateProfileNames",
       );
     },
   },
@@ -307,7 +307,7 @@ const generators: Record<string, Fig.Generator> = {
         executeShellCommand,
         "list-nodegroups",
         ["--cluster-name"],
-        "nodegroups"
+        "nodegroups",
       );
     },
   },

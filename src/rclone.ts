@@ -279,7 +279,7 @@ const completionSpec: Fig.Spec = {
                 (_) => ({
                   name: _,
                   description: `removes identical files then keeps the ${_} one.`,
-                })
+                }),
               ),
             ],
           },

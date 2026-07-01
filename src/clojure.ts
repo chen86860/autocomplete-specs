@@ -27,7 +27,7 @@ function singleName<T>(value: Fig.SingleOrArray<T>): T {
  */
 function alias(
   { name: oName, ...option }: Fig.Option,
-  { args } = { args: "aliases" }
+  { args } = { args: "aliases" },
 ): Fig.Option {
   const name = singleName(oName);
 
@@ -82,7 +82,7 @@ const completionSpec: Fig.Spec = {
         description: "Invoke tool by name or via aliases ala -X",
         args: invokeArgs,
       },
-      { args: "name|aliases" }
+      { args: "name|aliases" },
     ),
     alias({
       name: "-M",

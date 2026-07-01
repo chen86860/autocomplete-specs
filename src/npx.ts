@@ -184,7 +184,7 @@ const completionSpec: Fig.Spec = {
       postProcess: function (out) {
         const cli = [...npxSuggestions].reduce(
           (acc, { name }) => [...acc, name],
-          []
+          [],
         );
         return out
           .split("\n")
@@ -207,6 +207,7 @@ const completionSpec: Fig.Spec = {
       args: {
         name: "package",
       },
+      isRepeatable: true,
     },
     {
       name: "--cache",
@@ -242,6 +243,38 @@ const completionSpec: Fig.Spec = {
         name: "script",
       },
       description: "Execute string as if inside `npm run-script`",
+    },
+    {
+      name: ["--workspace", "-w"],
+      description:
+        "Run in the context of the configured workspace with the given name",
+      args: { name: "workspace-name" },
+      isRepeatable: true,
+    },
+    {
+      name: "--workspaces",
+      description:
+        "Run in the context of all configured workspaces in the current project",
+    },
+    {
+      name: "--include-workspace-root",
+      description: "Include the workspace root when workspaces are enabled",
+    },
+    {
+      name: "--allow-scripts",
+      description:
+        "Comma-separated list of packages whose install-time lifecycle scripts may run",
+      args: { name: "package-list" },
+      isRepeatable: true,
+    },
+    {
+      name: "--strict-allow-scripts",
+      description: "Turn install-script policy warnings into hard errors",
+    },
+    {
+      name: "--dangerously-allow-all-scripts",
+      description:
+        "Bypass the allowScripts policy and run every lifecycle script",
     },
     {
       name: ["--shell", "-s"],

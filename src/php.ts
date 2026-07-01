@@ -2,7 +2,7 @@
 
 const fileExists = async (
   executeCommand: Fig.ExecuteCommandFunction,
-  file: string
+  file: string,
 ) => {
   return (
     // eslint-disable-next-line @withfig/fig-linter/no-useless-arrays

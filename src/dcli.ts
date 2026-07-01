@@ -40,7 +40,7 @@ const deviceGenerator: Fig.Generator = {
       return devices.map((device) => ({
         name: device.deviceName,
         description: `Last activity: ${unixToDateString(
-          device.lastActivityDateUnix
+          device.lastActivityDateUnix,
         )}`,
         insertValue: device.deviceId,
       }));
@@ -60,7 +60,7 @@ const teamCredentialGenerator: Fig.Generator = {
       return credentials.map((credential) => ({
         name: `${credential.deviceName} (${credential.accessKey})}`,
         description: `Created: ${unixToDateString(
-          credential.creationDateUnix
+          credential.creationDateUnix,
         )}`,
         insertValue: credential.accessKey,
       }));

@@ -65,7 +65,7 @@ function getNodeChildren(node: Node): Node[] {
  */
 function findChildNodes(
   nodes: readonly Node[],
-  path: readonly string[]
+  path: readonly string[],
 ): readonly Node[] {
   const [head, ...tail] = path;
   if (!head) {
@@ -112,7 +112,7 @@ function filterNodes(
   nodes: readonly Node[],
   init: {
     showPrivateNodes: boolean;
-  }
+  },
 ): Node[] {
   const { showPrivateNodes } = init;
   return nodes.filter((node) => {
@@ -162,7 +162,7 @@ export const generateDocs: Fig.Generator = {
         (token) =>
           !(token.startsWith("-") && !allowedOptions.has(token)) &&
           !token.startsWith("$") &&
-          !token.startsWith("(")
+          !token.startsWith("("),
       );
     command.push("--json");
     return command;
@@ -611,7 +611,7 @@ function getConfigPath(tokens: string[]): string | null {
 
 async function getDenoConfig(
   tokens: string[],
-  executeShellCommand: Fig.ExecuteCommandFunction
+  executeShellCommand: Fig.ExecuteCommandFunction,
 ): Promise<DenoConfigurationFile | null> {
   const configPath = getConfigPath(tokens);
   let jsonString: string;

@@ -16,7 +16,7 @@ const wholeTldrPages: Fig.Generator = {
       args: [
         "-Al",
         ...[android, common, linux, osx, sunos, windows].map((path) =>
-          path.replace(/^~/, context.environmentVariables["HOME"])
+          path.replace(/^~/, context.environmentVariables["HOME"]),
         ),
       ],
     });

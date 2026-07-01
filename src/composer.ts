@@ -58,7 +58,7 @@ const searchGenerator: Fig.Generator = {
             name: item.name,
             description: item.description,
             icon: "📦",
-          }) as Fig.Suggestion
+          }) as Fig.Suggestion,
       ) as Fig.Suggestion[];
     } catch (e) {
       return [];
@@ -80,7 +80,7 @@ const packagesGenerator: Fig.Generator = {
       const devDependencies = packageContent["require-dev"] || {};
 
       return filterRealDependencies(
-        Object.assign(dependencies, devDependencies)
+        Object.assign(dependencies, devDependencies),
       ).map((dependencyName) => ({
         name: dependencyName,
         icon: "📦",
@@ -95,7 +95,7 @@ const packagesGenerator: Fig.Generator = {
 
 function filterRealDependencies(dependencies) {
   return Object.keys(dependencies).filter((dependency) =>
-    dependency.match(PACKAGE_REGEXP)
+    dependency.match(PACKAGE_REGEXP),
   );
 }
 

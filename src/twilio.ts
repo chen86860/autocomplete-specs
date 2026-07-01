@@ -12,12 +12,12 @@ interface TwilioSubcommand extends Fig.Subcommand {
 function flattenSubcommands(
   separator: string,
   parents: TwilioSubcommand[],
-  subcommand: TwilioSubcommand
+  subcommand: TwilioSubcommand,
 ): TwilioSubcommand[] {
   // If this subcommand has children, flatten it further.
   if (subcommand.subcommands && subcommand.subcommands.length > 0) {
     return subcommand.subcommands.flatMap((child) =>
-      flattenSubcommands(separator, parents.concat(subcommand), child)
+      flattenSubcommands(separator, parents.concat(subcommand), child),
     );
   }
 
@@ -45,10 +45,10 @@ function createSeparatedSubcommandTree(
   subcommands: TwilioSubcommand[],
   options: {
     generatorShouldInsertSeparator: boolean;
-  }
+  },
 ): { subcommands?: TwilioSubcommand[]; args: Fig.Arg } {
   const flattened = subcommands.flatMap((subcommand) =>
-    flattenSubcommands(separator, [], subcommand)
+    flattenSubcommands(separator, [], subcommand),
   );
 
   // The generated options are only used for the option/argument suggestions so
@@ -1484,7 +1484,7 @@ completionSpec.subcommands.push(
         description: "List core plugins",
       },
     ],
-  }
+  },
 );
 
 export default completionSpec;

@@ -5,7 +5,7 @@ const HOUR_IN_MILLISECONDS = 3600000;
  *  Generators
  */
 const installedPluginNamesGenerator = (
-  suggestOptions?: Partial<Fig.Suggestion>
+  suggestOptions?: Partial<Fig.Suggestion>,
 ): Fig.Generator => ({
   script: ["asdf", "plugin-list"],
   postProcess: (output) =>
@@ -19,7 +19,7 @@ const installedPluginNamesGenerator = (
 });
 
 const allPluginNamesGenerator = (
-  suggestOptions?: Partial<Fig.Suggestion>
+  suggestOptions?: Partial<Fig.Suggestion>,
 ): Fig.Generator => ({
   // If use `asdf plugin-list-all`, it will time out, so use `ls`.
   custom: async (_, executeCommand, generatorContext) => {
@@ -43,7 +43,7 @@ const allPluginNamesGenerator = (
 
 const installedPluginVersionsGenerator = (
   suggestOptions?: Partial<Fig.Suggestion>,
-  generatorOptions?: Partial<Fig.Generator>
+  generatorOptions?: Partial<Fig.Generator>,
 ): Fig.Generator => ({
   script: (context) => {
     const pluginName = context[context.length - 2];
@@ -65,7 +65,7 @@ const installedPluginVersionsGenerator = (
 
 const allPluginVersionsGenerator = (
   suggestOptions?: Partial<Fig.Suggestion>,
-  generatorOptions?: Partial<Fig.Generator>
+  generatorOptions?: Partial<Fig.Generator>,
 ): Fig.Generator => ({
   script: (context) => {
     const pluginName = context[context.length - 2];
@@ -89,7 +89,7 @@ const allPluginVersionsGenerator = (
 });
 
 const shimNamesGenerator = (
-  suggestOptions?: Partial<Fig.Suggestion>
+  suggestOptions?: Partial<Fig.Suggestion>,
 ): Fig.Generator => ({
   // Use `ls` because there is no command to get shims in `asdf`.
   custom: async (_, executeCommand, generatorContext) => {

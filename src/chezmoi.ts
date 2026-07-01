@@ -25,7 +25,7 @@ const plusMinusModifiers = ["+", "-"].flatMap((prefix) =>
       typeof s.name === "string"
         ? `${prefix}${s.name}`
         : s.name.map((name) => `${prefix}${name}`),
-  }))
+  })),
 );
 
 const noModifiers = modifiers.map((s) => ({
@@ -213,7 +213,7 @@ const completionSpec: Fig.Spec = {
             custom: async (tokens) => {
               const finalToken = tokens[tokens.length - 1];
               const finalSegment = finalToken.slice(
-                finalToken.lastIndexOf(",") + 1
+                finalToken.lastIndexOf(",") + 1,
               );
               if (finalSegment[0] === "+" || finalSegment[0] === "-") {
                 return plusMinusModifiers;

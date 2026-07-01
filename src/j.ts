@@ -30,7 +30,7 @@ const completionSpec: Fig.Spec = {
         // directory arg is variadic with each subsequent arg being an
         // additional filter. filtered will filter directories by all args.
         const filtered = lines.filter(({ dir }) =>
-          args.every((arg) => dir.includes(arg))
+          args.every((arg) => dir.includes(arg)),
         );
 
         return filtered.map(({ weight, dir }) => {

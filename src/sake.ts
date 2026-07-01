@@ -66,7 +66,7 @@ const completionSpec: Fig.Spec = {
           }),
         ];
       },
-      []
+      [],
     );
     return {
       name: "sake",

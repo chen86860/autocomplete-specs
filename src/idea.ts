@@ -1,6 +1,6 @@
 export const generateInteliJCompletionSpec = (
   name: string,
-  editorName: string
+  editorName: string,
 ): Fig.Spec => {
   return {
     name,

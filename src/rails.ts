@@ -526,7 +526,7 @@ const defaultCommands: Fig.Subcommand[] = [
                 arr[arr.length - 1][1].push(line.trim());
                 return arr;
               },
-              []
+              [],
             );
 
             return dict.reduce<Fig.Suggestion[]>((arr, [plugin, commands]) => {

@@ -322,7 +322,7 @@ const completionSpec: Fig.Spec = {
                   return ["install", "install-on-request", "build-error"].map(
                     (sugg) => ({
                       name: sugg,
-                    })
+                    }),
                   );
                 }
 
@@ -1909,6 +1909,292 @@ const completionSpec: Fig.Spec = {
       ],
     },
     {
+      name: "commands",
+      description: "Show lists of built-in and external commands",
+    },
+    {
+      name: "help",
+      description: "Show help for a command",
+      args: { name: "command", isOptional: true },
+    },
+    {
+      name: "command",
+      description: "Display the path to the file used when invoking a command",
+      args: { name: "command", isVariadic: true },
+      options: commonOptions,
+    },
+    {
+      name: "as-console-user",
+      description: "Run a Homebrew command as the active macOS console user",
+      args: { name: "command", isCommand: true, isVariadic: true },
+      options: commonOptions,
+    },
+    {
+      name: "completions",
+      description: "Link Homebrew's shell completion files",
+      options: [
+        {
+          name: "--all",
+          description: "Install completions for all available shells",
+        },
+      ],
+    },
+    {
+      name: "command-not-found-init",
+      description: "Print command-not-found handler setup instructions",
+    },
+    {
+      name: "docs",
+      description: "Open Homebrew's online documentation in a browser",
+      options: commonOptions,
+    },
+    {
+      name: ["exec", "x"],
+      description:
+        "Run a command in an environment populated by Homebrew formulae",
+      args: { name: "command", isCommand: true, isVariadic: true },
+      options: [
+        {
+          name: "--formulae",
+          description: "Comma-separated formulae to install and add to PATH",
+          args: { name: "formulae" },
+        },
+        {
+          name: "--sandbox",
+          description: "Run command in Homebrew's sandbox",
+          args: { name: "path", template: "folders" },
+        },
+        {
+          name: "--deny-network",
+          description: "Deny network access from inside the sandbox",
+        },
+        ...commonOptions,
+      ],
+    },
+    {
+      name: "gist-logs",
+      description: "Upload logs for a failed build to a new Gist",
+      args: { name: "formula", generators: formulaeGenerator },
+      options: [
+        {
+          name: ["-n", "--new-issue"],
+          description:
+            "Automatically create a new issue after creating the Gist",
+        },
+        {
+          name: ["-p", "--private"],
+          description: "Mark the Gist private",
+        },
+        ...commonOptions,
+      ],
+    },
+    {
+      name: "mcp-server",
+      description: "Start Homebrew's MCP server",
+    },
+    {
+      name: "nodenv-sync",
+      description: "Create symlinks for Homebrew's installed Node versions",
+    },
+    {
+      name: "pyenv-sync",
+      description: "Create symlinks for Homebrew's installed Python versions",
+    },
+    {
+      name: "rbenv-sync",
+      description: "Create symlinks for Homebrew's installed Ruby versions",
+    },
+    {
+      name: "readall",
+      description: "Import all items from installed or specified taps",
+      args: {
+        name: "tap",
+        isOptional: true,
+        isVariadic: true,
+        generators: repositoriesGenerator(),
+      },
+      options: [
+        {
+          name: "--os",
+          description: "Read using the given operating system",
+          args: { name: "os" },
+        },
+        {
+          name: "--arch",
+          description: "Read using the given CPU architecture",
+          args: { name: "arch" },
+        },
+        { name: "--aliases", description: "Verify alias symlinks in each tap" },
+        { name: "--syntax", description: "Syntax-check Homebrew Ruby files" },
+        {
+          name: "--no-simulate",
+          description: "Do not simulate other system configurations",
+        },
+        ...commonOptions,
+      ],
+    },
+    {
+      name: "sandbox-exec",
+      description: "Run a command in Homebrew's sandbox",
+      args: [
+        { name: "writable-path", template: "folders" },
+        { name: "command", isCommand: true, isVariadic: true },
+      ],
+      options: [
+        {
+          name: "--deny-network",
+          description: "Deny network access from inside the sandbox",
+        },
+        ...commonOptions,
+      ],
+    },
+    {
+      name: "setup-ruby",
+      description: "Install and configure Homebrew's Ruby",
+      args: {
+        name: "command",
+        isCommand: true,
+        isOptional: true,
+        isVariadic: true,
+      },
+      options: commonOptions,
+    },
+    {
+      name: "setup-sandbox",
+      description: "Run commands needed to set up the Homebrew sandbox",
+      options: commonOptions,
+    },
+    {
+      name: "shellenv",
+      description: "Print shell environment exports for Homebrew",
+      args: {
+        name: "shell",
+        isOptional: true,
+        suggestions: ["bash", "fish", "zsh"],
+      },
+    },
+    {
+      name: "source",
+      description: "Open a formula's source repository in a browser",
+      args: {
+        name: "formula",
+        isOptional: true,
+        isVariadic: true,
+        generators: formulaeGenerator,
+      },
+      options: commonOptions,
+    },
+    {
+      name: "tab",
+      description: "Inspect installation metadata for formulae",
+      args: {
+        name: "formula",
+        generators: formulaeGenerator,
+      },
+    },
+    {
+      name: "tap-info",
+      description: "Show detailed information about one or more taps",
+      args: {
+        name: "tap",
+        isVariadic: true,
+        generators: repositoriesGenerator(),
+      },
+      options: [
+        { name: "--installed", description: "Show installed taps" },
+        { name: "--json", description: "Print JSON output" },
+      ],
+    },
+    {
+      name: "trust",
+      description: "Trust non-official tap formulae, casks or commands",
+      args: {
+        name: "target",
+        isOptional: true,
+        isVariadic: true,
+      },
+      options: [
+        { name: ["--tap", "--taps"], description: "Trust the named tap" },
+        {
+          name: ["--formula", "--formulae"],
+          description: "Trust the named formula",
+        },
+        { name: ["--cask", "--casks"], description: "Trust the named cask" },
+        {
+          name: ["--command", "--commands"],
+          description: "Trust the named external command",
+        },
+        {
+          name: "--json",
+          description: "Print trusted entries as JSON",
+          args: { name: "version", suggestions: ["v1"] },
+        },
+        ...commonOptions,
+      ],
+    },
+    {
+      name: "unalias",
+      description: "Remove aliases",
+      args: {
+        name: "alias",
+        isVariadic: true,
+        generators: generateAliases,
+      },
+      options: commonOptions,
+    },
+    {
+      name: "untrust",
+      description: "Stop trusting non-official tap formulae, casks or commands",
+      args: {
+        name: "target",
+        isOptional: true,
+        isVariadic: true,
+      },
+      options: [
+        { name: "--tap", description: "Untrust the named tap" },
+        {
+          name: ["--formula", "--formulae"],
+          description: "Untrust the named formula",
+        },
+        { name: ["--cask", "--casks"], description: "Untrust the named cask" },
+        {
+          name: ["--command", "--commands"],
+          description: "Untrust the named external command",
+        },
+        ...commonOptions,
+      ],
+    },
+    {
+      name: "update-if-needed",
+      description:
+        "Run brew update only if the auto-update interval has elapsed",
+    },
+    {
+      name: "update-reset",
+      description: "Fetch and reset Homebrew and tap repositories",
+      args: {
+        name: "repository",
+        isOptional: true,
+        isVariadic: true,
+        template: "folders",
+      },
+      options: commonOptions,
+    },
+    {
+      name: "version-install",
+      description: "Extract a specific formula version into a personal tap",
+      args: [
+        { name: "formula@version", generators: formulaeGenerator },
+        { name: "version", isOptional: true },
+      ],
+      options: commonOptions,
+    },
+    {
+      name: "which-formula",
+      description: "Show which formula provides the given file",
+      args: { name: "file", template: "filepaths" },
+    },
+    {
       name: "log",
       description: "Show the git log for the given formulae or casks",
       args: {
@@ -1936,6 +2222,50 @@ const completionSpec: Fig.Spec = {
     },
   ],
   options: [
+    {
+      name: "--cache",
+      description: "Display Homebrew's download cache",
+      args: {
+        name: "formula|cask",
+        isOptional: true,
+        isVariadic: true,
+        generators: [generateAllFormulae, generateAllCasks],
+      },
+    },
+    {
+      name: "--caskroom",
+      description: "Display Homebrew's Caskroom path",
+      args: {
+        name: "cask",
+        isOptional: true,
+        isVariadic: true,
+        generators: generateAllCasks,
+      },
+    },
+    {
+      name: "--cellar",
+      description: "Display Homebrew's Cellar path",
+      args: {
+        name: "formula",
+        isOptional: true,
+        isVariadic: true,
+        generators: formulaeGenerator,
+      },
+    },
+    {
+      name: ["--repository", "--repo"],
+      description: "Display where Homebrew's Git repository is located",
+      args: {
+        name: "tap",
+        isOptional: true,
+        isVariadic: true,
+        generators: repositoriesGenerator(),
+      },
+    },
+    {
+      name: "--taps",
+      description: "Display the path to Homebrew's Taps directory",
+    },
     {
       name: "--version",
       description: "The current Homebrew version",
